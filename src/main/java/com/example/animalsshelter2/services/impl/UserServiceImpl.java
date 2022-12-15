@@ -81,11 +81,25 @@ public class UserServiceImpl implements UserService {
             return;
         }
 
-        animal.setAvailability(false);
+        animal.setAvailability(!animal.isAvailability());
         animal.setUser(user);
         user.setAnimal(animal);
 
         animalRepository.save(animal);
         userRepository.save(user);
     }
+
+    @Override
+    public void returnFromWalk(Long userId, Long animalId) {
+        User user = userRepository.findById(userId).orElse(null);
+        Animal animal = animalRepository.findById(animalId).orElse(null);
+
+        animal.setAvailability(!animal.isAvailability());
+        animal.setUser(null);
+        user.setAnimal(null);
+
+        animalRepository.save(animal);
+        userRepository.save(user);
+    }
+
 }

@@ -31,4 +31,9 @@ public class UserController {
         userService.takeOnWalk(userId, animalId);
 
     }
+
+    @PutMapping("/returnFromWalk/{userId}/{animalId}")
+    public void returnFromWalk(@PathVariable Long userId, @PathVariable Long animalId) {
+        userService.returnFromWalk(userId, animalId);
+    }
 }

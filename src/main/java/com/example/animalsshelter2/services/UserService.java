@@ -20,4 +20,6 @@ public interface UserService {
     List<UserAvailableViewModel> findAllUsers();
 
     void takeOnWalk(Long userId, Long animalId);
+
+    void returnFromWalk(Long userId, Long animalId);
 }
