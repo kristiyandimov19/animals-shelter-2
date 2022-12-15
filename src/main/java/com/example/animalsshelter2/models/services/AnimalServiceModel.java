@@ -7,7 +7,7 @@ public class AnimalServiceModel {
     private Long id;
     private String name;
     private String type;
-    private boolean availability;
+    private boolean availability = true;
 
     @Override
     public String toString() {

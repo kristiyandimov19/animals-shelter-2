@@ -82,8 +82,17 @@ public class AnimalServiceImpl implements AnimalService {
 
         return animals
                 .stream()
-                .map(animal -> modelMapper
-                        .map(animal, AnimalWalkViewModel.class))
+                .map(animal -> {
+                    AnimalWalkViewModel animalWalkViewModel = modelMapper
+                            .map(animal, AnimalWalkViewModel.class);
+
+                    User user = userService.findByName(animal.getUser().getUsername());
+                    if (user == null) {
+                        return animalWalkViewModel;
+                    }
+                    animalWalkViewModel.setUsername(user.getUsername());
+                    return animalWalkViewModel;
+                })
                 .collect(Collectors.toList());
     }
 }

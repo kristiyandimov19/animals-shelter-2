@@ -8,6 +8,7 @@ public class AnimalWalkViewModel {
 
     private String type;
 
+    private String username;
 
     public Long getId() {
         return id;
@@ -36,4 +37,12 @@ public class AnimalWalkViewModel {
         return this;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public AnimalWalkViewModel setUsername(String username) {
+        this.username = username;
+        return this;
+    }
 }

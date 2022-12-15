@@ -75,6 +75,7 @@ public class UserServiceImpl implements UserService {
         }
 
         animal.setAvailability(false);
+        animal.setUser(user);
         user.setAnimal(animal);
 
         animalRepository.save(animal);
