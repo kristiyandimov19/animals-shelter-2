@@ -18,5 +18,7 @@ public interface AnimalService {
 
     AnimalAvailableServiceModel findAnimalById(Long id);
 
+
     List<AnimalWalkViewModel> findAllAvailable();
+
 }

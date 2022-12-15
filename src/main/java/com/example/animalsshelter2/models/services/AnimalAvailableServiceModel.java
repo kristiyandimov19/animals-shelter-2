@@ -6,6 +6,17 @@ public class AnimalAvailableServiceModel {
 
     private boolean availability;
 
+    private Long userId;
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public AnimalAvailableServiceModel setUserId(Long userId) {
+        this.userId = userId;
+        return this;
+    }
+
     public boolean isAvailability() {
         return availability;
     }

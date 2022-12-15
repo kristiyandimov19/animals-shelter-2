@@ -76,6 +76,7 @@ public class AnimalServiceImpl implements AnimalService {
         return modelMapper.map(animal, AnimalAvailableServiceModel.class);
     }
 
+
     @Override
     public List<AnimalWalkViewModel> findAllAvailable() {
         List<Animal> animals = animalRepository.findAllAvailable();

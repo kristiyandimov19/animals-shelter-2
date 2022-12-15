@@ -3,6 +3,7 @@ package com.example.animalsshelter2.services.impl;
 import com.example.animalsshelter2.models.Animal;
 import com.example.animalsshelter2.models.User;
 import com.example.animalsshelter2.models.views.UserAvailableViewModel;
+import com.example.animalsshelter2.models.views.UserIdViewModel;
 import com.example.animalsshelter2.repositories.AnimalRepository;
 import com.example.animalsshelter2.repositories.UserRepository;
 import com.example.animalsshelter2.services.UserService;
@@ -29,6 +30,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findByName(String name) {
         return userRepository.findByUsername(name);
+    }
+
+    @Override
+    public UserIdViewModel findById(Long id) {
+        User user = userRepository.findById(id).orElse(null);
+        return modelMapper.map(user, UserIdViewModel.class);
     }
 
     @Override

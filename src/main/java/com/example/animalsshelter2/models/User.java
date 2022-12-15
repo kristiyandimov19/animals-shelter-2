@@ -2,6 +2,8 @@ package com.example.animalsshelter2.models;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "users")
 public class User extends BaseEntity {
@@ -31,6 +33,18 @@ public class User extends BaseEntity {
     @OneToOne
     @JoinColumn(name = "animal_id")
     private Animal animal;
+
+    @OneToMany
+    private List<Comment> comments;
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public User setComments(List<Comment> comments) {
+        this.comments = comments;
+        return this;
+    }
 
     public Animal getAnimal() {
         return animal;
