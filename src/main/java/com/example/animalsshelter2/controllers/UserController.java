@@ -29,5 +29,6 @@ public class UserController {
     @PutMapping("/takeOnWalk/{userId}/{animalId}")
     public void takeOnWalk(@PathVariable Long userId, @PathVariable Long animalId) {
         userService.takeOnWalk(userId, animalId);
+
     }
 }
