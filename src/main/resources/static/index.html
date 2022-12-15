@@ -1,183 +1,25 @@
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
 
 <head>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+  <title>The animal shelter</title>
+
+  <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
+  <script src="bootstrap/js/bootstrap.bundle.js"></script>
+
   <link href="style/style.css" rel="stylesheet">
+  <script src="js/index.js" ></script>
+  <script src="js/common.js"></script>
   <script>
-
-    async function PUT_returnFromWalk(user_id,animal_id) {
-
-      let url1 = "http://localhost:8080/users/returnFromWalk/" + user_id + "/" + animal_id;
-
-      let res = await fetch(url1, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-    }
-
     //Check for user
     if(localStorage.getItem('user_id') == null){
       localStorage.setItem('user_id', '0');
       localStorage.setItem('auth', 'guest');
     }
-
-    function setPage() {
-
-      //Set menu
-      if (localStorage.getItem('auth') == "guest") {
-        let menu_items = document.getElementsByClassName("nav-link");
-
-        menu_items[1].classList.add("disabled");
-        menu_items[2].classList.add("disabled");
-        menu_items[3].classList.add("disabled");
-      } else if (localStorage.getItem('auth') == "admin") {
-        let menu_items = document.getElementsByClassName("nav-link");
-        menu_items[2].setAttribute("href","./user_history.html");
-        menu_items[4].style.visibility = "hidden";
-      } else {
-        let menu_items = document.getElementsByClassName("nav-link");
-        menu_items[1].classList.add("disabled");
-        menu_items[3].classList.add("disabled");
-        menu_items[4].style.visibility = "hidden";
-      }
-
-      //Get All Animals
-      const Http = new XMLHttpRequest();
-      const url = 'http://localhost:8080/animal/all';
-      Http.open("GET", url);
-      Http.send();
-      Http.getResponseHeader("Content-type");
-
-      Http.onload = function() {
-        //Get all the animals in json
-        const obj = JSON.parse(this.responseText);
-
-
-        //Loop all the animals
-        Object.entries(obj).forEach(([key,value]) => {
-          console.log(value);
-
-          //Create objects
-          const obje = document.createElement("li");
-          obje.classList.add("list-group-item");
-          const para = document.createElement("p");
-          if(value.availability){
-            para.innerText = value.name + " - " + value.type + " - Available";
-          }
-          else para.innerText = value.name + " - " + value.type + " - On a walk";
-          obje.appendChild(para);
-
-          if(localStorage.getItem('auth') == "admin"){
-            const walk = document.createElement("a");
-            const retu = document.createElement("a");
-            const adop = document.createElement("a");
-
-
-            walk.setAttribute("href","#");
-            walk.innerText = "Take on walk";
-            walk.setAttribute("onclick","takeOnAWalk('"+ value.id +"')");
-
-            walk.classList.add("btn","btn-secondary","right_margin");
-            if(!value.availability){
-              walk.classList.add("disabled");
-            }
-
-            retu.setAttribute("href","#");
-            retu.innerText = "Return";
-            retu.setAttribute("onclick","returnFromAWalk('" + value.id + "')");
-
-            retu.classList.add("btn","btn-secondary","right_margin");
-            if(value.availability){
-              retu.classList.add("disabled");
-            }
-
-
-            adop.setAttribute("href","#");
-            adop.innerText = "Adopt";
-            adop.setAttribute("onclick","adopt('" + value.id + "')");
-
-            adop.classList.add("btn","btn-secondary","right_margin");
-            if(!value.availability){
-              adop.classList.add("disabled");
-            }
-
-            para.after(walk);
-            walk.after(retu);
-            retu.after(adop);
-          }
-
-          //Add object in the existing html code
-          document.getElementById("animals_list").appendChild(obje);
-        });
-      }
-
-    }
-
-    function takeOnAWalk(animal_id) {
-
-      const Http1 = new XMLHttpRequest();
-
-      const url1 = "http://localhost:8080/animal/isAvailable/"+animal_id;
-      Http1.open("GET", url1);
-      Http1.send();
-      Http1.getResponseHeader("Content-type");
-
-
-      Http1.onload = function() {
-        const obj = JSON.parse(this.responseText);
-        if(obj.availability){
-          window.location.replace("./take_on_a_walk.html?animal_id="+animal_id);
-        }else{
-          window.location.replace("./index.html");
-        }
-      }
-    }
-
-    function returnFromAWalk(animal_id){
-      const Http1 = new XMLHttpRequest();
-
-      const url1 = "http://localhost:8080/animal/volunteer/"+animal_id;
-      Http1.open("GET", url1);
-      Http1.send();
-      Http1.getResponseHeader("Content-type");
-
-      Http1.onload = function() {
-        const obj = JSON.parse(this.responseText);
-        PUT_returnFromWalk(obj.id,animal_id).then(data=>{
-          window.location.replace("./return_from_a_walk.html?user_id="+obj.id);
-        })
-      }
-    }
-
-    function adopt(animal_id){
-
-      const Http1 = new XMLHttpRequest();
-
-      const url1 = "http://localhost:8080/animal/isAvailable/"+animal_id;
-      Http1.open("GET", url1);
-      Http1.send();
-      Http1.getResponseHeader("Content-type");
-
-
-      Http1.onload = function() {
-        const obj = JSON.parse(this.responseText);
-        if(obj.availability){
-          window.location.replace("./adopt.html?animal_id="+animal_id);
-        }else{
-          window.location.replace("./index.html");
-        }
-      }
-
-    }
   </script>
 </head>
 <header>
-
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="">Animal Shelter</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -186,7 +28,7 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
         <li class="nav-item active">
-          <a class="nav-link" href="#">Home</a>
+          <a class="nav-link" href="./index.html">Home</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="walk.html">Animals on walk</a>
@@ -200,45 +42,18 @@
         <li class="nav-item">
           <a class="nav-link" href="login.html">Login</a>
         </li>
+        <li class="nav-item">
+
+          <a class="nav-link" href="index.html" onclick="logout()">Logout</a>
+        </li>
       </ul>
     </div>
   </nav>
 </header>
 
-<body onload="setPage()">
+<body onload="setPage();setMenu()">
 <ul id="animals_list" class="list-group">
+  <!-- All animals are added here-->
 </ul>
 </body>
-
-
-<script>
-
-  /*function doRequest() {
-
-    let url = 'http://localhost:8080';
-    let data = {
-      'id': '66',
-      'content': 'John Doe'
-    };
-
-    let res = fetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    });
-
-    if (res.ok) {
-
-      // let text = res.text();
-      // return text;
-
-      let ret = res.json();
-      return JSON.parse(ret.data);
-
-    } else {
-      return `HTTP error: ${res.status}`;
-    }
-  }*/
-</script></html>
+</html>

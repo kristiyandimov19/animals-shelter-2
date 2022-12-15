@@ -1,64 +1,19 @@
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
 
 <head>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
-  <script>
-    function setPage() {
-      //Set menu
-      if (localStorage.getItem('auth') == "guest") {
-        let menu_items = document.getElementsByClassName("nav-link");
+  <title>The animal shelter</title>
 
-        menu_items[1].classList.add("disabled");
-        menu_items[2].classList.add("disabled");
-        menu_items[3].classList.add("disabled");
-      } else if (localStorage.getItem('auth') == "admin") {
-        let menu_items = document.getElementsByClassName("nav-link");
-        menu_items[2].setAttribute("href","./user_history.html");
-
-      } else {
-        let menu_items = document.getElementsByClassName("nav-link");
-        menu_items[1].classList.add("disabled");
-        menu_items[3].classList.add("disabled");
-
-      }
-    }
-
-    function submit(){
-      async function doRequest(){
-        let url = 'http://localhost:8080/animal/create';
-        let data = {
-          'name': document.getElementById("name").value,
-          'type': document.getElementById("type").value,
-        };
-
-        let res = await fetch(url, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(data)
-        });
-
-        if (res.ok) {
-          console.log("Stana");
-          //window.location.replace("./index.html");
-        } else {
-          console.log("Ne Stana");
-          //window.location.replace("./index.html");
-          return `HTTP error: ${res.status}`;
-        }
-      }
-      doRequest();
-    }
-  </script>
+  <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
+  <script src="bootstrap/js/bootstrap.bundle.js"></script>
+  <script src="js/add_animal.js"></script>
+  <script src="js/common.js"></script>
 </head>
 <header>
 
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">Animal Shelter</a>
+    <a class="navbar-brand" href="">Animal Shelter</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -68,27 +23,33 @@
           <a class="nav-link" href="./index.html">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="./walk.html">Animals on walk</a>
+          <a class="nav-link" href="walk.html">Animals on walk</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="./history.html">History</a>
+          <a class="nav-link" href="history.html">History</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="./add_animal.html">Add Animal</a>
+          <a class="nav-link" href="add_animal.html">Add Animal</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="login.html">Login</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="index.html" onclick="logout()">Logout</a>
         </li>
       </ul>
     </div>
   </nav>
 </header>
 
-<body onload="setPage()">
+<body onload="setMenu()">
 <form>
   <div class="form-group">
     <label for="name">Name</label>
     <input type="text" class="form-control" id="name" placeholder="Name">
   </div>
   <div class="form-group">
-    <label>Type</label>
+    <label for="type" >Type</label>
     <select class="form-control" id="type">
       <option value = "sheep">Sheep</option>
       <option value = "donkey">Donkey</option>
@@ -98,7 +59,7 @@
     </select>
   </div>
 
-  <a class="btn btn-primary" onclick="submit()">Add</a>
+  <a class="btn btn-primary" onclick="addAnimal()">Add Animal</a>
 </form>
 </body>
 </html>
