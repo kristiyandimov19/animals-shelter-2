@@ -2,6 +2,7 @@ package com.example.animalsshelter2.services.impl;
 
 import com.example.animalsshelter2.models.Animal;
 import com.example.animalsshelter2.models.User;
+import com.example.animalsshelter2.models.services.AnimalAvailableServiceModel;
 import com.example.animalsshelter2.models.services.AnimalServiceModel;
 import com.example.animalsshelter2.models.views.AnimalViewModel;
 import com.example.animalsshelter2.repositories.AnimalRepository;
@@ -70,5 +71,10 @@ public class AnimalServiceImpl implements AnimalService {
     @Override
     public void adoptAnimal(Long id) {
         animalRepository.deleteById(id);
+    }
+
+    @Override
+    public AnimalAvailableServiceModel findAnimalById(Long id) {
+        return modelMapper.map(animalRepository.findById(id), AnimalAvailableServiceModel.class);
     }
 }

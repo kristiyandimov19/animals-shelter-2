@@ -1,5 +1,6 @@
 package com.example.animalsshelter2.controllers;
 
+import com.example.animalsshelter2.models.services.AnimalAvailableServiceModel;
 import com.example.animalsshelter2.models.services.AnimalServiceModel;
 import com.example.animalsshelter2.models.views.AnimalViewModel;
 import com.example.animalsshelter2.services.AnimalService;
@@ -31,6 +32,13 @@ public class AnimalController {
         animalService.createAnimal(animalServiceModel);
 
         return animalServiceModel.toString();
+    }
+
+    @PostMapping("/isAvailable/{id}")
+    public boolean isAvailable(@PathVariable Long id) {
+        AnimalAvailableServiceModel animal = animalService.findAnimalById(id);
+
+        return animal.isAvailability();
     }
 
     @DeleteMapping("/delete/{id}")
