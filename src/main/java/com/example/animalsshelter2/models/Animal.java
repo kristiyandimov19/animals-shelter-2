@@ -9,11 +9,10 @@ public class Animal extends BaseEntity {
     public Animal() {
     }
 
-    public Animal(String name, String type, boolean availability, User user) {
+    public Animal(String name, String type, boolean availability) {
         this.name = name;
         this.type = type;
         this.availability = availability;
-        this.user = user;
     }
 
     @Column(name = "name")
@@ -24,19 +23,6 @@ public class Animal extends BaseEntity {
 
     @Column(name = "availability")
     private boolean availability = true;
-
-    @OneToOne
-    @JoinColumn(name = "user_id")
-    private User user;
-
-    public User getUser() {
-        return user;
-    }
-
-    public Animal setUser(User user) {
-        this.user = user;
-        return this;
-    }
 
     public String getName() {
         return name;

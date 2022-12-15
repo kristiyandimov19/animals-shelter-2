@@ -62,13 +62,6 @@ public class AnimalServiceImpl implements AnimalService {
     public void createAnimal(AnimalServiceModel animal) {
         Animal animalEntity = modelMapper.map(animal, Animal.class);
 
-        User user = userService.findByName(animal.getUser());
-
-        if (user == null) {
-            animalRepository.save(animalEntity);
-        }
-
-        animalEntity.setUser(user);
         animalRepository.save(animalEntity);
     }
 
@@ -89,17 +82,8 @@ public class AnimalServiceImpl implements AnimalService {
 
         return animals
                 .stream()
-                .map(animal -> {
-                    AnimalWalkViewModel animalWalkViewModel = modelMapper
-                            .map(animal, AnimalWalkViewModel.class);
-
-                    User user = userService.findByName(animal.getUser().getUsername());
-                    if (user == null) {
-                        return animalWalkViewModel;
-                    }
-                    animalWalkViewModel.setUsername(user.getUsername());
-                    return animalWalkViewModel;
-                })
+                .map(animal -> modelMapper
+                        .map(animal, AnimalWalkViewModel.class))
                 .collect(Collectors.toList());
     }
 }

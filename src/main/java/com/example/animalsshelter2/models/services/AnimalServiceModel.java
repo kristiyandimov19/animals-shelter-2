@@ -9,15 +9,12 @@ public class AnimalServiceModel {
     private String type;
     private boolean availability;
 
-    private String user;
-
     @Override
     public String toString() {
         return "AnimalServiceModel{" +
                 "name='" + name + '\'' +
                 ", type='" + type + '\'' +
                 ", availability=" + availability +
-                ", User='" + user + '\'' +
                 '}';
     }
 
@@ -27,15 +24,6 @@ public class AnimalServiceModel {
 
     public AnimalServiceModel setId(Long id) {
         this.id = id;
-        return this;
-    }
-
-    public String getUser() {
-        return user;
-    }
-
-    public AnimalServiceModel setUser(String user) {
-        this.user = user;
         return this;
     }
 

@@ -2,9 +2,7 @@ package com.example.animalsshelter2.controllers;
 
 import com.example.animalsshelter2.models.views.UserAvailableViewModel;
 import com.example.animalsshelter2.services.UserService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -26,5 +24,10 @@ public class UserController {
     @GetMapping("/all")
     public List<UserAvailableViewModel> findAllUsers() {
         return userService.findAllUsers();
+    }
+
+    @PutMapping("/takeOnWalk/{userId}/{animalId}")
+    public void takeOnWalk(@PathVariable Long userId, @PathVariable Long animalId) {
+        userService.takeOnWalk(userId, animalId);
     }
 }

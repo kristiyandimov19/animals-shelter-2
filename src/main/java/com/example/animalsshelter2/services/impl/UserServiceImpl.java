@@ -1,7 +1,9 @@
 package com.example.animalsshelter2.services.impl;
 
+import com.example.animalsshelter2.models.Animal;
 import com.example.animalsshelter2.models.User;
 import com.example.animalsshelter2.models.views.UserAvailableViewModel;
+import com.example.animalsshelter2.repositories.AnimalRepository;
 import com.example.animalsshelter2.repositories.UserRepository;
 import com.example.animalsshelter2.services.UserService;
 import org.modelmapper.ModelMapper;
@@ -15,10 +17,13 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
+    private final AnimalRepository animalRepository;
 
-    public UserServiceImpl(UserRepository userRepository, ModelMapper modelMapper) {
+    public UserServiceImpl(UserRepository userRepository, ModelMapper modelMapper,
+                           AnimalRepository animalRepository) {
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
+        this.animalRepository = animalRepository;
     }
 
     @Override
@@ -58,5 +63,21 @@ public class UserServiceImpl implements UserService {
                 .stream()
                 .map(user -> modelMapper.map(user, UserAvailableViewModel.class))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public void takeOnWalk(Long userId, Long animalId) {
+        User user = userRepository.findById(userId).orElse(null);
+        Animal animal = animalRepository.findById(animalId).orElse(null);
+
+        if (user.isAdmin()) {
+            return;
+        }
+
+        animal.setAvailability(false);
+        user.setAnimal(animal);
+
+        animalRepository.save(animal);
+        userRepository.save(user);
     }
 }
