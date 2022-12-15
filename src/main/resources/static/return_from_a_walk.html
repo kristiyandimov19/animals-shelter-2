@@ -18,7 +18,6 @@
         let menu_items = document.getElementsByClassName("nav-link");
         menu_items[2].setAttribute("href","./user_history.html");
 
-
       } else {
         let menu_items = document.getElementsByClassName("nav-link");
         menu_items[1].classList.add("disabled");
@@ -26,12 +25,12 @@
       }
     }
 
-    function submit(){
-      let animal_id =new URLSearchParams(window.location.search).get("animal_id");
+    function addComment(){
+      let user_id =new URLSearchParams(window.location.search).get("user_id");
         async function doRequest(){
-          let url = 'http://localhost:8080/return';
+          let url = 'http://localhost:8080/----';
           let data = {
-            'animal_id': animal_id.toString(),
+            'user_id': user_id.toString(),
             'comment' : document.getElementById("Textarea").value,
           };
 
@@ -45,19 +44,18 @@
 
           if (res.ok) {
 
-            //window.location.replace("./index.html");
-            let ret = await res;
-
-            return ret;
-
+            window.location.replace("./index.html");
           } else {
 
-            //window.location.replace("./index.html");
             return `HTTP error: ${res.status}`;
           }
       }
 
       doRequest();
+    }
+
+    function skip(){
+      window.location.replace("./index.html");
     }
   </script>
 </head>
@@ -97,6 +95,7 @@
     </div>
   </div>
 
-  <a class="btn btn-primary" onclick="submit()">Return from a walk</a>
+  <a class="btn btn-primary" onclick="addComment()">Add comment</a>
+  <a class="btn btn-primary" onclick="skip()">Skip</a>
 </form>
 </body></html>

@@ -8,6 +8,18 @@
   <link href="style/style.css" rel="stylesheet">
   <script>
 
+    async function PUT_returnFromWalk(user_id,animal_id) {
+
+      let url1 = "http://localhost:8080/users/returnFromWalk/" + user_id + "/" + animal_id;
+
+      let res = await fetch(url1, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+    }
+
     //Check for user
     if(localStorage.getItem('user_id') == null){
       localStorage.setItem('user_id', '0');
@@ -26,12 +38,12 @@
       } else if (localStorage.getItem('auth') == "admin") {
         let menu_items = document.getElementsByClassName("nav-link");
         menu_items[2].setAttribute("href","./user_history.html");
-        menu_items[4].classList.add("disabled");
+        menu_items[4].style.visibility = "hidden";
       } else {
         let menu_items = document.getElementsByClassName("nav-link");
         menu_items[1].classList.add("disabled");
         menu_items[3].classList.add("disabled");
-        menu_items[4].classList.add("disabled");
+        menu_items[4].style.visibility = "hidden";
       }
 
       //Get All Animals
@@ -129,7 +141,24 @@
     function returnFromAWalk(animal_id){
       const Http1 = new XMLHttpRequest();
 
-      const url1 = "http://localhost:8080/---/"+animal_id;
+      const url1 = "http://localhost:8080/animal/volunteer/"+animal_id;
+      Http1.open("GET", url1);
+      Http1.send();
+      Http1.getResponseHeader("Content-type");
+
+      Http1.onload = function() {
+        const obj = JSON.parse(this.responseText);
+        PUT_returnFromWalk(obj.id,animal_id).then(data=>{
+          window.location.replace("./return_from_a_walk.html?user_id="+obj.id);
+        })
+      }
+    }
+
+    function adopt(animal_id){
+
+      const Http1 = new XMLHttpRequest();
+
+      const url1 = "http://localhost:8080/animal/isAvailable/"+animal_id;
       Http1.open("GET", url1);
       Http1.send();
       Http1.getResponseHeader("Content-type");
@@ -137,20 +166,13 @@
 
       Http1.onload = function() {
         const obj = JSON.parse(this.responseText);
-          //window.location.replace("./return_from_a_walk.html?user_id="+obj ---);
-      }
-    }
-
-    function adopt(animal_id){
-      //Check if animal is available
-      check_availability(animal_id).then(data=>{
-        if(data){
+        if(obj.availability){
           window.location.replace("./adopt.html?animal_id="+animal_id);
-        }
-        else{
+        }else{
           window.location.replace("./index.html");
         }
-      })
+      }
+
     }
   </script>
 </head>
