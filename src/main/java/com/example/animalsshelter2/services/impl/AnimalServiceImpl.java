@@ -5,6 +5,7 @@ import com.example.animalsshelter2.models.User;
 import com.example.animalsshelter2.models.services.AnimalAvailableServiceModel;
 import com.example.animalsshelter2.models.services.AnimalServiceModel;
 import com.example.animalsshelter2.models.views.AnimalViewModel;
+import com.example.animalsshelter2.models.views.AnimalWalkViewModel;
 import com.example.animalsshelter2.repositories.AnimalRepository;
 import com.example.animalsshelter2.services.AnimalService;
 import com.example.animalsshelter2.services.UserService;
@@ -63,8 +64,11 @@ public class AnimalServiceImpl implements AnimalService {
 
         User user = userService.findByName(animal.getUser());
 
-        animalEntity.setUser(user);
+        if (user == null) {
+            animalRepository.save(animalEntity);
+        }
 
+        animalEntity.setUser(user);
         animalRepository.save(animalEntity);
     }
 
@@ -75,6 +79,27 @@ public class AnimalServiceImpl implements AnimalService {
 
     @Override
     public AnimalAvailableServiceModel findAnimalById(Long id) {
-        return modelMapper.map(animalRepository.findById(id), AnimalAvailableServiceModel.class);
+        Animal animal = animalRepository.findById(id).orElse(null);
+        return modelMapper.map(animal, AnimalAvailableServiceModel.class);
+    }
+
+    @Override
+    public List<AnimalWalkViewModel> findAllAvailable() {
+        List<Animal> animals = animalRepository.findAllAvailable();
+
+        return animals
+                .stream()
+                .map(animal -> {
+                    AnimalWalkViewModel animalWalkViewModel = modelMapper
+                            .map(animal, AnimalWalkViewModel.class);
+
+                    User user = userService.findByName(animal.getUser().getUsername());
+                    if (user == null) {
+                        return animalWalkViewModel;
+                    }
+                    animalWalkViewModel.setUsername(user.getUsername());
+                    return animalWalkViewModel;
+                })
+                .collect(Collectors.toList());
     }
 }

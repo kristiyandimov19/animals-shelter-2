@@ -3,6 +3,7 @@ package com.example.animalsshelter2.services;
 import com.example.animalsshelter2.models.services.AnimalAvailableServiceModel;
 import com.example.animalsshelter2.models.services.AnimalServiceModel;
 import com.example.animalsshelter2.models.views.AnimalViewModel;
+import com.example.animalsshelter2.models.views.AnimalWalkViewModel;
 
 import java.util.List;
 
@@ -16,4 +17,6 @@ public interface AnimalService {
     void adoptAnimal(Long id);
 
     AnimalAvailableServiceModel findAnimalById(Long id);
+
+    List<AnimalWalkViewModel> findAllAvailable();
 }

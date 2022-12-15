@@ -9,7 +9,7 @@ public class AnimalServiceModel {
     private String type;
     private boolean availability;
 
-    private String User;
+    private String user;
 
     @Override
     public String toString() {
@@ -17,7 +17,7 @@ public class AnimalServiceModel {
                 "name='" + name + '\'' +
                 ", type='" + type + '\'' +
                 ", availability=" + availability +
-                ", User='" + User + '\'' +
+                ", User='" + user + '\'' +
                 '}';
     }
 
@@ -31,11 +31,11 @@ public class AnimalServiceModel {
     }
 
     public String getUser() {
-        return User;
+        return user;
     }
 
     public AnimalServiceModel setUser(String user) {
-        User = user;
+        this.user = user;
         return this;
     }
 

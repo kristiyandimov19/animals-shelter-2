@@ -33,8 +33,9 @@ public class Animal extends BaseEntity {
         return user;
     }
 
-    public void setUser(User user) {
+    public Animal setUser(User user) {
         this.user = user;
+        return this;
     }
 
     public String getName() {
