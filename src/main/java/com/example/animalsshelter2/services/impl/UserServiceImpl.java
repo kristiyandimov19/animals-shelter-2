@@ -3,15 +3,18 @@ package com.example.animalsshelter2.services.impl;
 import com.example.animalsshelter2.models.Animal;
 import com.example.animalsshelter2.models.Comment;
 import com.example.animalsshelter2.models.User;
+import com.example.animalsshelter2.models.WalkHistory;
 import com.example.animalsshelter2.models.views.UserAvailableViewModel;
 import com.example.animalsshelter2.models.views.UserIdViewModel;
 import com.example.animalsshelter2.repositories.AnimalRepository;
 import com.example.animalsshelter2.repositories.UserRepository;
+import com.example.animalsshelter2.repositories.WalkHistoryRepository;
 import com.example.animalsshelter2.services.CommentService;
 import com.example.animalsshelter2.services.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,13 +25,15 @@ public class UserServiceImpl implements UserService {
     private final ModelMapper modelMapper;
     private final AnimalRepository animalRepository;
     private final CommentService commentService;
+    private final WalkHistoryRepository walkHistoryRepository;
 
     public UserServiceImpl(UserRepository userRepository, ModelMapper modelMapper,
-                           AnimalRepository animalRepository, CommentService commentService) {
+                           AnimalRepository animalRepository, CommentService commentService, WalkHistoryRepository walkHistoryRepository) {
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
         this.animalRepository = animalRepository;
         this.commentService = commentService;
+        this.walkHistoryRepository = walkHistoryRepository;
     }
 
     @Override
@@ -102,6 +107,10 @@ public class UserServiceImpl implements UserService {
     public void returnFromWalk(Long userId, Long animalId) {
         User user = userRepository.findById(userId).orElse(null);
         Animal animal = animalRepository.findById(animalId).orElse(null);
+        WalkHistory walkHistory=new WalkHistory();
+        walkHistory.setUser(user);
+        walkHistory.setAnimal(animal);
+        walkHistory.setLocalDate(LocalDate.now());
 
         animal.setAvailability(!animal.isAvailability());
         animal.setUser(null);
@@ -109,6 +118,7 @@ public class UserServiceImpl implements UserService {
 
         animalRepository.save(animal);
         userRepository.save(user);
+        walkHistoryRepository.save(walkHistory);
     }
 
     @Override

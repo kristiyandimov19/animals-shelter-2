@@ -2,16 +2,17 @@ package com.example.animalsshelter2.controllers;
 
 import com.example.animalsshelter2.models.Comment;
 import com.example.animalsshelter2.models.User;
+import com.example.animalsshelter2.models.WalkHistory;
 import com.example.animalsshelter2.models.services.CommentServiceModel;
 import com.example.animalsshelter2.models.views.CommentViewModel;
 import com.example.animalsshelter2.models.views.UserAvailableViewModel;
+import com.example.animalsshelter2.models.views.WalkHistoryViewModel;
 import com.example.animalsshelter2.services.UserService;
+import com.example.animalsshelter2.services.WalkHistoryService;
 import org.modelmapper.ModelMapper;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/users")
@@ -19,10 +20,12 @@ public class UserController {
 
     private final UserService userService;
     private final ModelMapper modelMapper;
+    private final WalkHistoryService walkHistoryService;
 
-    public UserController(UserService userService, ModelMapper modelMapper) {
+    public UserController(UserService userService, ModelMapper modelMapper, WalkHistoryService walkHistoryService) {
         this.userService = userService;
         this.modelMapper = modelMapper;
+        this.walkHistoryService = walkHistoryService;
     }
 
     @GetMapping("/available")
@@ -49,6 +52,25 @@ public class UserController {
         return last5comments
                 .stream().map(comment -> modelMapper.map(comment, CommentViewModel.class)
                 ).toList();
+    }
+    @GetMapping("/walks/{id}")
+    public List<WalkHistoryViewModel> getWalkHistory(@PathVariable Long id){
+
+        List<WalkHistory> walkHistories = walkHistoryService.findByUserId(id);
+
+        List<WalkHistoryViewModel> walkHistoryViewModels = walkHistories.stream()
+                .map(walkHistory -> {
+                    WalkHistoryViewModel walkHistoryViewModel = modelMapper.map(walkHistory, WalkHistoryViewModel.class);
+
+                    walkHistoryViewModel.setAnimalName(walkHistory.getAnimal().getName());
+                    walkHistoryViewModel.setAnimalName(walkHistory.getAnimal().getType());
+
+                    return walkHistoryViewModel;
+
+                })
+                .toList();
+
+        return walkHistoryViewModels;
     }
 
     @PutMapping("/takeOnWalk/{userId}/{animalId}")
