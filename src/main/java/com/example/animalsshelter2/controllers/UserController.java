@@ -9,6 +9,7 @@ import com.example.animalsshelter2.services.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -37,14 +38,17 @@ public class UserController {
     @GetMapping("/comments/{id}")
     public List<CommentViewModel> getUserComments(@PathVariable Long id) {
         User user = userService.findUserById(id);
-        List<Comment> last5comments = user.getComments()
-                .subList(user.getComments().size() - 5, user.getComments().size());
 
-        List<CommentViewModel> commentViewModels = last5comments
+        List<Comment> last5comments = user.getComments();
+
+        if (user.getComments().size() < 5) {
+            last5comments = user.getComments()
+                    .subList(user.getComments().size() - 5, user.getComments().size());
+        }
+
+        return last5comments
                 .stream().map(comment -> modelMapper.map(comment, CommentViewModel.class)
                 ).toList();
-
-        return commentViewModels;
     }
 
     @PutMapping("/takeOnWalk/{userId}/{animalId}")
