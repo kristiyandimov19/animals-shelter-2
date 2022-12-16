@@ -41,7 +41,7 @@ public class UserController {
 
         List<Comment> last5comments = user.getComments();
 
-        if (user.getComments().size() < 5) {
+        if (user.getComments().size() > 5) {
             last5comments = user.getComments()
                     .subList(user.getComments().size() - 5, user.getComments().size());
         }
