@@ -1,11 +1,13 @@
 package com.example.animalsshelter2.services.impl;
 
 import com.example.animalsshelter2.models.Animal;
+import com.example.animalsshelter2.models.Comment;
 import com.example.animalsshelter2.models.User;
 import com.example.animalsshelter2.models.views.UserAvailableViewModel;
 import com.example.animalsshelter2.models.views.UserIdViewModel;
 import com.example.animalsshelter2.repositories.AnimalRepository;
 import com.example.animalsshelter2.repositories.UserRepository;
+import com.example.animalsshelter2.services.CommentService;
 import com.example.animalsshelter2.services.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -19,17 +21,24 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
     private final AnimalRepository animalRepository;
+    private final CommentService commentService;
 
     public UserServiceImpl(UserRepository userRepository, ModelMapper modelMapper,
-                           AnimalRepository animalRepository) {
+                           AnimalRepository animalRepository, CommentService commentService) {
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
         this.animalRepository = animalRepository;
+        this.commentService = commentService;
     }
 
     @Override
     public User findByName(String name) {
         return userRepository.findByUsername(name);
+    }
+
+    @Override
+    public User findUserById(Long id) {
+        return userRepository.findById(id).orElse(null);
     }
 
     @Override
@@ -101,5 +110,17 @@ public class UserServiceImpl implements UserService {
         animalRepository.save(animal);
         userRepository.save(user);
     }
+
+    @Override
+    public void addComment(Long adminId, Long userId, String description) {
+        User user = userRepository.findById(userId).orElse(null);
+
+        Comment comment = commentService.createComment(adminId, description, userId);
+
+        user.addComment(comment);
+
+        userRepository.save(user);
+    }
+
 
 }

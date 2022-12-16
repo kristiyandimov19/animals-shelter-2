@@ -9,11 +9,21 @@ import jakarta.persistence.Table;
 @Table(name = "comments")
 public class Comment extends BaseEntity {
 
+    @Column(name = "author", nullable = false)
+    private String author;
+
     @Column(name = "description", nullable = false)
     private String description;
 
-    @ManyToOne
-    private User user;
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public Comment setAuthor(String author) {
+        this.author = author;
+        return this;
+    }
 
     public String getDescription() {
         return description;
@@ -21,15 +31,6 @@ public class Comment extends BaseEntity {
 
     public Comment setDescription(String description) {
         this.description = description;
-        return this;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public Comment setUser(User user) {
-        this.user = user;
         return this;
     }
 }

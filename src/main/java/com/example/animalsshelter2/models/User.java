@@ -2,6 +2,7 @@ package com.example.animalsshelter2.models;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -34,8 +35,8 @@ public class User extends BaseEntity {
     @JoinColumn(name = "animal_id")
     private Animal animal;
 
-    @OneToMany
-    private List<Comment> comments;
+    @OneToMany(fetch = FetchType.EAGER)
+    private List<Comment> comments = new ArrayList<>();
 
     public List<Comment> getComments() {
         return comments;
@@ -88,5 +89,9 @@ public class User extends BaseEntity {
     public User setAdmin(boolean admin) {
         isAdmin = admin;
         return this;
+    }
+
+    public void addComment(Comment comment) {
+        this.comments.add(comment);
     }
 }
