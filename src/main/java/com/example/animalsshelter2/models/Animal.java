@@ -23,7 +23,7 @@ public class Animal extends BaseEntity {
     private String type;
 
     @Column(name = "availability")
-    private boolean availability = true;
+    private boolean availability;
 
     @OneToOne
     @JoinColumn(name = "user_id")
