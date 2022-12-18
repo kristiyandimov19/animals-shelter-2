@@ -63,7 +63,7 @@ public class UserController {
                     WalkHistoryViewModel walkHistoryViewModel = modelMapper.map(walkHistory, WalkHistoryViewModel.class);
 
                     walkHistoryViewModel.setAnimalName(walkHistory.getAnimal().getName());
-                    walkHistoryViewModel.setAnimalName(walkHistory.getAnimal().getType());
+                    walkHistoryViewModel.setAnimalType(walkHistory.getAnimal().getType());
 
                     return walkHistoryViewModel;
 

@@ -66,7 +66,13 @@ public class UserServiceImpl implements UserService {
                 .setPassword("asdasd")
                 .setAdmin(false);
 
-        userRepository.saveAll(List.of(user1, user2));
+        User user3 = new User()
+                .setUsername("User2")
+                .setEmail("user@user.bg")
+                .setPassword("asdasd")
+                .setAdmin(false);
+
+        userRepository.saveAll(List.of(user1, user2, user3));
     }
 
     @Override
@@ -91,7 +97,7 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findById(userId).orElse(null);
         Animal animal = animalRepository.findById(animalId).orElse(null);
 
-        if (user.isAdmin()) {
+        if (user.isAdmin() || !animal.isAvailability()) {
             return;
         }
 
@@ -107,6 +113,11 @@ public class UserServiceImpl implements UserService {
     public void returnFromWalk(Long userId, Long animalId) {
         User user = userRepository.findById(userId).orElse(null);
         Animal animal = animalRepository.findById(animalId).orElse(null);
+
+        if (animal.isAvailability()) {
+            return;
+        }
+
         WalkHistory walkHistory=new WalkHistory();
         walkHistory.setUser(user);
         walkHistory.setAnimal(animal);
