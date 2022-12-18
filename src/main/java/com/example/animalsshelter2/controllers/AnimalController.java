@@ -46,9 +46,8 @@ public class AnimalController {
 
     @GetMapping("/isAvailable/{id}")
     public AnimalAvailableServiceModel isAvailable(@PathVariable Long id) {
-        AnimalAvailableServiceModel animal = animalService.findAnimalById(id);
 
-        return animal;
+        return animalService.findAnimalById(id);
     }
 
     @GetMapping("/onWalk")
