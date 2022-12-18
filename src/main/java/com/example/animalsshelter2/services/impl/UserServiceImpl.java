@@ -4,6 +4,7 @@ import com.example.animalsshelter2.models.Animal;
 import com.example.animalsshelter2.models.Comment;
 import com.example.animalsshelter2.models.User;
 import com.example.animalsshelter2.models.WalkHistory;
+import com.example.animalsshelter2.models.services.RegisterServiceModel;
 import com.example.animalsshelter2.models.views.UserAvailableViewModel;
 import com.example.animalsshelter2.models.views.UserIdViewModel;
 import com.example.animalsshelter2.repositories.AnimalRepository;
@@ -34,6 +35,7 @@ public class UserServiceImpl implements UserService {
         this.animalRepository = animalRepository;
         this.commentService = commentService;
         this.walkHistoryRepository = walkHistoryRepository;
+
     }
 
     @Override
@@ -52,28 +54,28 @@ public class UserServiceImpl implements UserService {
         return modelMapper.map(user, UserIdViewModel.class);
     }
 
-    @Override
-    public void seedUsers() {
-        User user1 = new User()
-                .setUsername("Admin")
-                .setEmail("admin@admin.bg")
-                .setPassword("asdasd")
-                .setAdmin(true);
-
-        User user2 = new User()
-                .setUsername("User")
-                .setEmail("user@user.bg")
-                .setPassword("asdasd")
-                .setAdmin(false);
-
-        User user3 = new User()
-                .setUsername("User2")
-                .setEmail("user@user.bg")
-                .setPassword("asdasd")
-                .setAdmin(false);
-
-        userRepository.saveAll(List.of(user1, user2, user3));
-    }
+//    @Override
+//    public void seedUsers() {
+//        User user1 = new User()
+//                .setUsername("Admin")
+//                .setEmail("admin@admin.bg")
+//                .setPassword("asdasd")
+//                .setAdmin(true);
+//
+//        User user2 = new User()
+//                .setUsername("User")
+//                .setEmail("user@user.bg")
+//                .setPassword("asdasd")
+//                .setAdmin("admin");
+//
+//        User user3 = new User()
+//                .setUsername("User2")
+//                .setEmail("user@user.bg")
+//                .setPassword("asdasd")
+//                .setAdmin("admin");
+//
+//        userRepository.saveAll(List.of(user1, user2, user3));
+//    }
 
     @Override
     public List<UserAvailableViewModel> findAllAvailable() {
@@ -97,9 +99,9 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findById(userId).orElse(null);
         Animal animal = animalRepository.findById(animalId).orElse(null);
 
-        if (user.isAdmin() || !animal.isAvailability()) {
-            return;
-        }
+//        if (user.isAdmin() || !animal.isAvailability()) {
+//            return;
+//        }
 
         animal.setAvailability(!animal.isAvailability());
         animal.setUser(user);
@@ -113,11 +115,6 @@ public class UserServiceImpl implements UserService {
     public void returnFromWalk(Long userId, Long animalId) {
         User user = userRepository.findById(userId).orElse(null);
         Animal animal = animalRepository.findById(animalId).orElse(null);
-
-        if (animal.isAvailability()) {
-            return;
-        }
-
         WalkHistory walkHistory=new WalkHistory();
         walkHistory.setUser(user);
         walkHistory.setAnimal(animal);
@@ -142,6 +139,26 @@ public class UserServiceImpl implements UserService {
 
         userRepository.save(user);
     }
+
+
+    @Override
+    public void save(RegisterServiceModel newUser) {
+        User user = modelMapper.map(newUser, User.class);
+
+
+        userRepository.save(user);
+    }
+
+
+//    @Override
+//    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+//        User user = userRepository.findByEmail(email);
+//        if (user == null) {
+//            throw new UsernameNotFoundException("No such user");
+//
+//        }
+//        return new CustomUserDetails(user);
+//    }
 
 
 }

@@ -12,11 +12,13 @@ public class User extends BaseEntity {
     public User() {
     }
 
-    public User(String email, String password, boolean isAdmin, Animal animal) {
+    public User(String username, String email, String password, String role, Animal animal, List<Comment> comments) {
+        this.username = username;
         this.email = email;
         this.password = password;
-        this.isAdmin = isAdmin;
+        this.role = role;
         this.animal = animal;
+        this.comments = comments;
     }
 
     @Column(name = "username")
@@ -28,8 +30,9 @@ public class User extends BaseEntity {
     @Column(name = "password")
     private String password;
 
-    @Column(name = "admin")
-    private boolean isAdmin = false;
+    @Column(name = "role")
+    private String role;
+
 
     @OneToOne
     @JoinColumn(name = "animal_id")
@@ -38,13 +41,36 @@ public class User extends BaseEntity {
     @OneToMany(fetch = FetchType.EAGER)
     private List<Comment> comments = new ArrayList<>();
 
-    public List<Comment> getComments() {
-        return comments;
+    public String getUsername() {
+        return username;
     }
 
-    public User setComments(List<Comment> comments) {
-        this.comments = comments;
-        return this;
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     public Animal getAnimal() {
@@ -55,40 +81,12 @@ public class User extends BaseEntity {
         this.animal = animal;
     }
 
-    public String getUsername() {
-        return username;
+    public List<Comment> getComments() {
+        return comments;
     }
 
-    public User setUsername(String username) {
-        this.username = username;
-        return this;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public User setEmail(String email) {
-        this.email = email;
-        return this;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public User setPassword(String password) {
-        this.password = password;
-        return this;
-    }
-
-    public boolean isAdmin() {
-        return isAdmin;
-    }
-
-    public User setAdmin(boolean admin) {
-        isAdmin = admin;
-        return this;
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
     }
 
     public void addComment(Comment comment) {

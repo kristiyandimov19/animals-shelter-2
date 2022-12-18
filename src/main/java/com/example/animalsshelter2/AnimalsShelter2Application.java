@@ -2,10 +2,11 @@ package com.example.animalsshelter2;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@ComponentScan(basePackages = {"com.example.animalsshelter2.securitymodule"})
+@EntityScan("com.example.animalsshelter2.models")
 public class AnimalsShelter2Application {
 
     public static void main(String[] args) {

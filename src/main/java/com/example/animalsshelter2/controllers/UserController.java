@@ -10,6 +10,11 @@ import com.example.animalsshelter2.models.views.WalkHistoryViewModel;
 import com.example.animalsshelter2.services.UserService;
 import com.example.animalsshelter2.services.WalkHistoryService;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,6 +32,9 @@ public class UserController {
         this.modelMapper = modelMapper;
         this.walkHistoryService = walkHistoryService;
     }
+
+
+
 
     @GetMapping("/available")
     public List<UserAvailableViewModel> allAvailable() {
@@ -58,7 +66,7 @@ public class UserController {
 
         List<WalkHistory> walkHistories = walkHistoryService.findByUserId(id);
 
-        List<WalkHistoryViewModel> walkHistoryViewModels = walkHistories.stream()
+        return walkHistories.stream()
                 .map(walkHistory -> {
                     WalkHistoryViewModel walkHistoryViewModel = modelMapper.map(walkHistory, WalkHistoryViewModel.class);
 
@@ -69,8 +77,6 @@ public class UserController {
 
                 })
                 .toList();
-
-        return walkHistoryViewModels;
     }
 
     @PutMapping("/takeOnWalk/{userId}/{animalId}")

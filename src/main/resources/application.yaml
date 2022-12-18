@@ -4,9 +4,11 @@ spring:
     password: "root"
     url: jdbc:mysql://localhost:3306/shelter?allowPublicKeyRetrieval=true&useSSL=false&createDatabaseIfNotExist=true
     username: "root"
+  server:
+    port: 8082
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
     open-in-view: false
     properties:
       hibernate:
