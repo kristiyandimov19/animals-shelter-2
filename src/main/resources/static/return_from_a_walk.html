@@ -6,14 +6,32 @@
   <title>The animal shelter</title>
 
   <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
+  <link href="style/common.css" rel="stylesheet">
   <script src="bootstrap/js/bootstrap.bundle.js"></script>
   <script src="js/return_from_a_walk.js"></script>
   <script src="js/common.js"></script>
+  <style>
+    form{
+      background-color: rgba(255, 255, 255, 0.90);
+      margin: 10% 30%;
+      padding: 10px;
+      border-radius: 10px;
+    }
+    .form-group{
+      padding-bottom: 10px;
+    }
+    .form-btn{
+      padding-top: 10px;
+    }
+    label{
+      padding-bottom: 10px;
+    }
+  </style>
 </head>
 <header>
 
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="">Animal Shelter</a>
+  <nav class="navbar navbar-expand-lg navbar-light bg-white">
+    <a class="navbar-brand logo_style" href="">Animal Shelter</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -44,15 +62,17 @@
 
 <body onload="setMenu()">
 <form>
-  <div class="form-group">
 
     <div class="form-group">
-      <label for="Textarea">Comment</label>
+      <label for="Textarea"> Add Comment about the walk.</label>
       <textarea class="form-control" id="Textarea" rows="3"></textarea>
+    </div>
+  <div class="form-group form-btn container">
+    <div class="col-md-12 text-center">
+      <a class="btn btn-primary col-md-3" onclick="addComment()">Add comment</a>
+      <a class="btn btn-outline-secondary col-md-3" onclick="skip()">Skip</a>
     </div>
   </div>
 
-  <a class="btn btn-primary" onclick="addComment()">Add comment</a>
-  <a class="btn btn-primary" onclick="skip()">Skip</a>
 </form>
 </body></html>

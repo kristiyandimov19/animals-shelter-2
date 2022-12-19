@@ -7,8 +7,10 @@
 
   <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
   <script src="bootstrap/js/bootstrap.bundle.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   <link href="style/style.css" rel="stylesheet">
+  <link  href="style/common.css" rel="stylesheet">
   <script src="js/index.js" ></script>
   <script src="js/common.js"></script>
   <script>
@@ -19,9 +21,12 @@
     }
   </script>
 </head>
-<header>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="">Animal Shelter</a>
+
+
+<body onload="setPage();setMenu()">
+<header >
+  <nav class="navbar navbar-expand-lg navbar-light menu_style bg-white" >
+    <a class="navbar-brand logo_style" href="">Animal Shelter</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -43,17 +48,16 @@
           <a class="nav-link" href="login.html">Login</a>
         </li>
         <li class="nav-item">
-
           <a class="nav-link" href="index.html" onclick="logout()">Logout</a>
         </li>
       </ul>
     </div>
   </nav>
 </header>
-
-<body onload="setPage();setMenu()">
-<ul id="animals_list" class="list-group">
+<ul id="animals_list" class="list-group list_style">
   <!-- All animals are added here-->
 </ul>
+
 </body>
+
 </html>

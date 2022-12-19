@@ -46,7 +46,52 @@ public class AnimalServiceImpl implements AnimalService {
                 .setType("Dog")
                 .setAvailability(true);
 
-        animalRepository.saveAll(List.of(animal1, animal2, animal3));
+        Animal animal4 = new Animal()
+                .setName("Sparky")
+                .setType("Dog")
+                .setAvailability(true);
+
+        Animal animal5 = new Animal()
+                .setName("Sparky")
+                .setType("Dog")
+                .setAvailability(true);
+
+        Animal animal6 = new Animal()
+                .setName("Sparky")
+                .setType("Dog")
+                .setAvailability(true);
+
+        Animal animal7 = new Animal()
+                .setName("Sparky")
+                .setType("Dog")
+                .setAvailability(true);
+
+        Animal animal8 = new Animal()
+                .setName("Sparky")
+                .setType("Dog")
+                .setAvailability(true);
+
+        Animal animal9 = new Animal()
+                .setName("Sparky")
+                .setType("Dog")
+                .setAvailability(true);
+
+        Animal animal10 = new Animal()
+                .setName("Sparky")
+                .setType("Dog")
+                .setAvailability(true);
+
+        Animal animal11 = new Animal()
+                .setName("Sparky")
+                .setType("Dog")
+                .setAvailability(true);
+
+        Animal animal12 = new Animal()
+                .setName("Sparky")
+                .setType("Dog")
+                .setAvailability(true);
+
+        animalRepository.saveAll(List.of(animal1, animal2, animal3, animal4, animal5, animal6, animal7, animal8, animal9, animal10, animal1, animal12));
 
     }
 

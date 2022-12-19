@@ -1,12 +1,13 @@
-async function POST_addComment(user_id){
-    let url = 'http://localhost:8080/----';
+async function PUT_addComment(user_id){
+    let url = 'http://localhost:8080/users/comment/add';
     let data = {
-        'user_id': user_id.toString(),
-        'comment' : document.getElementById("Textarea").value,
+        'authorId': localStorage.getItem("user_id"),
+        'userId': user_id.toString(),
+        'description' : document.getElementById("Textarea").value,
     };
 
     let res = await fetch(url, {
-        method: 'POST',
+        method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
         },
@@ -14,17 +15,15 @@ async function POST_addComment(user_id){
     });
 
     if (res.ok) {
-
         return "OK";
     } else {
-
         return `HTTP error: ${res.status}`;
     }
 }
 function addComment(){
     let user_id =new URLSearchParams(window.location.search).get("user_id");
-    POST_addComment(user_id).then(data=>{
-        if(data == "OK"){
+    PUT_addComment(user_id).then(data=>{
+        if(data === "OK"){
             window.location.replace("./index.html");
         }
         else console.log(data);

@@ -1,0 +1,21 @@
+.first_line{
+    background-color: rgba(255, 255, 255, 0.75);
+}
+.second_line{
+    background-color: rgba(255, 255, 255, 0.95);
+}
+.logo_style{
+    margin-left: 16px;
+}
+.list_style{
+    padding: 50px 20px;
+}
+body {
+    background-image: url("../img/cat-dog-paws-seamless-pattern-background-vet-website-animal-shelter-promotional-materials-repeat-vector-illustration-186671469.jpeg");
+}
+.button{
+    display: block;
+    height: 100%;
+    width: 100%;
+    text-decoration: none;
+}

@@ -14,6 +14,13 @@ function setPage(){
 
             const obje = document.createElement("li");
             obje.classList.add("list-group-item");
+            if(key%2==0){
+                obje.classList.add("list-group-item-light");
+            }
+            else{
+                obje.classList.add("list-group-item-dark");
+            }
+            obje.classList.add("list-group-item");
             const para = document.createElement("p");
 
             para.innerText = value.name + " - " + value.type + " - " + value.username;

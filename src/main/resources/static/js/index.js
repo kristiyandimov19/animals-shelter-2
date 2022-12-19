@@ -10,11 +10,19 @@ async function PUT_returnFromWalk(user_id,animal_id) {
     });
 }
 
+async function DELETE_adopt(animal_id) {
+
+    let url1 = "http://localhost:8080/animal/delete/" + animal_id;
+
+    await fetch(url1, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+}
+
 function setPage() {
-
-    //Set menu
-
-
     //Get All Animals
     const Http = new XMLHttpRequest();
     const url = 'http://localhost:8080/animal/all';
@@ -33,6 +41,12 @@ function setPage() {
             //Create objects
             const obje = document.createElement("li");
             obje.classList.add("list-group-item");
+            if(key%2==0){
+                obje.classList.add("list-group-item-light");
+            }
+            else{
+                obje.classList.add("list-group-item-dark");
+            }
             const para = document.createElement("p");
             if(value.availability){
                 para.innerText = value.name + " - " + value.type + " - Available";
@@ -52,7 +66,7 @@ function setPage() {
 
                 walk.classList.add("btn","btn-secondary","right_margin");
                 if(!value.availability){
-                    walk.classList.add("disabled");
+                    walk.style.display="none";
                 }
 
                 retu.setAttribute("href","#");
@@ -61,7 +75,7 @@ function setPage() {
 
                 retu.classList.add("btn","btn-secondary","right_margin");
                 if(value.availability){
-                    retu.classList.add("disabled");
+                    retu.style.display="none";
                 }
 
 
@@ -71,7 +85,7 @@ function setPage() {
 
                 adop.classList.add("btn","btn-secondary","right_margin");
                 if(!value.availability){
-                    adop.classList.add("disabled");
+                    adop.style.display="none";
                 }
 
                 para.after(walk);
@@ -135,10 +149,28 @@ function adopt(animal_id){
     Http1.onload = function() {
         const obj = JSON.parse(this.responseText);
         if(obj.availability){
-            window.location.replace("./adopt.html?animal_id="+animal_id);
+            Swal.fire({
+                title: 'Are you sure?',
+
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+                    Swal.fire({
+                        imageUrl: '../img/yesss-bye-beach.gif',
+                        confirmButtonText: 'OK!'
+                    }).then(() =>{
+                        DELETE_adopt(animal_id).then(()=>{
+                            window.location.replace("./index.html");
+                        })
+                    })
+                }
+            })
         }else{
             window.location.replace("./index.html");
         }
     }
-
 }
