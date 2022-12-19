@@ -28,7 +28,27 @@ async function login(){
         document.getElementById("password_error").style.display= "none";
     }
 
+    let data = {
+        'email': email,
+        'password': pass
+    }
+
     if(email_correct && pass_correct){
+        let result = await fetch("http://localhost:8080/users/login", {
+            method: "POST",
+            headers: {
+                'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+
+        if (result.ok) {
+            result.text().then(data => localStorage.setItem("token", data));
+            window.location.replace("./index.html");
+        } else {
+            console.log("maika mu shte iba");
+        }
         //GET_login(username, password)
         //if admin
         // localStorage.setItem('auth','admin');
