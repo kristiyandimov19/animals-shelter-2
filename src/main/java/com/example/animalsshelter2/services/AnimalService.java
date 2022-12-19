@@ -8,7 +8,7 @@ import com.example.animalsshelter2.models.views.AnimalWalkViewModel;
 import java.util.List;
 
 public interface AnimalService {
-//    void seedAnimals();
+    void seedAnimals();
 
     List<AnimalViewModel> findAll();
 

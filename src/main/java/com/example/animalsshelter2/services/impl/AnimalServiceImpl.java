@@ -7,6 +7,7 @@ import com.example.animalsshelter2.models.services.AnimalServiceModel;
 import com.example.animalsshelter2.models.views.AnimalViewModel;
 import com.example.animalsshelter2.models.views.AnimalWalkViewModel;
 import com.example.animalsshelter2.repositories.AnimalRepository;
+import com.example.animalsshelter2.repositories.UserRepository;
 import com.example.animalsshelter2.services.AnimalService;
 import com.example.animalsshelter2.services.UserService;
 import org.modelmapper.ModelMapper;
@@ -21,35 +22,37 @@ public class AnimalServiceImpl implements AnimalService {
 
     private final AnimalRepository animalRepository;
     private final ModelMapper modelMapper;
+    private final UserRepository userRepository;
 
     private final UserService userService;
     @Autowired
-    public AnimalServiceImpl(AnimalRepository animalRepository, ModelMapper modelMapper, UserService userService) {
+    public AnimalServiceImpl(AnimalRepository animalRepository, ModelMapper modelMapper, UserRepository userRepository, UserService userService) {
         this.animalRepository = animalRepository;
         this.modelMapper = modelMapper;
+        this.userRepository = userRepository;
         this.userService = userService;
     }
-//
-//    @Override
-//    public void seedAnimals() {
-//        Animal animal1 = new Animal()
-//                .setName("Max")
-//                .setType("Dog")
-//                .setAvailability(true);
-//
-//        Animal animal2 = new Animal()
-//                .setName("Sven")
-//                .setType("Sheep")
-//                .setAvailability(true);
-//
-//        Animal animal3 = new Animal()
-//                .setName("Sparky")
-//                .setType("Dog")
-//                .setAvailability(true);
-//
-//        animalRepository.saveAll(List.of(animal1, animal2, animal3));
-//
-//    }
+
+    @Override
+    public void seedAnimals() {
+        Animal animal1 = new Animal()
+                .setName("Max")
+                .setType("Dog")
+                .setAvailability(true);
+
+        Animal animal2 = new Animal()
+                .setName("Sven")
+                .setType("Sheep")
+                .setAvailability(true);
+
+        Animal animal3 = new Animal()
+                .setName("Sparky")
+                .setType("Dog")
+                .setAvailability(true);
+
+        animalRepository.saveAll(List.of(animal1, animal2, animal3));
+
+    }
 
     @Override
     public List<AnimalViewModel> findAll() {
@@ -88,7 +91,7 @@ public class AnimalServiceImpl implements AnimalService {
                     AnimalWalkViewModel animalWalkViewModel = modelMapper
                             .map(animal, AnimalWalkViewModel.class);
 
-                    User user = userService.findByName(animal.getUser().getUsername());
+                    User user = userRepository.findById(animal.getUser().getId()).orElse(null);
                     if (user == null) {
                         return animalWalkViewModel;
                     }
