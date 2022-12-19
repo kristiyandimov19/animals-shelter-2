@@ -38,63 +38,66 @@ function setPage() {
         //Loop all the animals
         Object.entries(obj).forEach(([key,value]) => {
 
-            //Create objects
-            const obje = document.createElement("li");
-            obje.classList.add("list-group-item");
+            //Create list object
+            const li = document.createElement("li");
+            li.classList.add("list-group-item");
             if(key%2==0){
-                obje.classList.add("list-group-item-light");
+                li.classList.add("list-group-item-light");
             }
             else{
-                obje.classList.add("list-group-item-dark");
+                li.classList.add("list-group-item-dark");
             }
-            const para = document.createElement("p");
+
+            //Create text
+            const p = document.createElement("p");
             if(value.availability){
-                para.innerText = value.name + " - " + value.type + " - Available";
+                p.innerText = value.name + " - " + value.type + " - Available";
             }
-            else para.innerText = value.name + " - " + value.type + " - On a walk";
-            obje.appendChild(para);
+            else p.innerText = value.name + " - " + value.type + " - On a walk";
+            li.appendChild(p);
 
+            //Create buttons
             if(localStorage.getItem('auth') === "admin"){
-                const walk = document.createElement("a");
-                const retu = document.createElement("a");
-                const adop = document.createElement("a");
+                const a_walk = document.createElement("a");
+                const a_return = document.createElement("a");
+                const a_adopt = document.createElement("a");
 
 
-                walk.setAttribute("href","#");
-                walk.innerText = "Take on walk";
-                walk.setAttribute("onclick","takeOnAWalk('"+ value.id +"')");
+                a_walk.setAttribute("href","#");
+                a_walk.innerText = "Take on walk";
+                a_walk.setAttribute("onclick","takeOnAWalk('"+ value.id +"')");
 
-                walk.classList.add("btn","btn-secondary","right_margin");
+                a_walk.classList.add("btn","btn-secondary","right_margin");
                 if(!value.availability){
-                    walk.style.display="none";
+                    a_walk.style.display="none";
                 }
 
-                retu.setAttribute("href","#");
-                retu.innerText = "Return";
-                retu.setAttribute("onclick","returnFromAWalk('" + value.id + "')");
+                a_return.setAttribute("href","#");
+                a_return.innerText = "Return";
+                a_return.setAttribute("onclick","returnFromAWalk('" + value.id + "')");
 
-                retu.classList.add("btn","btn-secondary","right_margin");
+                a_return.classList.add("btn","btn-secondary","right_margin");
                 if(value.availability){
-                    retu.style.display="none";
+                    a_return.style.display="none";
                 }
 
 
-                adop.setAttribute("href","#");
-                adop.innerText = "Adopt";
-                adop.setAttribute("onclick","adopt('" + value.id + "')");
+                a_adopt.setAttribute("href","#");
+                a_adopt.innerText = "Adopt";
+                a_adopt.setAttribute("onclick","adopt('" + value.id + "')");
 
-                adop.classList.add("btn","btn-secondary","right_margin");
+                a_adopt.classList.add("btn","btn-secondary","right_margin");
                 if(!value.availability){
-                    adop.style.display="none";
+                    a_adopt.style.display="none";
                 }
 
-                para.after(walk);
-                walk.after(retu);
-                retu.after(adop);
+                p.after(a_walk);
+                a_walk.after(a_return);
+                a_return.after(a_adopt);
             }
 
             //Add object in the existing html code
-            document.getElementById("animals_list").appendChild(obje);
+            document.getElementById("animals_list").appendChild(li);
         });
     }
 

@@ -11,15 +11,17 @@ function setPage(){
         const obj = JSON.parse(this.responseText);
         Object.entries(obj).forEach(([key,value]) => {
 
-            const obje = document.createElement("li");
-            const btn = document.createElement("a");
-            obje.appendChild(btn);
-            obje.classList.add("list-group-item");
-            btn.setAttribute("onclick","showHistory('"+value.id+"')");
-            btn.setAttribute("href","#");
-            btn.innerText = value.username
-            btn.classList.add("button");
-            document.getElementById("users_list").appendChild(obje);
+            const a = document.createElement("a");
+            a.setAttribute("onclick","showHistory('"+value.id+"')");
+            a.setAttribute("href","#");
+            a.innerText = value.username
+            a.classList.add("users_btn");
+
+            const li = document.createElement("li");
+            li.classList.add("list-group-item");
+            li.appendChild(a);
+
+            document.getElementById("users_list").appendChild(li);
         });
     }
 }
@@ -53,14 +55,14 @@ function showComments(user_id){
             p.classList.add("card-text")
             p.innerText = value.description;
 
-            let div_inner = document.createElement("div");
-            div_inner.classList.add("card-body");
-            div_inner.appendChild(h5);
-            div_inner.appendChild(p);
+            let div = document.createElement("div");
+            div.classList.add("card-body");
+            div.appendChild(h5);
+            div.appendChild(p);
 
             let li = document.createElement("li");
             li.classList.add("list-group-item");
-            li.appendChild(div_inner);
+            li.appendChild(div);
 
             document.getElementById("comment-history").appendChild(li);
         });

@@ -23,11 +23,11 @@ function setPage(){
 
         Object.entries(obj).forEach(([key,value]) => {
 
-            const opti = document.createElement("option");
-            opti.innerText= value.username;
-            opti.value = value.id;
+            const option = document.createElement("option");
+            option.innerText= value.username;
+            opoptionti.value = value.id;
 
-            document.getElementById("FormSelector").appendChild(opti);
+            document.getElementById("FormSelector").appendChild(option);
         });
     }
 }

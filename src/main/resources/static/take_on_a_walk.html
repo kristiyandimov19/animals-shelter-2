@@ -6,27 +6,10 @@
     <title>The animal shelter</title>
 
     <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
-    <link href="style/common.css" rel="stylesheet">
+    <link href="style/style.css" rel="stylesheet">
     <script src="bootstrap/js/bootstrap.bundle.js"></script>
     <script src="js/take_on_a_walk.js"></script>
     <script src="js/common.js"></script>
-    <style>
-        form{
-            background-color: rgba(255, 255, 255, 0.90);
-            margin: 10% 30%;
-            padding: 10px;
-            border-radius: 10px;
-        }
-        .form-group{
-            padding-bottom: 10px;
-        }
-        .form-btn{
-            padding-top: 10px;
-        }
-        label{
-            padding-bottom: 10px;
-        }
-    </style>
 
 </head>
 <header>
@@ -61,11 +44,14 @@
 </header>
 
 <body onload="setPage();setMenu()">
-<form>
+<form class="form">
     <div class="form-group">
         <label for="FormSelector">User</label>
         <select class="form-control" id="FormSelector">
             <!--Free users are added here-->
+            <!-- EXAMPLE
+            <option value="user_id">USER NAME</option>
+            -->
         </select>
     </div>
     <div class="form-group form-btn container">

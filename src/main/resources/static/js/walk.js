@@ -12,21 +12,20 @@ function setPage(){
 
         Object.entries(obj).forEach(([key,value]) => {
 
-            const obje = document.createElement("li");
-            obje.classList.add("list-group-item");
+            const p = document.createElement("p");
+            p.innerText = value.name + " - " + value.type + " - " + value.username;
+            li.appendChild(p);
+
+            const li = document.createElement("li");
+            li.classList.add("list-group-item");
             if(key%2==0){
-                obje.classList.add("list-group-item-light");
+                li.classList.add("list-group-item-light");
             }
             else{
-                obje.classList.add("list-group-item-dark");
+                li.classList.add("list-group-item-dark");
             }
-            obje.classList.add("list-group-item");
-            const para = document.createElement("p");
 
-            para.innerText = value.name + " - " + value.type + " - " + value.username;
-            obje.appendChild(para);
-
-            document.getElementById("animals_list").appendChild(obje);
+            document.getElementById("animals_list").appendChild(li);
         });
     }
 }

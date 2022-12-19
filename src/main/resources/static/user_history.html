@@ -6,17 +6,12 @@
   <title>The animal shelter</title>
 
   <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
-  <link href="style/common.css" rel="stylesheet">
+  <link href="style/style.css" rel="stylesheet">
   <script src="bootstrap/js/bootstrap.bundle.js"></script>
   <script src="js/history.js"></script>
   <script src="js/user_history.js"></script>
   <script src="js/common.js"></script>
-  <style>
-    ul{
-      overflow:hidden;
-      overflow-y:scroll;
-    }
-  </style>
+
 </head>
 <header>
 
@@ -56,6 +51,11 @@
       <div class="col-3" >
           <ul id="users_list" class="list-group" style="height: 80vh">
             <!-- All users are added here-->
+            <!-- EXAMPLE
+            <li class="list-group-item">
+              <a href="#" onclick="showHistory(user_id)" class="user_btn">INNER TEXT</a>
+            </li>
+            -->
           </ul>
       </div>
       <div class="col-9">
@@ -63,12 +63,24 @@
           <h2>Walks</h2>
           <ul id="walk-history" class="list-group">
             <!-- Walks are added here. -->
-
+            <!-- EXAMPLE
+            <li class="list-group-item">
+              <p>INNER TEXT</p>
+            </li>
+            -->
           </ul>
           <br>
           <h2>Comments</h2>
           <ul id="comment-history" class="list-group" >
             <!-- Comments are added here. -->
+            <!-- EXAMPLE
+            <li class="list-group-item">
+              <div class="card-body">
+                <h5 class="card-title">AUTHOR</h5>
+                <p class="card-text">COMMENT</p>
+              </div>
+            </li>
+            -->
           </ul>
         </div>
       </div>

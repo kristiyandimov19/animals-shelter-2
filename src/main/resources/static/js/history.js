@@ -11,6 +11,7 @@ function showWalks(user_id){
         const obj = JSON.parse(this.responseText);
         //Loop all the animals
         Object.entries(obj).forEach(([key,value]) => {
+
             let p = document.createElement("p");
             p.innerText = value.animalName + " - " + value.animalType + " - " + value.localDate;
 

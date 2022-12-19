@@ -6,32 +6,10 @@
   <title>The animal shelter</title>
 
   <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
-  <link href="style/common.css" rel="stylesheet">
+  <link href="style/style.css" rel="stylesheet">
   <script src="bootstrap/js/bootstrap.bundle.js"></script>
   <script src="js/registration.js"></script>
   <script src="js/common.js"></script>
-  <style>
-    form{
-      background-color: rgba(255, 255, 255, 0.90);
-      margin: 10% 30%;
-      padding: 10px;
-      border-radius: 10px;
-    }
-    .form-group{
-      padding-bottom: 10px;
-    }
-    .form-btn{
-      padding-top: 10px;
-    }
-    label{
-      padding-bottom: 10px;
-    }
-    .warning{
-      font-size: small;
-      color: red;
-      display: none;
-    }
-  </style>
 </head>
 <header>
 
@@ -66,7 +44,7 @@
 </header>
 
 <body onload="setMenu()">
-<form>
+<form class="form">
   <div class="form-group">
     <label for="email">Username</label>
     <input type="text" class="form-control" id="username" placeholder="Username">
@@ -92,7 +70,7 @@
     <div class="col-md-12 text-center">
       <a class="btn btn-primary" onclick="register()">Register</a>
     </div>
-    <div class="col-md-12" style="font-size: small;text-align: center;padding-top: 5px" >
+    <div class="col-md-12 under_text">
       <span>If you don't have registration </span>
       <a href="login.html">Click here!</a>
     </div>
