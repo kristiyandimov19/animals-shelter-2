@@ -3,15 +3,19 @@ package com.example.animalsshelter2.services.impl;
 import com.example.animalsshelter2.models.Animal;
 import com.example.animalsshelter2.models.Comment;
 import com.example.animalsshelter2.models.User;
+import com.example.animalsshelter2.models.WalkHistory;
+import com.example.animalsshelter2.models.services.RegisterServiceModel;
 import com.example.animalsshelter2.models.views.UserAvailableViewModel;
 import com.example.animalsshelter2.models.views.UserIdViewModel;
 import com.example.animalsshelter2.repositories.AnimalRepository;
 import com.example.animalsshelter2.repositories.UserRepository;
+import com.example.animalsshelter2.repositories.WalkHistoryRepository;
 import com.example.animalsshelter2.services.CommentService;
 import com.example.animalsshelter2.services.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,13 +26,16 @@ public class UserServiceImpl implements UserService {
     private final ModelMapper modelMapper;
     private final AnimalRepository animalRepository;
     private final CommentService commentService;
+    private final WalkHistoryRepository walkHistoryRepository;
 
     public UserServiceImpl(UserRepository userRepository, ModelMapper modelMapper,
-                           AnimalRepository animalRepository, CommentService commentService) {
+                           AnimalRepository animalRepository, CommentService commentService, WalkHistoryRepository walkHistoryRepository) {
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
         this.animalRepository = animalRepository;
         this.commentService = commentService;
+        this.walkHistoryRepository = walkHistoryRepository;
+
     }
 
     @Override
@@ -47,94 +54,28 @@ public class UserServiceImpl implements UserService {
         return modelMapper.map(user, UserIdViewModel.class);
     }
 
-    @Override
-    public void seedUsers() {
-        User user1 = new User()
-                .setUsername("Admin")
-                .setEmail("admin@admin.bg")
-                .setPassword("asdasd")
-                .setAdmin(true);
-
-        User user2 = new User()
-                .setUsername("User1")
-                .setEmail("user@user.bg")
-                .setPassword("asdasd")
-                .setAdmin(false);
-
-        User user3 = new User()
-                .setUsername("User2")
-                .setEmail("user@user.bg")
-                .setPassword("asdasd")
-                .setAdmin(false);
-
-        User user4 = new User()
-                .setUsername("User3")
-                .setEmail("user@user.bg")
-                .setPassword("asdasd")
-                .setAdmin(false);
-
-        User user5 = new User()
-                .setUsername("User4")
-                .setEmail("user@user.bg")
-                .setPassword("asdasd")
-                .setAdmin(false);
-
-        User user6 = new User()
-                .setUsername("User5")
-                .setEmail("user@user.bg")
-                .setPassword("asdasd")
-                .setAdmin(false);
-
-        User user7 = new User()
-                .setUsername("User6")
-                .setEmail("user@user.bg")
-                .setPassword("asdasd")
-                .setAdmin(false);
-
-        User user8 = new User()
-                .setUsername("User7")
-                .setEmail("user@user.bg")
-                .setPassword("asdasd")
-                .setAdmin(false);
-
-        User user9 = new User()
-                .setUsername("User8")
-                .setEmail("user@user.bg")
-                .setPassword("asdasd")
-                .setAdmin(false);
-
-        User user10 = new User()
-                .setUsername("User9")
-                .setEmail("user@user.bg")
-                .setPassword("asdasd")
-                .setAdmin(false);
-
-        User user11 = new User()
-                .setUsername("User10")
-                .setEmail("user@user.bg")
-                .setPassword("asdasd")
-                .setAdmin(false);
-
-        User user12 = new User()
-                .setUsername("User11")
-                .setEmail("user@user.bg")
-                .setPassword("asdasd")
-                .setAdmin(false);
-
-        User user13 = new User()
-                .setUsername("User12")
-                .setEmail("user@user.bg")
-                .setPassword("asdasd")
-                .setAdmin(false);
-
-        User user14 = new User()
-                .setUsername("User13")
-                .setEmail("user@user.bg")
-                .setPassword("asdasd")
-                .setAdmin(false);
-
-        userRepository.saveAll(List.of(user1, user2,user3,user4,user5, user6,user7,user8,user9,user10,user11, user12,user13,user14));
-    }
+//    @Override
+//    public void seedUsers() {
+//        User user1 = new User()
+//                .setUsername("Admin")
+//                .setEmail("admin@admin.bg")
+//                .setPassword("asdasd")
+//                .setAdmin(true);
+//
+//        User user2 = new User()
+//                .setUsername("User")
+//                .setEmail("user@user.bg")
+//                .setPassword("asdasd")
+//                .setAdmin("admin");
+//
+//        User user3 = new User()
+//                .setUsername("User2")
+//                .setEmail("user@user.bg")
+//                .setPassword("asdasd")
+//                .setAdmin("admin");
+//
+//        userRepository.saveAll(List.of(user1, user2, user3));
+//    }
 
     @Override
     public List<UserAvailableViewModel> findAllAvailable() {
@@ -158,9 +99,9 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findById(userId).orElse(null);
         Animal animal = animalRepository.findById(animalId).orElse(null);
 
-        if (user.isAdmin()) {
-            return;
-        }
+//        if (user.isAdmin() || !animal.isAvailability()) {
+//            return;
+//        }
 
         animal.setAvailability(!animal.isAvailability());
         animal.setUser(user);
@@ -174,6 +115,10 @@ public class UserServiceImpl implements UserService {
     public void returnFromWalk(Long userId, Long animalId) {
         User user = userRepository.findById(userId).orElse(null);
         Animal animal = animalRepository.findById(animalId).orElse(null);
+        WalkHistory walkHistory=new WalkHistory();
+        walkHistory.setUser(user);
+        walkHistory.setAnimal(animal);
+        walkHistory.setLocalDate(LocalDate.now());
 
         animal.setAvailability(!animal.isAvailability());
         animal.setUser(null);
@@ -181,6 +126,7 @@ public class UserServiceImpl implements UserService {
 
         animalRepository.save(animal);
         userRepository.save(user);
+        walkHistoryRepository.save(walkHistory);
     }
 
     @Override
@@ -193,6 +139,26 @@ public class UserServiceImpl implements UserService {
 
         userRepository.save(user);
     }
+
+
+    @Override
+    public void save(RegisterServiceModel newUser) {
+        User user = modelMapper.map(newUser, User.class);
+
+
+        userRepository.save(user);
+    }
+
+
+//    @Override
+//    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+//        User user = userRepository.findByEmail(email);
+//        if (user == null) {
+//            throw new UsernameNotFoundException("No such user");
+//
+//        }
+//        return new CustomUserDetails(user);
+//    }
 
 
 }

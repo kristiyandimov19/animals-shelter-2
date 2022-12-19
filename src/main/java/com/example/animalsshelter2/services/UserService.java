@@ -3,6 +3,7 @@ package com.example.animalsshelter2.services;
 import com.example.animalsshelter2.models.Animal;
 import com.example.animalsshelter2.models.Comment;
 import com.example.animalsshelter2.models.User;
+import com.example.animalsshelter2.models.services.RegisterServiceModel;
 import com.example.animalsshelter2.models.views.UserAvailableViewModel;
 import com.example.animalsshelter2.models.views.UserIdViewModel;
 
@@ -16,7 +17,7 @@ public interface UserService {
 
     UserIdViewModel findById(Long id);
 
-    void seedUsers();
+//    void seedUsers();
 
     List<UserAvailableViewModel> findAllAvailable();
 
@@ -27,4 +28,6 @@ public interface UserService {
     void returnFromWalk(Long userId, Long animalId);
 
     void addComment(Long adminId, Long userId, String description);
+
+    void save(RegisterServiceModel newUser);
 }

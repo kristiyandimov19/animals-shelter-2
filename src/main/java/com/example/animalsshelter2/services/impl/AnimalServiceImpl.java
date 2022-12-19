@@ -10,6 +10,7 @@ import com.example.animalsshelter2.repositories.AnimalRepository;
 import com.example.animalsshelter2.services.AnimalService;
 import com.example.animalsshelter2.services.UserService;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,78 +23,33 @@ public class AnimalServiceImpl implements AnimalService {
     private final ModelMapper modelMapper;
 
     private final UserService userService;
-
+    @Autowired
     public AnimalServiceImpl(AnimalRepository animalRepository, ModelMapper modelMapper, UserService userService) {
         this.animalRepository = animalRepository;
         this.modelMapper = modelMapper;
         this.userService = userService;
     }
-
-    @Override
-    public void seedAnimals() {
-        Animal animal1 = new Animal()
-                .setName("Max")
-                .setType("Dog")
-                .setAvailability(true);
-
-        Animal animal2 = new Animal()
-                .setName("Sven")
-                .setType("Sheep")
-                .setAvailability(true);
-
-        Animal animal3 = new Animal()
-                .setName("Sparky")
-                .setType("Dog")
-                .setAvailability(true);
-
-        Animal animal4 = new Animal()
-                .setName("Sparky")
-                .setType("Dog")
-                .setAvailability(true);
-
-        Animal animal5 = new Animal()
-                .setName("Sparky")
-                .setType("Dog")
-                .setAvailability(true);
-
-        Animal animal6 = new Animal()
-                .setName("Sparky")
-                .setType("Dog")
-                .setAvailability(true);
-
-        Animal animal7 = new Animal()
-                .setName("Sparky")
-                .setType("Dog")
-                .setAvailability(true);
-
-        Animal animal8 = new Animal()
-                .setName("Sparky")
-                .setType("Dog")
-                .setAvailability(true);
-
-        Animal animal9 = new Animal()
-                .setName("Sparky")
-                .setType("Dog")
-                .setAvailability(true);
-
-        Animal animal10 = new Animal()
-                .setName("Sparky")
-                .setType("Dog")
-                .setAvailability(true);
-
-        Animal animal11 = new Animal()
-                .setName("Sparky")
-                .setType("Dog")
-                .setAvailability(true);
-
-        Animal animal12 = new Animal()
-                .setName("Sparky")
-                .setType("Dog")
-                .setAvailability(true);
-
-        animalRepository.saveAll(List.of(animal1, animal2, animal3, animal4, animal5, animal6, animal7, animal8, animal9, animal10, animal1, animal12));
-
-    }
+//
+//    @Override
+//    public void seedAnimals() {
+//        Animal animal1 = new Animal()
+//                .setName("Max")
+//                .setType("Dog")
+//                .setAvailability(true);
+//
+//        Animal animal2 = new Animal()
+//                .setName("Sven")
+//                .setType("Sheep")
+//                .setAvailability(true);
+//
+//        Animal animal3 = new Animal()
+//                .setName("Sparky")
+//                .setType("Dog")
+//                .setAvailability(true);
+//
+//        animalRepository.saveAll(List.of(animal1, animal2, animal3));
+//
+//    }
 
     @Override
     public List<AnimalViewModel> findAll() {
