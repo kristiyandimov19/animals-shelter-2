@@ -8,7 +8,7 @@
   <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
   <link href="style/common.css" rel="stylesheet">
   <script src="bootstrap/js/bootstrap.bundle.js"></script>
-  <script src="js/return_from_a_walk.js"></script>
+  <script src="js/registration.js"></script>
   <script src="js/common.js"></script>
   <style>
     form{
@@ -67,18 +67,36 @@
 
 <body onload="setMenu()">
 <form>
-
-    <div class="form-group">
-      <label for="comment"> Add Comment about the walk.</label>
-      <textarea class="form-control" id="comment" rows="3"></textarea>
-      <span id="comment_error" class="warning">Comment shouldn`t be empty.</span>
-    </div>
+  <div class="form-group">
+    <label for="email">Username</label>
+    <input type="text" class="form-control" id="username" placeholder="Username">
+    <span id="username_error" class="warning">Username is required.</span>
+  </div>
+  <div class="form-group">
+    <label for="email">Email</label>
+    <input type="text" class="form-control" id="email" placeholder="Email">
+    <span id="email_error" class="warning">This email isn't correct!</span>
+    <span id="email_req_error" class="warning">Email is required!</span>
+  </div>
+  <div class="form-group">
+    <label for="password">Password</label>
+    <input type="password" class="form-control" id="password" placeholder="Password">
+    <span id="pass_error" class="warning">This password should contain 8 symbols, of witch 1 small letter, one big letter and one number.</span>
+  </div>
+  <div class="form-group">
+    <label for="password">Confirm Password</label>
+    <input type="password" class="form-control" id="confirm_password" placeholder="Confirm Password">
+    <span id="confirm_error" class="warning">Password doesn't match!</span>
+  </div>
   <div class="form-group form-btn container">
     <div class="col-md-12 text-center">
-      <a class="btn btn-primary col-md-3" onclick="addComment()">Add comment</a>
-      <a class="btn btn-outline-secondary col-md-3" onclick="skip()">Skip</a>
+      <a class="btn btn-primary" onclick="register()">Register</a>
+    </div>
+    <div class="col-md-12" style="font-size: small;text-align: center;padding-top: 5px" >
+      <span>If you don't have registration </span>
+      <a href="login.html">Click here!</a>
     </div>
   </div>
-
 </form>
-</body></html>
+</body>
+</html>

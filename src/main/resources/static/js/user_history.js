@@ -25,7 +25,7 @@ function setPage(){
 }
 
 function showHistory(user_id) {
-    //document.getElementById("walk-history").innerHTML="";
+    document.getElementById("walk-history").innerHTML="";
     document.getElementById("comment-history").innerHTML="";
     showComments(user_id);
     showWalks(user_id);
@@ -45,7 +45,6 @@ function showComments(user_id){
 
         //Loop all the animals
         Object.entries(obj).forEach(([key,value]) => {
-            console.log(value);
 
             let h5 = document.createElement("h5");
             h5.classList.add("card-title");

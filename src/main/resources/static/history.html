@@ -6,6 +6,7 @@
   <title>The animal shelter</title>
 
   <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
+  <link href="style/common.css" rel="stylesheet">
   <script src="bootstrap/js/bootstrap.bundle.js"></script>
   <script src="js/history.js"></script>
   <script src="js/common.js"></script>
@@ -14,7 +15,7 @@
 <header>
 
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="">Animal Shelter</a>
+    <a class="navbar-brand logo_style" href="">Animal Shelter</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -44,27 +45,9 @@
 </header>
 
 <body onload="setPage();setMenu()">
-<h2>Walks</h2>
-<ul class="list-group">
-  <li class="list-group-item">
-    <p>Animal - Type - Date</p>
-
-  </li>
-  <li class="list-group-item">
-    <p>Animal - Type - Date</p>
-
-  </li>
-  <li class="list-group-item">
-    <p>Animal - Type - Date</p>
-
-  </li>
-  <li class="list-group-item">
-    <p>Animal - Type - Date</p>
-
-  </li>
-  <li class="list-group-item">
-    <p>Animal - Type - Date</p>
-  </li>
+<h2 style="padding: 30px 0 0 20px;">Walks</h2>
+<ul id="walk-history" class="list-group list_style">
+  <!-- Walks are added here -->
 </ul>
 <br>
 

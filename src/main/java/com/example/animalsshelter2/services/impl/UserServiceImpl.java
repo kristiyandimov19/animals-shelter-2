@@ -54,28 +54,28 @@ public class UserServiceImpl implements UserService {
         return modelMapper.map(user, UserIdViewModel.class);
     }
 
-//    @Override
-//    public void seedUsers() {
-//        User user1 = new User()
-//                .setUsername("Admin")
-//                .setEmail("admin@admin.bg")
-//                .setPassword("asdasd")
-//                .setAdmin(true);
-//
-//        User user2 = new User()
-//                .setUsername("User")
-//                .setEmail("user@user.bg")
-//                .setPassword("asdasd")
-//                .setAdmin("admin");
-//
-//        User user3 = new User()
-//                .setUsername("User2")
-//                .setEmail("user@user.bg")
-//                .setPassword("asdasd")
-//                .setAdmin("admin");
-//
-//        userRepository.saveAll(List.of(user1, user2, user3));
-//    }
+    @Override
+    public void seedUsers() {
+        User user1 = new User()
+                .setUsername("Admin")
+                .setEmail("admin@admin.bg")
+                .setPassword("asdasd")
+                .setAdmin("admin");
+
+        User user2 = new User()
+                .setUsername("User")
+                .setEmail("user@user.bg")
+                .setPassword("asdasd")
+                .setAdmin("user");
+
+        User user3 = new User()
+                .setUsername("User2")
+                .setEmail("user@user.bg")
+                .setPassword("asdasd")
+                .setAdmin("user");
+
+        userRepository.saveAll(List.of(user1, user2, user3));
+    }
 
     @Override
     public List<UserAvailableViewModel> findAllAvailable() {

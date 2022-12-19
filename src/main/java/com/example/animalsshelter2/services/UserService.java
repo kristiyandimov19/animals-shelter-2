@@ -17,7 +17,7 @@ public interface UserService {
 
     UserIdViewModel findById(Long id);
 
-//    void seedUsers();
+    void seedUsers();
 
     List<UserAvailableViewModel> findAllAvailable();
 

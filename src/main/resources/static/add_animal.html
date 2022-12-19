@@ -26,6 +26,11 @@
     label{
       padding-bottom: 10px;
     }
+    .warning{
+      font-size: small;
+      color: red;
+      display: none;
+    }
   </style>
 </head>
 <header>
@@ -65,15 +70,17 @@
   <div class="form-group">
     <label for="name">Name</label>
     <input type="text" class="form-control" id="name" placeholder="Name">
+    <span id="name_error" class="warning">Name is required.</span>
+    <span id="name_length_error" class="warning">Name should be at least 2 symbols.</span>
   </div>
   <div class="form-group">
     <label for="type" >Type</label>
     <select class="form-control" id="type">
-      <option value = "sheep">Sheep</option>
-      <option value = "donkey">Donkey</option>
-      <option value = "cow">Cow</option>
-      <option value = "dog">Dog</option>
-      <option value = "cat">Cat</option>
+      <option value = "Sheep">Sheep</option>
+      <option value = "Donkey">Donkey</option>
+      <option value = "Cow">Cow</option>
+      <option value = "Dog">Dog</option>
+      <option value = "Cat">Cat</option>
     </select>
   </div>
   <div class="form-group form-btn container">
