@@ -1,18 +1,18 @@
 package com.example.animalsshelter2.services.impl;
 
-import com.example.animalsshelter2.models.Animal;
-import com.example.animalsshelter2.models.Comment;
-import com.example.animalsshelter2.models.User;
-import com.example.animalsshelter2.models.WalkHistory;
+import com.example.animalsshelter2.models.*;
+import com.example.animalsshelter2.models.enums.UserRoleEnum;
 import com.example.animalsshelter2.models.services.RegisterServiceModel;
 import com.example.animalsshelter2.models.views.UserAvailableViewModel;
 import com.example.animalsshelter2.models.views.UserIdViewModel;
 import com.example.animalsshelter2.repositories.AnimalRepository;
 import com.example.animalsshelter2.repositories.UserRepository;
+import com.example.animalsshelter2.repositories.UserRoleRepository;
 import com.example.animalsshelter2.repositories.WalkHistoryRepository;
 import com.example.animalsshelter2.services.CommentService;
 import com.example.animalsshelter2.services.UserService;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -27,15 +27,20 @@ public class UserServiceImpl implements UserService {
     private final AnimalRepository animalRepository;
     private final CommentService commentService;
     private final WalkHistoryRepository walkHistoryRepository;
+    private final UserRoleRepository userRoleRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public UserServiceImpl(UserRepository userRepository, ModelMapper modelMapper,
-                           AnimalRepository animalRepository, CommentService commentService, WalkHistoryRepository walkHistoryRepository) {
+                           AnimalRepository animalRepository, CommentService commentService, WalkHistoryRepository walkHistoryRepository,
+                           UserRoleRepository userRoleRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
         this.animalRepository = animalRepository;
         this.commentService = commentService;
         this.walkHistoryRepository = walkHistoryRepository;
 
+        this.userRoleRepository = userRoleRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -56,23 +61,29 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void seedUsers() {
+
+        UserRole adminRole = new UserRole().setRole(UserRoleEnum.ADMIN);
+        UserRole userRole = new UserRole().setRole(UserRoleEnum.USER);
+
+        userRoleRepository.saveAll(List.of(adminRole, userRole));
+
         User user1 = new User()
                 .setUsername("Admin")
                 .setEmail("admin@admin.bg")
-                .setPassword("asdasd")
-                .setAdmin("admin");
+                .setPassword(passwordEncoder.encode("asdasd"))
+                .setRole(adminRole);
 
         User user2 = new User()
                 .setUsername("User")
                 .setEmail("user@user.bg")
                 .setPassword("asdasd")
-                .setAdmin("user");
+                .setRole(userRole);
 
         User user3 = new User()
                 .setUsername("User2")
-                .setEmail("user@user.bg")
+                .setEmail("user2@user.bg")
                 .setPassword("asdasd")
-                .setAdmin("user");
+                .setRole(userRole);
 
         userRepository.saveAll(List.of(user1, user2, user3));
     }

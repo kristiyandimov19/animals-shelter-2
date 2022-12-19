@@ -12,11 +12,10 @@ public class User extends BaseEntity {
     public User() {
     }
 
-    public User(String username, String email, String password, String role, Animal animal, List<Comment> comments) {
+    public User(String username, String email, String password, Animal animal, List<Comment> comments) {
         this.username = username;
         this.email = email;
         this.password = password;
-        this.role = role;
         this.animal = animal;
         this.comments = comments;
     }
@@ -30,8 +29,8 @@ public class User extends BaseEntity {
     @Column(name = "password")
     private String password;
 
-    @Column(name = "role")
-    private String role;
+    @ManyToOne
+    private UserRole role;
 
 
     @OneToOne
@@ -68,11 +67,11 @@ public class User extends BaseEntity {
         return this;
     }
 
-    public String getRole() {
+    public UserRole getRole() {
         return role;
     }
 
-    public User setRole(String role) {
+    public User setRole(UserRole role) {
         this.role = role;
         return this;
     }
@@ -99,8 +98,4 @@ public class User extends BaseEntity {
         this.comments.add(comment);
     }
 
-    public User setAdmin(String admin){
-        this.role = admin;
-        return this;
-    }
 }

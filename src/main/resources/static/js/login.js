@@ -1,4 +1,4 @@
-function login(){
+async function login(){
     let email= document.getElementById("email").value;
     let pass = document.getElementById("password").value;
     let email_correct = true;
@@ -31,17 +31,17 @@ function login(){
     if(email_correct && pass_correct){
         //GET_login(username, password)
         //if admin
-        localStorage.setItem('auth','admin');
-        localStorage.setItem('user_id','1');
-        window.location.replace("./index.html");
-
-        //else if user
-        localStorage.setItem('auth','user');
-        localStorage.setItem('user_id','1');
-        window.location.replace("./index.html");
-
-        //else
-        console.log("Error");
+        // localStorage.setItem('auth','admin');
+        // localStorage.setItem('user_id','1');
+        // window.location.replace("./index.html");
+        //
+        // //else if user
+        // localStorage.setItem('auth','user');
+        // localStorage.setItem('user_id','1');
+        // window.location.replace("./index.html");
+        //
+        // //else
+        // console.log("Error");
     }
 
 
