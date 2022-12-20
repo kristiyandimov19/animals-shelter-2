@@ -17,7 +17,6 @@ import org.modelmapper.ModelMapper;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -69,7 +68,7 @@ class UserServiceImplTest {
         modelMapper = new ModelMapper();
 
         userService = new UserServiceImpl(userRepository, new ModelMapper(),
-                animalRepository, commentService, walkHistoryRepository);
+                animalRepository, commentService, walkHistoryRepository, passwordEncoder);
     }
 
     @Test

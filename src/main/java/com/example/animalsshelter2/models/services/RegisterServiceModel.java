@@ -35,8 +35,7 @@ public class RegisterServiceModel {
     }
 
     public String getRole() {
-        String role = "user";
-        return role;
+        return "user";
     }
 
     public String getUsername() {

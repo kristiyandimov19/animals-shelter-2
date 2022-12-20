@@ -13,6 +13,10 @@ import com.example.animalsshelter2.repositories.WalkHistoryRepository;
 import com.example.animalsshelter2.services.CommentService;
 import com.example.animalsshelter2.services.UserService;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -27,15 +31,20 @@ public class UserServiceImpl implements UserService {
     private final AnimalRepository animalRepository;
     private final CommentService commentService;
     private final WalkHistoryRepository walkHistoryRepository;
+    private final PasswordEncoder passwordEncoder;
 
+
+    @Autowired
     public UserServiceImpl(UserRepository userRepository, ModelMapper modelMapper,
-                           AnimalRepository animalRepository, CommentService commentService, WalkHistoryRepository walkHistoryRepository) {
+                           AnimalRepository animalRepository, CommentService commentService, WalkHistoryRepository walkHistoryRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
         this.animalRepository = animalRepository;
         this.commentService = commentService;
         this.walkHistoryRepository = walkHistoryRepository;
 
+
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -53,29 +62,29 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findById(id).orElse(null);
         return modelMapper.map(user, UserIdViewModel.class);
     }
-
-    @Override
-    public void seedUsers() {
-        User user1 = new User()
-                .setUsername("Admin")
-                .setEmail("admin@admin.bg")
-                .setPassword("asdasd")
-                .setAdmin("admin");
-
-        User user2 = new User()
-                .setUsername("User")
-                .setEmail("user@user.bg")
-                .setPassword("asdasd")
-                .setAdmin("user");
-
-        User user3 = new User()
-                .setUsername("User2")
-                .setEmail("user@user.bg")
-                .setPassword("asdasd")
-                .setAdmin("user");
-
-        userRepository.saveAll(List.of(user1, user2, user3));
-    }
+//
+//    @Override
+//    public void seedUsers() {
+//        User user1 = new User()
+//                .setUsername("Admin")
+//                .setEmail("admin@admin.bg")
+//                .setPassword("asdasd")
+//                .setAdmin("admin");
+//
+//        User user2 = new User()
+//                .setUsername("User")
+//                .setEmail("user@user.bg")
+//                .setPassword("asdasd")
+//                .setAdmin("user");
+//
+//        User user3 = new User()
+//                .setUsername("User2")
+//                .setEmail("user@user.bg")
+//                .setPassword("asdasd")
+//                .setAdmin("user");
+//
+//        userRepository.saveAll(List.of(user1, user2, user3));
+//    }
 
     @Override
     public List<UserAvailableViewModel> findAllAvailable() {
@@ -103,8 +112,10 @@ public class UserServiceImpl implements UserService {
 //            return;
 //        }
 
+        assert animal != null;
         animal.setAvailability(!animal.isAvailability());
         animal.setUser(user);
+        assert user != null;
         user.setAnimal(animal);
 
         animalRepository.save(animal);
@@ -120,8 +131,10 @@ public class UserServiceImpl implements UserService {
         walkHistory.setAnimal(animal);
         walkHistory.setLocalDate(LocalDate.now());
 
+        assert animal != null;
         animal.setAvailability(!animal.isAvailability());
         animal.setUser(null);
+        assert user != null;
         user.setAnimal(null);
 
         animalRepository.save(animal);
@@ -144,6 +157,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public void save(RegisterServiceModel newUser) {
         User user = modelMapper.map(newUser, User.class);
+        String encodedPassword = this.passwordEncoder.encode(user.getPassword());
+        user.setPassword(encodedPassword);
+
+
+
+
+
+
 
 
         userRepository.save(user);
