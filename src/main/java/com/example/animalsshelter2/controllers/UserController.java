@@ -1,20 +1,24 @@
 package com.example.animalsshelter2.controllers;
 
+import com.example.animalsshelter2.config.JwtUtils;
 import com.example.animalsshelter2.models.Comment;
 import com.example.animalsshelter2.models.User;
 import com.example.animalsshelter2.models.WalkHistory;
 import com.example.animalsshelter2.models.services.CommentServiceModel;
+import com.example.animalsshelter2.models.services.UserAuthServiceModel;
 import com.example.animalsshelter2.models.views.CommentViewModel;
 import com.example.animalsshelter2.models.views.UserAvailableViewModel;
 import com.example.animalsshelter2.models.views.WalkHistoryViewModel;
 import com.example.animalsshelter2.services.UserService;
 import com.example.animalsshelter2.services.WalkHistoryService;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 //import org.springframework.security.core.Authentication;
 //import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
@@ -27,15 +31,32 @@ public class UserController {
     private final UserService userService;
     private final ModelMapper modelMapper;
     private final WalkHistoryService walkHistoryService;
+    private final UserDetailsService userDetailsService;
+    private final JwtUtils jwtUtils;
+    private final AuthenticationManager authenticationManager;
 
-    public UserController(UserService userService, ModelMapper modelMapper, WalkHistoryService walkHistoryService) {
+    public UserController(UserService userService, ModelMapper modelMapper, WalkHistoryService walkHistoryService, UserDetailsService userDetailsService, JwtUtils jwtUtils, AuthenticationManager authenticationManager) {
         this.userService = userService;
         this.modelMapper = modelMapper;
         this.walkHistoryService = walkHistoryService;
+        this.userDetailsService = userDetailsService;
+        this.jwtUtils = jwtUtils;
+        this.authenticationManager = authenticationManager;
     }
 
-
-
+    @PostMapping("/login")
+    public ResponseEntity<String> authenticate(
+            @RequestBody UserAuthServiceModel request
+    ) {
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
+        );
+        final UserDetails user = userDetailsService.loadUserByUsername(request.getEmail());
+        if (user != null) {
+            return ResponseEntity.ok(jwtUtils.generateToken(user));
+        }
+        return ResponseEntity.status(400).body("Some error");
+    }
 
     @GetMapping("/available")
     public List<UserAvailableViewModel> allAvailable() {
@@ -45,6 +66,11 @@ public class UserController {
     @GetMapping("/all")
     public List<UserAvailableViewModel> findAllUsers() {
         return userService.findAllUsers();
+    }
+
+    @GetMapping("/login")
+    public String showLogin() {
+        return "login.html";
     }
 
     @GetMapping("/comments/{id}")
