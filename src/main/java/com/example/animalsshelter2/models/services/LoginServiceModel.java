@@ -5,15 +5,14 @@ public class LoginServiceModel {
 
     private String password;
 
-    private String role;
 
     public LoginServiceModel() {
     }
 
-    public LoginServiceModel(String email, String password, String role) {
+    public LoginServiceModel(String email, String password) {
         this.email = email;
         this.password = password;
-        this.role = role;
+
     }
 
     public String getEmail() {
@@ -32,11 +31,5 @@ public class LoginServiceModel {
         this.password = password;
     }
 
-    public String getRole() {
-        return role;
-    }
 
-    public void setRole(String role) {
-        this.role = role;
-    }
 }
