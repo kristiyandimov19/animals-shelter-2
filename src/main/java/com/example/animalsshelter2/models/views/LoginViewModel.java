@@ -13,8 +13,6 @@ public class LoginViewModel {
     private String email;
 
     @NotBlank
-    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$", message = "Password should be at least  contains 1 upper letter,digit and special symbol.")
-
     private String password;
 
     public LoginViewModel() {

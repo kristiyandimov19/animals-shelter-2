@@ -49,6 +49,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
+    @Override
     public User findUserById(Long id) {
         return userRepository.findById(id).orElse(null);
     }
@@ -155,8 +160,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public void save(RegisterServiceModel newUser) {
         User user = modelMapper.map(newUser, User.class);
-
-
+        user.setPassword(passwordEncoder.encode(newUser.getPassword()));
+        UserRole userRole = userRoleRepository.findById(2L).orElseThrow();
+        user.setRole(userRole);
         userRepository.save(user);
     }
 

@@ -13,6 +13,8 @@ public interface UserService {
 
     User findByName(String name);
 
+    User findByEmail(String email);
+
     User findUserById(Long id);
 
     UserIdViewModel findById(Long id);

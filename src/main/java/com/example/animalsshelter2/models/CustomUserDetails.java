@@ -1,14 +1,13 @@
 package com.example.animalsshelter2.models;
 
 import com.example.animalsshelter2.repositories.UserRepository;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
+import java.util.Collections;
 
 @Component
 public class CustomUserDetails implements UserDetailsService {
@@ -21,23 +20,12 @@ public class CustomUserDetails implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-
         User user = userRepository.findByEmail(email);
 
-        return mapToUserDetails(user);
-    }
-
-    private UserDetails mapToUserDetails(User user) {
-        List<GrantedAuthority> authority = List.of(map(user.getRole()));
-
         return new org.springframework.security.core.userdetails.User(
-                user.getEmail(),
+                email,
                 user.getPassword(),
-                authority
+                Collections.singleton(new SimpleGrantedAuthority(user.getRole().getRole().toString()))
         );
-    }
 
-    private GrantedAuthority map(UserRole userRole) {
-        return new SimpleGrantedAuthority(userRole.getRole().name());
-    }
-}
+    }}

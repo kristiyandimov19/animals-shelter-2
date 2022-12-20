@@ -13,11 +13,19 @@ public class RegistrationViewModel {
     @Email(message = "This is not a valid mail.Please try again.")
     private String email;
 
-
+    private String username;
 
     public RegistrationViewModel() {
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public RegistrationViewModel setUsername(String username) {
+        this.username = username;
+        return this;
+    }
 
     public String getPassword() {
         return password;

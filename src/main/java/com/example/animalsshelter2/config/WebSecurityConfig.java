@@ -3,6 +3,7 @@ package com.example.animalsshelter2.config;
 import com.example.animalsshelter2.models.CustomUserDetails;
 import com.example.animalsshelter2.models.services.UserAuthServiceModel;
 import com.example.animalsshelter2.repositories.UserRepository;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -54,21 +55,36 @@ public class WebSecurityConfig {
                     .authorizeHttpRequests()
                     .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                     .requestMatchers("/bootstrap/**").permitAll()
-                    .requestMatchers("/", "/index.html", "/login.html", "/register.html", "/users/login")
+                    .requestMatchers("/",
+                            "/index.html",
+                            "/login.html",
+                            "/register.html",
+                            "/login",
+                            "/register",
+                            "/animal/all",
+                            "/info")
                     .permitAll()
-                    .anyRequest()
-                    .authenticated()
+                    .requestMatchers("/users/**", "/user_history.html", "/history.html")
+                    .hasRole("USER")
+                    .requestMatchers( "/animal/**",
+                            "/add_animal.html",
+                            "/adopt.html",
+                            "/return_from_a_walk.html",
+                            "/take_on_a_walk.html",
+                            "/walk.html")
+                    .hasRole("ADMIN")
+                    .and()
+                    .userDetailsService(customUserDetails)
+                    .exceptionHandling()
+                    .authenticationEntryPoint(
+                            (request, response, authException) ->
+                                    response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized")
+                    )
                     .and()
                     .sessionManagement()
-                    .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
-                    .and()
-                    .authenticationProvider(authenticationProvider())
-                    .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
-                    .formLogin()
-                    .loginPage("/login.html")
-                    .usernameParameter("email")
-                    .passwordParameter("password")
-                    .defaultSuccessUrl("/index.html");
+                    .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED);
+
+            http.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
             return http.build();
     }
@@ -77,19 +93,6 @@ public class WebSecurityConfig {
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
     }
-    @Bean
-    public AuthenticationProvider authenticationProvider() {
-        final DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
 
-        authenticationProvider.setUserDetailsService(customUserDetails);
-        authenticationProvider.setPasswordEncoder(passwordEncoder);
-
-        return authenticationProvider;
-    }
-
-    @Bean
-    public UserDetailsService userDetailsService() {
-        return new CustomUserDetails(userRepository);
-    }
 
 }

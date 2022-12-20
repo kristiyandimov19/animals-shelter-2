@@ -31,31 +31,12 @@ public class UserController {
     private final UserService userService;
     private final ModelMapper modelMapper;
     private final WalkHistoryService walkHistoryService;
-    private final UserDetailsService userDetailsService;
-    private final JwtUtils jwtUtils;
-    private final AuthenticationManager authenticationManager;
 
-    public UserController(UserService userService, ModelMapper modelMapper, WalkHistoryService walkHistoryService, UserDetailsService userDetailsService, JwtUtils jwtUtils, AuthenticationManager authenticationManager) {
+    public UserController(UserService userService, ModelMapper modelMapper, WalkHistoryService walkHistoryService) {
         this.userService = userService;
         this.modelMapper = modelMapper;
         this.walkHistoryService = walkHistoryService;
-        this.userDetailsService = userDetailsService;
-        this.jwtUtils = jwtUtils;
-        this.authenticationManager = authenticationManager;
-    }
 
-    @PostMapping("/login")
-    public ResponseEntity<String> authenticate(
-            @RequestBody UserAuthServiceModel request
-    ) {
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
-        );
-        final UserDetails user = userDetailsService.loadUserByUsername(request.getEmail());
-        if (user != null) {
-            return ResponseEntity.ok(jwtUtils.generateToken(user));
-        }
-        return ResponseEntity.status(400).body("Some error");
     }
 
     @GetMapping("/available")
