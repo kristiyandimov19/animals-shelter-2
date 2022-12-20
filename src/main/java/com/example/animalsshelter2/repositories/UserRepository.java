@@ -2,6 +2,7 @@ package com.example.animalsshelter2.repositories;
 
 import com.example.animalsshelter2.models.Animal;
 import com.example.animalsshelter2.models.User;
+import com.example.animalsshelter2.models.UserRole;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -16,9 +17,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     User  findByEmail(String email);
 
-    @Query("SELECT u FROM User u WHERE u.role.id = 2")
-    List<User> findAllUsers();
+    List<User> findAllByRole(UserRole role);
 
-    @Query("SELECT u FROM User u WHERE u.animal IS NULL AND u.role ='user'")
-    List<User> findAllAvailable();
+    List<User> findAllByAnimalIsNullAndRole(UserRole userRole);
 }

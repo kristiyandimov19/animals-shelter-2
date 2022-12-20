@@ -49,11 +49,6 @@ public class UserController {
         return userService.findAllUsers();
     }
 
-    @GetMapping("/login")
-    public String showLogin() {
-        return "login.html";
-    }
-
     @GetMapping("/comments/{id}")
     public List<CommentViewModel> getUserComments(@PathVariable Long id) {
         User user = userService.findUserById(id);

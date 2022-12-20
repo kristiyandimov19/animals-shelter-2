@@ -52,27 +52,35 @@ public class WebSecurityConfig {
             http
                     .csrf()
                     .disable()
+                    .httpBasic()
+                    .disable()
+                    .cors()
+                    .and()
                     .authorizeHttpRequests()
                     .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                    .requestMatchers("/bootstrap/**").permitAll()
                     .requestMatchers("/",
                             "/index.html",
                             "/login.html",
-                            "/register.html",
+                            "/registration.html",
                             "/login",
                             "/register",
                             "/animal/all",
                             "/info")
                     .permitAll()
-                    .requestMatchers("/users/**", "/user_history.html", "/history.html")
-                    .hasRole("USER")
-                    .requestMatchers( "/animal/**",
+                    .requestMatchers( "/users/available",
+                            "/users/all",
+                            "/users/comments/**",
+                            "/users/returnFromWalk/**",
+                            "/users/takeOnWalk/**",
+                            "/animal/**",
                             "/add_animal.html",
                             "/adopt.html",
                             "/return_from_a_walk.html",
                             "/take_on_a_walk.html",
-                            "/walk.html")
-                    .hasRole("ADMIN")
+                            "/walk.html",
+                            "/user_history.html")
+                    .hasAuthority("ADMIN")
+                    .requestMatchers("/bootstrap/**").permitAll()
                     .and()
                     .userDetailsService(customUserDetails)
                     .exceptionHandling()
@@ -82,10 +90,9 @@ public class WebSecurityConfig {
                     )
                     .and()
                     .sessionManagement()
-                    .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED);
+                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
             http.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
-
             return http.build();
     }
 

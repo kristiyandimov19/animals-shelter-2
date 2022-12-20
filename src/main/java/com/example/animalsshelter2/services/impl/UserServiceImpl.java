@@ -81,13 +81,13 @@ public class UserServiceImpl implements UserService {
         User user2 = new User()
                 .setUsername("User")
                 .setEmail("user@user.bg")
-                .setPassword("asdasd")
+                .setPassword(passwordEncoder.encode("asdasd"))
                 .setRole(userRole);
 
         User user3 = new User()
                 .setUsername("User2")
                 .setEmail("user2@user.bg")
-                .setPassword("asdasd")
+                .setPassword(passwordEncoder.encode("asdasd"))
                 .setRole(userRole);
 
         userRepository.saveAll(List.of(user1, user2, user3));
@@ -95,7 +95,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserAvailableViewModel> findAllAvailable() {
-        List<User> users = userRepository.findAllAvailable();
+        UserRole userRole = userRoleRepository.findByRole(UserRoleEnum.USER);
+
+        List<User> users = userRepository.findAllByAnimalIsNullAndRole(userRole);
 
         return users.stream()
                 .map(user -> modelMapper.map(user, UserAvailableViewModel.class))
@@ -104,7 +106,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserAvailableViewModel> findAllUsers() {
-        return userRepository.findAllUsers()
+        UserRole userRole = userRoleRepository.findByRole(UserRoleEnum.USER);
+
+        return userRepository.findAllByRole(userRole)
                 .stream()
                 .map(user -> modelMapper.map(user, UserAvailableViewModel.class))
                 .collect(Collectors.toList());
