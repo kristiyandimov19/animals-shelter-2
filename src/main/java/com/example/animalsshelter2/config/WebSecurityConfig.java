@@ -67,6 +67,8 @@ public class WebSecurityConfig {
                             "/animal/all",
                             "/info")
                     .permitAll()
+                    .requestMatchers("/users/walks/**", "/history.html")
+                    .hasAuthority("USER")
                     .requestMatchers( "/users/available",
                             "/users/all",
                             "/users/comments/**",
