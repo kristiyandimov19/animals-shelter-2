@@ -1,9 +1,11 @@
 package com.example.animalsshelter2.controllers;
 
 import com.example.animalsshelter2.config.JwtUtils;
+import com.example.animalsshelter2.models.User;
 import com.example.animalsshelter2.models.services.LoginServiceModel;
 import com.example.animalsshelter2.models.services.RegisterServiceModel;
 import com.example.animalsshelter2.services.UserService;
+import com.example.animalsshelter2.services.impl.UserServiceImpl;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
@@ -32,15 +34,14 @@ public class LoginController {
         this.passwordEncoder = passwordEncoder;
     }
 
-    @GetMapping("/info")
-    public Collection<? extends GrantedAuthority> getUserDetails() {
-        return SecurityContextHolder.getContext().getAuthentication().getAuthorities();
-    }
-
     @PostMapping("/register")
     public Map<String, Object> register(@RequestBody RegisterServiceModel registerServiceModel) {
         userService.save(registerServiceModel);
-        String token = jwtUtils.generateToken(registerServiceModel.getEmail());
+
+        //Tezi 2 reda sum pipal
+        User user = userService.findByEmail(registerServiceModel.getEmail());
+        String token = jwtUtils.generateToken(user.getRole(),user.getEmail(),user.getId());
+
         return Collections.singletonMap("jwt-token", token);
     }
 
@@ -53,7 +54,9 @@ public class LoginController {
 
             authenticationManager.authenticate(authInputToken);
 
-            String token = jwtUtils.generateToken(loginServiceModel.getEmail());
+            //Tezi 2 reda sum pipal
+            User user = userService.findByEmail(loginServiceModel.getEmail());
+            String token = jwtUtils.generateToken(user.getRole(),user.getEmail(),user.getId());
 
             return Collections.singletonMap("jwt-token", token);
         } catch (AuthenticationException authExc) {

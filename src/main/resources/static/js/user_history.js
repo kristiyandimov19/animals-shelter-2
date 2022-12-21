@@ -1,14 +1,38 @@
+async function GET_Comments(user_id){
+    let url1 = "http://localhost:8080/users/comments/"+user_id;
+    let res = await fetch(url1, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem("token"),
+        },
+    });
+    if(res.ok){
+        let text = await res.text().then();
+        const obj = JSON.parse(text);
+        return obj;
+    }
+}
+
+async  function GET_Users(){
+    let url1 = 'http://localhost:8080/users/all';
+    let res = await fetch(url1, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem("token"),
+        },
+    });
+    if(res.ok){
+        let text = await res.text().then();
+        const obj = JSON.parse(text);
+        return obj;
+    }
+}
+
 function setPage(){
-
     //Get All Users
-    const Http = new XMLHttpRequest();
-    const url = 'http://localhost:8080/users/all';
-    Http.open("GET", url);
-    Http.send();
-    Http.getResponseHeader("Content-type");
-
-    Http.onload = function() {
-        const obj = JSON.parse(this.responseText);
+    GET_Users().then( obj =>{
         Object.entries(obj).forEach(([key,value]) => {
 
             const a = document.createElement("a");
@@ -23,7 +47,7 @@ function setPage(){
 
             document.getElementById("users_list").appendChild(li);
         });
-    }
+    });
 }
 
 function showHistory(user_id) {
@@ -34,20 +58,9 @@ function showHistory(user_id) {
 }
 
 function showComments(user_id){
-    const Http = new XMLHttpRequest();
-    const url = "http://localhost:8080/users/comments/"+user_id;
-    Http.open("GET", url);
-    Http.send();
-    Http.getResponseHeader("Content-type");
-
-    Http.onload = function() {
-        //Get all the animals in json
-        const obj = JSON.parse(this.responseText);
-
-
-        //Loop all the animals
+    GET_Comments(user_id).then( obj =>{
         Object.entries(obj).forEach(([key,value]) => {
-
+            console.log(obj);
             let h5 = document.createElement("h5");
             h5.classList.add("card-title");
             h5.innerText = value.author;
@@ -66,5 +79,5 @@ function showComments(user_id){
 
             document.getElementById("comment-history").appendChild(li);
         });
-    }
+    });
 }

@@ -2,59 +2,70 @@ async function PUT_takeAnimalOnWalk(animal_id) {
 
     let url1 = "http://localhost:8080/users/takeOnWalk/" + document.getElementById("FormSelector").value + "/" + animal_id;
 
-    await fetch(url1, {
+    let res = await fetch(url1, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem("token"),
         },
     });
+
+    if (res.ok){
+        return "OK";
+    }
+    else{
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Something went wrong!',
+        }).then( data =>{
+            window.location.replace("../html/index.html")
+        });
+    }
 }
 
+async function GET_allAvailableUsers(){
+    let url1 = 'http://localhost:8080/users/available';
+    let res = await fetch(url1, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem("token"),
+        },
+    });
+    if(res.ok){
+        let text = await res.text().then();
+        const obj = JSON.parse(text);
+        return obj;
+    }
+}
 function setPage(){
     //Get Free Users
-    const Http = new XMLHttpRequest();
-    const url = 'http://localhost:8080/users/available';
-    Http.open("GET", url);
-    Http.send();
-    Http.getResponseHeader("Content-type");
-
-    Http.onload = function() {
-        const obj = JSON.parse(this.responseText);
-
+    GET_allAvailableUsers().then( obj =>{
         Object.entries(obj).forEach(([key,value]) => {
 
             const option = document.createElement("option");
             option.innerText= value.username;
-            opoptionti.value = value.id;
+            option.value = value.id;
 
             document.getElementById("FormSelector").appendChild(option);
         });
-    }
+    })
 }
 
 function takeAnimalOnWalk() {
     let animal_id =new URLSearchParams(window.location.search).get("animal_id");
     //Check if animal is available
-    const Http1 = new XMLHttpRequest();
 
-    const url1 = "http://localhost:8080/animal/isAvailable/"+animal_id;
-    Http1.open("GET", url1);
-    Http1.send();
-    Http1.getResponseHeader("Content-type");
-
-
-    Http1.onload = function() {
-        const obj = JSON.parse(this.responseText);
-        if(obj.availability){
-            PUT_takeAnimalOnWalk(animal_id).then( ()=>{
-                window.location.replace("./index.html");
+    GET_Check(animal_id).then( data =>{
+        if(data ==="OK"){
+            PUT_takeAnimalOnWalk(animal_id).then( data=>{
+                if(data === "OK")  window.location.replace("./index.html");
+                else console.log(data);
             });
         }else{
-            console.log("Error");
-
+            window.location.replace("./index.html");
         }
-    }
 
-
-
+    });
 }

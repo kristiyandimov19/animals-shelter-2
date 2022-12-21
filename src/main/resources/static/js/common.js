@@ -1,4 +1,27 @@
- function setMenu(){
+async function GET_Check(animal_id){
+    let url1 = "http://localhost:8080/animal/isAvailable/"+animal_id;
+
+    let res = await fetch(url1, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem("token"),
+        },
+    });
+
+    if(res.ok){
+        let text = await res.text().then();
+        const obj = JSON.parse(text);
+        if(obj.availability){
+            return "OK";
+        }
+        else {
+            return "ERROR";
+        }
+    }
+}
+
+function setMenu(){
      if (localStorage.getItem('auth') === "guest") {
          let menu_items = document.getElementsByClassName("nav-link");
 
@@ -19,6 +42,34 @@
  }
 
  function logout(){
-     localStorage.setItem('auth','guest');
-     localStorage.setItem('user_id','0');
+
+     Swal.fire({
+         title: 'Are you sure you want to log off?',
+
+         showCancelButton: true,
+         confirmButtonColor: '#3085d6',
+         cancelButtonColor: '#d33',
+         confirmButtonText: 'Yes!',
+         cancelButtonText: 'No'
+     }).then((result) => {
+         if (result.isConfirmed) {
+             localStorage.setItem('auth','guest');
+             localStorage.setItem('user_id','-1');
+             localStorage.removeItem("token");
+             window.location.replace("../html/index.html");
+         }
+     });
+
+ }
+
+ function parseJwt (token) {
+    console.log(token.split('.')[1]);
+
+    var base64Url = token.split('.')[1];
+    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
+         return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+     }).join(''));
+
+     return JSON.parse(jsonPayload);
  }

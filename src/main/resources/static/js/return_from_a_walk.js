@@ -10,6 +10,7 @@ async function PUT_addComment(user_id){
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem("token"),
         },
         body: JSON.stringify(data)
     });
@@ -17,7 +18,13 @@ async function PUT_addComment(user_id){
     if (res.ok) {
         return "OK";
     } else {
-        return `HTTP error: ${res.status}`;
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Something went wrong!',
+        }).then( data =>{
+            window.location.replace("../html/index.html")
+        });
     }
 }
 function addComment(){

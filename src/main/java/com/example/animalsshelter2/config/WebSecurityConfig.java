@@ -59,28 +59,23 @@ public class WebSecurityConfig {
                     .authorizeHttpRequests()
                     .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                     .requestMatchers("/",
-                            "/index.html",
-                            "/login.html",
-                            "/registration.html",
+                            "/html/**",
                             "/login",
                             "/register",
                             "/animal/all",
                             "/info")
                     .permitAll()
-                    .requestMatchers("/users/walks/**", "/history.html")
-                    .hasAuthority("USER")
+                    .requestMatchers( "/users/walks/**")
+                    .hasAnyAuthority("USER","ADMIN")
                     .requestMatchers( "/users/available",
                             "/users/all",
                             "/users/comments/**",
+                            "/users/comment/add",
+                            "/users/walks/**",
                             "/users/returnFromWalk/**",
                             "/users/takeOnWalk/**",
                             "/animal/**",
-                            "/add_animal.html",
-                            "/adopt.html",
-                            "/return_from_a_walk.html",
-                            "/take_on_a_walk.html",
-                            "/walk.html",
-                            "/user_history.html")
+                            "/animal/delete/**")
                     .hasAuthority("ADMIN")
                     .requestMatchers("/bootstrap/**").permitAll()
                     .and()

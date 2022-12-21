@@ -6,6 +6,8 @@ import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.auth0.jwt.JWT;
+import com.example.animalsshelter2.models.UserRole;
+import com.example.animalsshelter2.models.enums.UserRoleEnum;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -21,13 +23,32 @@ public class JwtUtils {
     @Value("secret")
     private String secret;
 
-    public String generateToken(String email) throws IllegalArgumentException, JWTCreationException {
-        return JWT.create()
-                .withSubject("User Details")
-                .withClaim("email", email)
-                .withIssuedAt(new Date())
-                .withIssuer("animals-shelter-2/project")
-                .sign(Algorithm.HMAC256(secret));
+    //Tazi funkciq sum pipal
+    public String generateToken(UserRole role, String email, Long id) throws IllegalArgumentException, JWTCreationException {
+
+        if(role.getRole() == UserRoleEnum.ADMIN){
+            return JWT.create()
+                    .withSubject("User Details")
+                    .withClaim("auth", "admin")
+                    .withClaim("email", email)
+                    .withClaim("user_id",id)
+                    .withIssuedAt(new Date())
+                    .withExpiresAt(new Date(System.currentTimeMillis() + 1000 * 60 * 60))
+                    .withIssuer("animals-shelter-2/project")
+                    .sign(Algorithm.HMAC256(secret));
+        }
+        else{
+            return JWT.create()
+                    .withSubject("User Details")
+                    .withClaim("auth", "user")
+                    .withClaim("email", email)
+                    .withClaim("user_id",id)
+                    .withIssuedAt(new Date())
+                    .withExpiresAt(new Date(System.currentTimeMillis() + 1000 * 60 * 60))
+                    .withIssuer("animals-shelter-2/project")
+                    .sign(Algorithm.HMAC256(secret));
+        }
+
     }
 
     public String validateTokenAndRetrieveSubject(String token)throws JWTVerificationException {

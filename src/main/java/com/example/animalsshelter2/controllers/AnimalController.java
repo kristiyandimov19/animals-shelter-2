@@ -8,6 +8,8 @@ import com.example.animalsshelter2.models.views.UserIdViewModel;
 import com.example.animalsshelter2.services.AnimalService;
 import com.example.animalsshelter2.services.UserService;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -37,11 +39,12 @@ public class AnimalController {
         return userService.findById(userId);
     }
 
+
+
     @PostMapping("/create")
     public void createAnimal(@RequestBody AnimalServiceModel animalServiceModel) {
 
         animalService.createAnimal(animalServiceModel);
-
     }
 
     @GetMapping("/isAvailable/{id}")

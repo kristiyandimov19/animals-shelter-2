@@ -1,5 +1,5 @@
 async function POST_register(){
-    let url = 'http://localhost:8080/reg';
+    let url = 'http://localhost:8080/register';
     let data = {
         'username': document.getElementById("username").value,
         'password': document.getElementById("password").value,
@@ -17,7 +17,13 @@ async function POST_register(){
     if (res.ok) {
         return "OK"
     } else {
-        return `HTTP error: ${res.status}`;
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Something went wrong!',
+        }).then( data =>{
+            window.location.replace("../html/index.html")
+        });
     }
 }
 
@@ -68,7 +74,6 @@ function register(){
                     window.location.replace("./index.html")
                 }
                 else{
-                    //Check errors
                     console.log(data);
                 }
             });

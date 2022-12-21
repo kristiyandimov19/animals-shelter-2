@@ -2,46 +2,95 @@ async function PUT_returnFromWalk(user_id,animal_id) {
 
     let url1 = "http://localhost:8080/users/returnFromWalk/" + user_id + "/" + animal_id;
 
-    await fetch(url1, {
+    let res = await fetch(url1, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem("token"),
         },
     });
+
+    if(res.ok){
+        return "OK";
+    }
+    else {
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Something went wrong!',
+        }).then( data =>{
+            window.location.replace("../html/index.html")
+        });
+    }
+}
+
+async function GET_walker(animal_id){
+    let url1 = "http://localhost:8080/animal/volunteer/"+animal_id;
+
+    let res = await fetch(url1, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem("token"),
+        },
+    });
+
+    if(res.ok){
+        let text = await res.text().then();
+        const obj = JSON.parse(text);
+        return obj.id;
+    }
 }
 
 async function DELETE_adopt(animal_id) {
 
     let url1 = "http://localhost:8080/animal/delete/" + animal_id;
 
-    await fetch(url1, {
+    let res = await fetch(url1, {
         method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem("token"),
+        },
+    });
+
+    if(res.ok){
+        return "OK";
+    }
+    else {
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Something went wrong!',
+        }).then( data =>{
+            window.location.replace("../html/index.html")
+        });
+    }
+}
+
+async function GET_allAnimals(){
+    let url1 = 'http://localhost:8080/animal/all';
+    let res = await fetch(url1, {
+        method: 'GET',
         headers: {
             'Content-Type': 'application/json',
         },
     });
+    if(res.ok){
+        let text = await res.text().then();
+        const obj = JSON.parse(text);
+        return obj;
+    }
 }
 
 function setPage() {
-    //Get All Animals
-    const Http = new XMLHttpRequest();
-    const url = 'http://localhost:8080/animal/all';
-    Http.open("GET", url);
-    Http.send();
-    Http.getResponseHeader("Content-type");
-
-    Http.onload = function() {
-        //Get all the animals in json
-        const obj = JSON.parse(this.responseText);
-
-
-        //Loop all the animals
+    GET_allAnimals().then(obj =>{
         Object.entries(obj).forEach(([key,value]) => {
 
             //Create list object
             const li = document.createElement("li");
             li.classList.add("list-group-item");
-            if(key%2==0){
+            if(key%2 === 0){
                 li.classList.add("list-group-item-light");
             }
             else{
@@ -54,7 +103,24 @@ function setPage() {
                 p.innerText = value.name + " - " + value.type + " - Available";
             }
             else p.innerText = value.name + " - " + value.type + " - On a walk";
-            li.appendChild(p);
+            p.classList.add("inline");
+
+            const img = document.createElement("img");
+            if(value.type === "Dog")
+                img.setAttribute("src","../images/icons8-dog-48.png");
+            else if(value.type === "Cat")
+                img.setAttribute("src","../images/icons8-cat-face-48.png");
+            else if(value.type === "Cow")
+                img.setAttribute("src","../images/icons8-cow-48.png");
+            else if(value.type === "Sheep")
+                img.setAttribute("src","../images/icons8-lamb-48.png");
+            else
+                img.setAttribute("src","../images/icons8-european-dragon-48.png");
+
+            const div = document.createElement("div");
+            div.appendChild(img);
+            div.appendChild(p);
+            li.appendChild(div);
 
             //Create buttons
             if(localStorage.getItem('auth') === "admin"){
@@ -91,7 +157,7 @@ function setPage() {
                     a_adopt.style.display="none";
                 }
 
-                p.after(a_walk);
+                div.after(a_walk);
                 a_walk.after(a_return);
                 a_return.after(a_adopt);
             }
@@ -99,81 +165,60 @@ function setPage() {
             //Add object in the existing html code
             document.getElementById("animals_list").appendChild(li);
         });
-    }
-
+    })
+    //Get All Animals
 }
 
 function takeOnAWalk(animal_id) {
 
-    const Http1 = new XMLHttpRequest();
-
-    const url1 = "http://localhost:8080/animal/isAvailable/"+animal_id;
-    Http1.open("GET", url1);
-    Http1.send();
-    Http1.getResponseHeader("Content-type");
-
-
-    Http1.onload = function() {
-        const obj = JSON.parse(this.responseText);
-        if(obj.availability){
+    GET_Check(animal_id).then( data =>{
+        if(data == "OK"){
             window.location.replace("./take_on_a_walk.html?animal_id="+animal_id);
-        }else{
+        }
+        else {
             window.location.replace("./index.html");
         }
-    }
+    });
 }
 
 function returnFromAWalk(animal_id){
-    const Http1 = new XMLHttpRequest();
-
-    const url1 = "http://localhost:8080/animal/volunteer/"+animal_id;
-    Http1.open("GET", url1);
-    Http1.send();
-    Http1.getResponseHeader("Content-type");
-
-    Http1.onload = function() {
-        const obj = JSON.parse(this.responseText);
-        PUT_returnFromWalk(obj.id,animal_id).then(()=>{
-            window.location.replace("./return_from_a_walk.html?user_id="+obj.id);
-        })
-    }
+    GET_walker(animal_id).then( id =>{
+        PUT_returnFromWalk(id,animal_id).then(data=>{
+            if(data === "OK") window.location.replace("./return_from_a_walk.html?user_id="+id);
+            else console.log(data);
+        });
+    });
 }
 
 function adopt(animal_id){
 
-    const Http1 = new XMLHttpRequest();
-
-    const url1 = "http://localhost:8080/animal/isAvailable/"+animal_id;
-    Http1.open("GET", url1);
-    Http1.send();
-    Http1.getResponseHeader("Content-type");
-
-
-    Http1.onload = function() {
-        const obj = JSON.parse(this.responseText);
-        if(obj.availability){
-            Swal.fire({
-                title: 'Are you sure?',
-
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-
+    GET_Check(animal_id).then( data =>{
+        if (data ==="OK"){
                     Swal.fire({
-                        imageUrl: '../img/yesss-bye-beach.gif',
-                        confirmButtonText: 'OK!'
-                    }).then(() =>{
-                        DELETE_adopt(animal_id).then(()=>{
-                            window.location.replace("./index.html");
-                        })
+                        title: 'Are you sure?',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes!',
+                        cancelButtonText: 'No'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            DELETE_adopt(animal_id).then( data =>{
+                                if(data == "OK"){
+                                    Swal.fire({
+                                        imageUrl: '../images/yesss-bye-beach.gif',
+                                        confirmButtonText: 'OK!'
+                                    }).then( () =>{
+                                        window.location.replace("./index.html");
+                                    })
+                                }
+                            })
+
+                        }
                     })
-                }
-            })
-        }else{
+        }
+        else{
             window.location.replace("./index.html");
         }
-    }
+    })
 }

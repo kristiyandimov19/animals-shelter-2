@@ -3,8 +3,23 @@
 body {
     background-image: url("../images/cat-dog-paws-seamless-pattern-background-vet-website-animal-shelter-promotional-materials-repeat-vector-illustration-186671469.jpeg");
 }
+
 .logo_style{
     margin-left: 16px;
+}
+
+.nav-item{
+    padding: 0 10px ;
+    transition: background-color 1s;
+}
+
+.nav-item:hover{
+    background-color: #a4a4a4;
+    transition: background-color 2.5s;
+}
+
+.navbar-toggler{
+    margin: 0 10px;
 }
 /*#################*/
 
@@ -19,6 +34,10 @@ body {
 }
 .list_style{
     padding: 50px 20px;
+}
+
+.right_margin{
+    margin-right: 5px;
 }
 /*#################*/
 
@@ -77,7 +96,16 @@ body {
 }
 /*#################*/
 
-.right_margin{
-    margin-right: 5px;
+
+
+
+.inline{
+    display: inline-block;
 }
+
+
+
+
+
+
 

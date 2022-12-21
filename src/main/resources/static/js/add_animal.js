@@ -1,5 +1,6 @@
 async function POST_addAnimal(){
     let url = 'http://localhost:8080/animal/create';
+
     let data = {
         'name': document.getElementById("name").value,
         'type': document.getElementById("type").value,
@@ -9,14 +10,28 @@ async function POST_addAnimal(){
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem("token"),
+
         },
         body: JSON.stringify(data)
     });
 
     if (res.ok) {
+
+        /*SHOW BODY*/
+        /*res.text().then( data =>{
+            console.log(data);
+        })*/
+
         return "OK"
     } else {
-        return `HTTP error: ${res.status}`;
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Something went wrong!',
+        }).then( data =>{
+            window.location.replace("../html/index.html")
+        });
     }
 }
 
@@ -41,7 +56,6 @@ function addAnimal(){
     POST_addAnimal().then(data=>{
         if(data == "OK") {
             window.location.replace("./index.html");
-
         }
         else console.log(data);
     });
