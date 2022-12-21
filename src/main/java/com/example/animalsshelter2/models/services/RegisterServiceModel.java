@@ -8,6 +8,7 @@ public class RegisterServiceModel {
 
 
     private String username;
+
     public RegisterServiceModel(String email, String password, String username) {
         this.email = email;
         this.password = password;

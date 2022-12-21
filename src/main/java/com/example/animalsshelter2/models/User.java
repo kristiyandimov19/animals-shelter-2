@@ -29,9 +29,18 @@ public class User extends BaseEntity {
     @Column(name = "password")
     private String password;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private UserRole role;
+    @Column(name = "role")
+    private String roles;
 
+    public String getRoles() {
+        return roles;
+    }
+
+    public void setRoles(String roles) {
+        this.roles = roles;
+    }
 
     @OneToOne
     @JoinColumn(name = "animal_id")

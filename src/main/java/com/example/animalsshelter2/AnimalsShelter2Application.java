@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@EntityScan("com.example.animalsshelter2.models")
+
 public class AnimalsShelter2Application {
 
     public static void main(String[] args) {

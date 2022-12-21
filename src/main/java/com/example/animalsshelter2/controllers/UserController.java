@@ -1,6 +1,7 @@
 package com.example.animalsshelter2.controllers;
 
 import com.example.animalsshelter2.config.JwtUtils;
+import com.example.animalsshelter2.exceptions.UnauthorizedOperationException;
 import com.example.animalsshelter2.models.Comment;
 import com.example.animalsshelter2.models.User;
 import com.example.animalsshelter2.models.WalkHistory;
@@ -11,15 +12,20 @@ import com.example.animalsshelter2.models.views.UserAvailableViewModel;
 import com.example.animalsshelter2.models.views.WalkHistoryViewModel;
 import com.example.animalsshelter2.services.UserService;
 import com.example.animalsshelter2.services.WalkHistoryService;
+import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
 //import org.springframework.security.core.Authentication;
 //import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.text.ParseException;
 import java.util.List;
@@ -48,21 +54,25 @@ public class UserController {
     public List<UserAvailableViewModel> findAllUsers() {
         return userService.findAllUsers();
     }
-
+    @Secured("ROLE_ADMIN")
     @GetMapping("/comments/{id}")
     public List<CommentViewModel> getUserComments(@PathVariable Long id) {
-        User user = userService.findUserById(id);
+        try {
+            User user = userService.findUserById(id);
 
-        List<Comment> last5comments = user.getComments();
+            List<Comment> last5comments = user.getComments();
 
-        if (user.getComments().size() > 5) {
-            last5comments = user.getComments()
-                    .subList(user.getComments().size() - 5, user.getComments().size());
+            if (user.getComments().size() > 5) {
+                last5comments = user.getComments()
+                        .subList(user.getComments().size() - 5, user.getComments().size());
+            }
+
+            return last5comments
+                    .stream().map(comment -> modelMapper.map(comment, CommentViewModel.class)
+                    ).toList();
+        }catch (EntityNotFoundException e){
+            throw  new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
-
-        return last5comments
-                .stream().map(comment -> modelMapper.map(comment, CommentViewModel.class)
-                ).toList();
     }
     @GetMapping("/walks/{id}")
     public List<WalkHistoryViewModel> getWalkHistory(@PathVariable Long id) throws ParseException {

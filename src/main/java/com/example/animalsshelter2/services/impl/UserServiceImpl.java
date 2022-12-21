@@ -12,6 +12,7 @@ import com.example.animalsshelter2.repositories.WalkHistoryRepository;
 import com.example.animalsshelter2.services.CommentService;
 import com.example.animalsshelter2.services.UserService;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -27,20 +28,22 @@ public class UserServiceImpl implements UserService {
     private final AnimalRepository animalRepository;
     private final CommentService commentService;
     private final WalkHistoryRepository walkHistoryRepository;
-    private final UserRoleRepository userRoleRepository;
     private final PasswordEncoder passwordEncoder;
+    private final UserRoleRepository userRoleRepository;
 
+
+    @Autowired
     public UserServiceImpl(UserRepository userRepository, ModelMapper modelMapper,
-                           AnimalRepository animalRepository, CommentService commentService, WalkHistoryRepository walkHistoryRepository,
-                           UserRoleRepository userRoleRepository, PasswordEncoder passwordEncoder) {
+                           AnimalRepository animalRepository, CommentService commentService, WalkHistoryRepository walkHistoryRepository, PasswordEncoder passwordEncoder, UserRoleRepository userRoleRepository) {
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
         this.animalRepository = animalRepository;
         this.commentService = commentService;
         this.walkHistoryRepository = walkHistoryRepository;
 
-        this.userRoleRepository = userRoleRepository;
+
         this.passwordEncoder = passwordEncoder;
+        this.userRoleRepository = userRoleRepository;
     }
 
     @Override
@@ -63,35 +66,30 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findById(id).orElse(null);
         return modelMapper.map(user, UserIdViewModel.class);
     }
+//
+//    @Override
+//    public void seedUsers() {
+//        User user1 = new User()
+//                .setUsername("Admin")
+//                .setEmail("admin@admin.bg")
+//                .setPassword("asdasd")
+//                .setAdmin("admin");
+//
+//        User user2 = new User()
+//                .setUsername("User")
+//                .setEmail("user@user.bg")
+//                .setPassword("asdasd")
+//                .setAdmin("user");
+//
+//        User user3 = new User()
+//                .setUsername("User2")
+//                .setEmail("user@user.bg")
+//                .setPassword("asdasd")
+//                .setAdmin("user");
+//
+//        userRepository.saveAll(List.of(user1, user2, user3));
+//    }
 
-    @Override
-    public void seedUsers() {
-
-        UserRole adminRole = new UserRole().setRole(UserRoleEnum.ADMIN);
-        UserRole userRole = new UserRole().setRole(UserRoleEnum.USER);
-
-        userRoleRepository.saveAll(List.of(adminRole, userRole));
-
-        User user1 = new User()
-                .setUsername("Admin")
-                .setEmail("admin@admin.bg")
-                .setPassword(passwordEncoder.encode("asdasd"))
-                .setRole(adminRole);
-
-        User user2 = new User()
-                .setUsername("User")
-                .setEmail("user@user.bg")
-                .setPassword(passwordEncoder.encode("asdasd"))
-                .setRole(userRole);
-
-        User user3 = new User()
-                .setUsername("User2")
-                .setEmail("user2@user.bg")
-                .setPassword(passwordEncoder.encode("asdasd"))
-                .setRole(userRole);
-
-        userRepository.saveAll(List.of(user1, user2, user3));
-    }
 
     @Override
     public List<UserAvailableViewModel> findAllAvailable() {
@@ -123,8 +121,10 @@ public class UserServiceImpl implements UserService {
 //            return;
 //        }
 
+        assert animal != null;
         animal.setAvailability(!animal.isAvailability());
         animal.setUser(user);
+        assert user != null;
         user.setAnimal(animal);
 
         animalRepository.save(animal);
@@ -140,8 +140,10 @@ public class UserServiceImpl implements UserService {
         walkHistory.setAnimal(animal);
         walkHistory.setLocalDate(LocalDate.now());
 
+        assert animal != null;
         animal.setAvailability(!animal.isAvailability());
         animal.setUser(null);
+        assert user != null;
         user.setAnimal(null);
 
         animalRepository.save(animal);

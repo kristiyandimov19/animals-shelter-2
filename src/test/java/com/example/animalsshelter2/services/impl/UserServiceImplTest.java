@@ -68,7 +68,7 @@
 //        modelMapper = new ModelMapper();
 //
 //        userService = new UserServiceImpl(userRepository, new ModelMapper(),
-//                animalRepository, commentService, walkHistoryRepository, passwordEncoder);
+//                animalRepository, commentService, walkHistoryRepository, passwordEncoder, userRoleRepository);
 //    }
 //
 //    @Test

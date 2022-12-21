@@ -19,7 +19,7 @@ public interface UserService {
 
     UserIdViewModel findById(Long id);
 
-    void seedUsers();
+
 
     List<UserAvailableViewModel> findAllAvailable();
 

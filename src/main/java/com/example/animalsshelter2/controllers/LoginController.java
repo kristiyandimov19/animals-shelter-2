@@ -5,7 +5,8 @@ import com.example.animalsshelter2.models.User;
 import com.example.animalsshelter2.models.services.LoginServiceModel;
 import com.example.animalsshelter2.models.services.RegisterServiceModel;
 import com.example.animalsshelter2.services.UserService;
-import com.example.animalsshelter2.services.impl.UserServiceImpl;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
@@ -13,7 +14,9 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
+import java.security.InvalidParameterException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
@@ -34,15 +37,22 @@ public class LoginController {
         this.passwordEncoder = passwordEncoder;
     }
 
+    @GetMapping("/info")
+    public Collection<? extends GrantedAuthority> getUserDetails() {
+        return SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+    }
+
     @PostMapping("/register")
     public Map<String, Object> register(@RequestBody RegisterServiceModel registerServiceModel) {
-        userService.save(registerServiceModel);
+        try {
+            userService.save(registerServiceModel);
+            User user = userService.findByEmail(registerServiceModel.getEmail());
+            String token = jwtUtils.generateToken(user.getRole(),user.getEmail(),user.getId());
 
-        //Tezi 2 reda sum pipal
-        User user = userService.findByEmail(registerServiceModel.getEmail());
-        String token = jwtUtils.generateToken(user.getRole(),user.getEmail(),user.getId());
-
-        return Collections.singletonMap("jwt-token", token);
+            return Collections.singletonMap("jwt-token", token);
+        }catch (InvalidParameterException e){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Write it right !!!",e);
+        }
     }
 
     @PostMapping("/login")
@@ -59,8 +69,8 @@ public class LoginController {
             String token = jwtUtils.generateToken(user.getRole(),user.getEmail(),user.getId());
 
             return Collections.singletonMap("jwt-token", token);
-        } catch (AuthenticationException authExc) {
-            throw new RuntimeException("Invalid Login Credentials");
+        } catch (AuthenticationException e) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,"Invalid Login Credentials",e);
         }
     }
 }
