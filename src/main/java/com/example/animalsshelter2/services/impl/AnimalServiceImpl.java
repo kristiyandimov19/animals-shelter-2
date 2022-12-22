@@ -24,13 +24,11 @@ public class AnimalServiceImpl implements AnimalService {
     private final ModelMapper modelMapper;
     private final UserRepository userRepository;
 
-    private final UserService userService;
     @Autowired
-    public AnimalServiceImpl(AnimalRepository animalRepository, ModelMapper modelMapper, UserRepository userRepository, UserService userService) {
+    public AnimalServiceImpl(AnimalRepository animalRepository, ModelMapper modelMapper, UserRepository userRepository) {
         this.animalRepository = animalRepository;
         this.modelMapper = modelMapper;
         this.userRepository = userRepository;
-        this.userService = userService;
     }
 
     @Override

@@ -12,12 +12,12 @@ public class User extends BaseEntity {
     public User() {
     }
 
-    public User(String username, String email, String password, Animal animal, List<Comment> comments) {
+    public User(String username, String email, String password, UserRole role, Animal animal) {
         this.username = username;
         this.email = email;
         this.password = password;
+        this.role = role;
         this.animal = animal;
-        this.comments = comments;
     }
 
     @Column(name = "username")

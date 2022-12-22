@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.text.ParseException;
+import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -65,9 +66,12 @@ public class UserController {
                         .subList(user.getComments().size() - 5, user.getComments().size());
             }
 
+            Collections.reverse(last5comments);
+
             return last5comments
                     .stream().map(comment -> modelMapper.map(comment, CommentViewModel.class)
-                    ).toList();
+                    )
+                    .toList();
         }catch (EntityNotFoundException e){
             throw  new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
@@ -76,6 +80,8 @@ public class UserController {
     public List<WalkHistoryViewModel> getWalkHistory(@PathVariable Long id) throws ParseException {
 
         List<WalkHistory> walkHistories = walkHistoryService.findByUserId(id);
+
+        Collections.reverse(walkHistories);
 
         return walkHistories.stream()
                 .map(walkHistory -> modelMapper.map(walkHistory, WalkHistoryViewModel.class))

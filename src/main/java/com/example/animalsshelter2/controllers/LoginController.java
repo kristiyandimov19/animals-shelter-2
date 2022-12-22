@@ -37,11 +37,6 @@ public class LoginController {
         this.passwordEncoder = passwordEncoder;
     }
 
-    @GetMapping("/info")
-    public Collection<? extends GrantedAuthority> getUserDetails() {
-        return SecurityContextHolder.getContext().getAuthentication().getAuthorities();
-    }
-
     @PostMapping("/register")
     public Map<String, Object> register(@RequestBody RegisterServiceModel registerServiceModel) {
         try {

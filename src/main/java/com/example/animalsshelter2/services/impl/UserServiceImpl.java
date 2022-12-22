@@ -122,17 +122,12 @@ public class UserServiceImpl implements UserService {
     public void takeOnWalk(Long userId, Long animalId) throws Exception {
         User user = userRepository.findById(userId).orElse(null);
         Animal animal = animalRepository.findById(animalId).orElse(null);
-        if(user.getAnimal() != null || animal.getUser() != null){
+        if(user.getAnimal() != null || !animal.isAvailability()){
             throw new Exception("Someone is occupied");
         }
-//        if (user.isAdmin() || !animal.isAvailability()) {
-//            return;
-//        }
 
-        assert animal != null;
         animal.setAvailability(!animal.isAvailability());
         animal.setUser(user);
-        assert user != null;
         user.setAnimal(animal);
 
         animalRepository.save(animal);
