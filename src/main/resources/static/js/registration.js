@@ -9,13 +9,17 @@ async function POST_register(){
     let res = await fetch(url, {
         method: 'POST',
         headers: {
+            'Accept': 'application/json',
             'Content-Type': 'application/json',
         },
         body: JSON.stringify(data)
     });
 
     if (res.ok) {
-        return "OK"
+        res.text().then(data => {
+            localStorage.setItem("token", data.toString().split('"')[3]);
+            window.location.replace("../html/index.html");
+        });
     } else {
         Swal.fire({
             icon: 'error',
@@ -62,21 +66,8 @@ function register(){
 
     if(checkPassword(pass,_pass)){
 
-        if(mail_correct && username_correct) {
-            console.log("Register");
-
-            POST_register().then( data =>{
-                if(data == "OK"){
-                    //function GET_login()
-                    const user_id = 1;
-                    localStorage.setItem("auth","user");
-                    localStorage.setItem("user_id",user_id.toString());
-                    window.location.replace("./index.html")
-                }
-                else{
-                    console.log(data);
-                }
-            });
+        if(email_correct && username_correct) {
+            POST_register();
         }
     }
 }

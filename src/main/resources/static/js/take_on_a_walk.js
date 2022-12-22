@@ -13,6 +13,10 @@ async function PUT_takeAnimalOnWalk(animal_id) {
     if (res.ok){
         return "OK";
     }
+    else if(res.status == 401){
+        console.log(res.status)
+        window.location.replace("../html/login.html")
+    }
     else{
         Swal.fire({
             icon: 'error',
@@ -23,7 +27,6 @@ async function PUT_takeAnimalOnWalk(animal_id) {
         });
     }
 }
-
 async function GET_allAvailableUsers(){
     let url1 = 'http://localhost:8080/users/available';
     let res = await fetch(url1, {
@@ -37,6 +40,19 @@ async function GET_allAvailableUsers(){
         let text = await res.text().then();
         const obj = JSON.parse(text);
         return obj;
+    }
+    else if(res.status == 401){
+        localStorage.setItem("auth","guest");
+        window.location.replace("../html/login.html")
+    }
+    else{
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Something went wrong!',
+        }).then( data =>{
+            window.location.replace("../html/index.html")
+        });
     }
 }
 function setPage(){
@@ -52,11 +68,16 @@ function setPage(){
         });
     })
 }
-
 function takeAnimalOnWalk() {
+    let user_id = document.getElementById("FormSelector").value;
+
+    if(user_id === ""){
+        document.getElementById("user_error").style.display = "block";
+        return;
+    }
+
     let animal_id =new URLSearchParams(window.location.search).get("animal_id");
     //Check if animal is available
-
     GET_Check(animal_id).then( data =>{
         if(data ==="OK"){
             PUT_takeAnimalOnWalk(animal_id).then( data=>{

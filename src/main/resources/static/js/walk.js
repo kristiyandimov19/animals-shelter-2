@@ -12,6 +12,18 @@ async function GET_onWalk(){
         const obj = JSON.parse(text);
         return obj;
     }
+    else if(res.status == 401){
+        window.location.replace("../html/login.html")
+    }
+    else{
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Something went wrong!',
+        }).then( data =>{
+            window.location.replace("../html/index.html")
+        });
+    }
 }
 
 function setPage(){
@@ -21,7 +33,7 @@ function setPage(){
 
            const p = document.createElement("p");
            p.innerText = value.name + " - " + value.type + " - " + value.username;
-           p.classList.add("inline");
+           p.classList.add("inline_text");
            const img = document.createElement("img");
 
            if(value.type === "Dog")

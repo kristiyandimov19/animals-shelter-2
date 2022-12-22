@@ -13,6 +13,10 @@ async function PUT_returnFromWalk(user_id,animal_id) {
     if(res.ok){
         return "OK";
     }
+    else if(res.status == 401){
+
+        window.location.replace("../html/login.html")
+    }
     else {
         Swal.fire({
             icon: 'error',
@@ -40,10 +44,23 @@ async function GET_walker(animal_id){
         const obj = JSON.parse(text);
         return obj.id;
     }
+    else if(res.status == 401){
+        window.location.replace("../html/login.html")
+    }
+    else{
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Something went wrong!',
+        }).then( data =>{
+            window.location.replace("../html/index.html")
+        });
+    }
 }
 
 async function DELETE_adopt(animal_id) {
 
+    console.log("Hello 2");
     let url1 = "http://localhost:8080/animal/delete/" + animal_id;
 
     let res = await fetch(url1, {
@@ -56,6 +73,10 @@ async function DELETE_adopt(animal_id) {
 
     if(res.ok){
         return "OK";
+    }
+    else if(res.status == 401){
+        console.log(res);
+        window.location.replace("../html/login.html")
     }
     else {
         Swal.fire({
@@ -76,10 +97,23 @@ async function GET_allAnimals(){
             'Content-Type': 'application/json',
         },
     });
-    if(res.ok){
+    if(res.status === 200){
         let text = await res.text().then();
         const obj = JSON.parse(text);
         return obj;
+    }
+    else if(res.status === 401){
+        //console.log(res.status)
+        window.location.replace("../html/login.html")
+    }
+    else{
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Something went wrong!',
+        }).then( data =>{
+            window.location.replace("../html/index.html")
+        });
     }
 }
 
@@ -103,7 +137,7 @@ function setPage() {
                 p.innerText = value.name + " - " + value.type + " - Available";
             }
             else p.innerText = value.name + " - " + value.type + " - On a walk";
-            p.classList.add("inline");
+            p.classList.add("inline_text");
 
             const img = document.createElement("img");
             if(value.type === "Dog")
@@ -122,8 +156,10 @@ function setPage() {
             div.appendChild(p);
             li.appendChild(div);
 
+            let auth = getAuth();
+
             //Create buttons
-            if(localStorage.getItem('auth') === "admin"){
+            if(auth === "admin"){
                 const a_walk = document.createElement("a");
                 const a_return = document.createElement("a");
                 const a_adopt = document.createElement("a");
@@ -204,7 +240,7 @@ function adopt(animal_id){
                     }).then((result) => {
                         if (result.isConfirmed) {
                             DELETE_adopt(animal_id).then( data =>{
-                                if(data == "OK"){
+                                if(data === "OK"){
                                     Swal.fire({
                                         imageUrl: '../images/yesss-bye-beach.gif',
                                         confirmButtonText: 'OK!'

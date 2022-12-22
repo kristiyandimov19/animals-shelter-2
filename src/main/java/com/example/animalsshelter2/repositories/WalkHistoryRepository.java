@@ -6,12 +6,14 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 @Repository
 public interface WalkHistoryRepository extends JpaRepository<WalkHistory,Long> {
-    @Query("select w from WalkHistory w where w.localDate >= :#{#localDate} AND w.user.id = :#{#userId}")
+
+    @Query("select w from WalkHistory w where w.localDate >= :#{#localDate} AND w.userId = :#{#userId}")
     List<WalkHistory> findAllByUserId(@Param("localDate") LocalDate localDate, @Param("userId") Long userId);
-    List<WalkHistory> findAllByUserId(Long id);
 }

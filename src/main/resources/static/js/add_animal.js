@@ -18,13 +18,12 @@ async function POST_addAnimal(){
 
     if (res.ok) {
 
-        /*SHOW BODY*/
-        /*res.text().then( data =>{
-            console.log(data);
-        })*/
-
         return "OK"
-    } else {
+    }
+    else if(res.status == 401){
+        window.location.replace("../html/login.html")
+    }
+    else{
         Swal.fire({
             icon: 'error',
             title: 'Oops...',

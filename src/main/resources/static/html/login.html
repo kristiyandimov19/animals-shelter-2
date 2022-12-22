@@ -52,7 +52,7 @@
         <label for="email">Email</label>
         <input type="text" class="form-control" id="email" placeholder="Email">
         <span id="email_error" class="warning">This isn't valid email.</span>
-        <span id="email_req_error" class="warning">Email is required .</span>
+        <span id="email_req_error" class="warning">Email is required.</span>
     </div>
     <div class="form-group">
         <label for="password">Password</label>
@@ -63,6 +63,7 @@
     <div class="form-group form-btn container">
         <div class="col-md-12 text-center">
             <a class="btn btn-primary" onclick="login()">Log In</a>
+            <span id="login_error" class="warning">There isn't user with this email or this password.</span>
         </div>
         <div class="col-md-12 under_text">
             <span>If you don't have registration </span>

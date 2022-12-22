@@ -12,6 +12,18 @@ async function GET_Comments(user_id){
         const obj = JSON.parse(text);
         return obj;
     }
+    else if(res.status == 401){
+        window.location.replace("../html/login.html")
+    }
+    else{
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Something went wrong!',
+        }).then( data =>{
+            window.location.replace("../html/index.html")
+        });
+    }
 }
 
 async  function GET_Users(){
@@ -27,6 +39,18 @@ async  function GET_Users(){
         let text = await res.text().then();
         const obj = JSON.parse(text);
         return obj;
+    }
+    else if(res.status == 401){
+        window.location.replace("../html/login.html")
+    }
+    else{
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Something went wrong!',
+        }).then( data =>{
+            window.location.replace("../html/index.html")
+        });
     }
 }
 

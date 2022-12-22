@@ -17,9 +17,7 @@ import org.modelmapper.ModelMapper;
 //import org.springframework.security.core.Authentication;
 //import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -54,7 +52,7 @@ public class UserController {
     public List<UserAvailableViewModel> findAllUsers() {
         return userService.findAllUsers();
     }
-    @Secured("ROLE_ADMIN")
+
     @GetMapping("/comments/{id}")
     public List<CommentViewModel> getUserComments(@PathVariable Long id) {
         try {
@@ -80,21 +78,17 @@ public class UserController {
         List<WalkHistory> walkHistories = walkHistoryService.findByUserId(id);
 
         return walkHistories.stream()
-                .map(walkHistory -> {
-                    WalkHistoryViewModel walkHistoryViewModel = modelMapper.map(walkHistory, WalkHistoryViewModel.class);
-
-                    walkHistoryViewModel.setAnimalName(walkHistory.getAnimal().getName());
-                    walkHistoryViewModel.setAnimalType(walkHistory.getAnimal().getType());
-
-                    return walkHistoryViewModel;
-
-                })
+                .map(walkHistory -> modelMapper.map(walkHistory, WalkHistoryViewModel.class))
                 .toList();
     }
 
     @PutMapping("/takeOnWalk/{userId}/{animalId}")
     public void takeOnWalk(@PathVariable Long userId, @PathVariable Long animalId) {
-        userService.takeOnWalk(userId, animalId);
+        try {
+            userService.takeOnWalk(userId, animalId);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,e.getMessage());
+        }
 
     }
 

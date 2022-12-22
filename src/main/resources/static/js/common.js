@@ -10,34 +10,48 @@ async function GET_Check(animal_id){
     });
 
     if(res.ok){
-        let text = await res.text().then();
+        let text = await res.text();
         const obj = JSON.parse(text);
         if(obj.availability){
             return "OK";
         }
-        else {
-            return "ERROR";
+        else if(res.status == 401){
+            window.location.replace("../html/login.html")
+        }
+        else{
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Something went wrong!',
+            }).then( data =>{
+                window.location.replace("../html/index.html")
+            });
         }
     }
 }
 
 function setMenu(){
-     if (localStorage.getItem('auth') === "guest") {
-         let menu_items = document.getElementsByClassName("nav-link");
+    let menu_items = document.getElementsByClassName("nav-link");
+    let auth = getAuth();
+
+     if (auth === "guest") {
 
          menu_items[1].classList.add("disabled");
          menu_items[2].classList.add("disabled");
          menu_items[3].classList.add("disabled");
-         menu_items[5].style.display = "none";
-     } else if (localStorage.getItem('auth') === "admin") {
-         let menu_items = document.getElementsByClassName("nav-link");
+         menu_items[5].parentElement.remove();
+
+     } else if (auth === "admin") {
+
          menu_items[2].setAttribute("href","./user_history.html");
-         menu_items[4].style.display = "none";
+         menu_items[4].parentElement.remove();
+
+
      } else {
-         let menu_items = document.getElementsByClassName("nav-link");
+
          menu_items[1].classList.add("disabled");
          menu_items[3].classList.add("disabled");
-         menu_items[4].style.display = "none";
+         menu_items[4].parentElement.remove();
      }
  }
 
@@ -53,17 +67,20 @@ function setMenu(){
          cancelButtonText: 'No'
      }).then((result) => {
          if (result.isConfirmed) {
-             localStorage.setItem('auth','guest');
-             localStorage.setItem('user_id','-1');
              localStorage.removeItem("token");
+             Swal.fire({
+                 imageUrl: '../images/bye-bye-bye.gif',
+                 confirmButtonText: 'OK!'
+             }).then(() => {
+                 window.location.replace("./index.html");
+             })
+         }else {
              window.location.replace("../html/index.html");
          }
      });
-
  }
 
  function parseJwt (token) {
-    console.log(token.split('.')[1]);
 
     var base64Url = token.split('.')[1];
     var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
@@ -73,3 +90,17 @@ function setMenu(){
 
      return JSON.parse(jsonPayload);
  }
+
+ function getAuth(){
+     if(localStorage.getItem("token") != null)
+         return parseJwt(localStorage.getItem("token")).auth;
+     else
+         return "guest"
+}
+
+function getUser_id(){
+    if(localStorage.getItem("token") != null)
+        return parseJwt(localStorage.getItem("token")).user_id;
+    else
+        return "-1";
+}

@@ -19,13 +19,13 @@ public interface UserService {
 
     UserIdViewModel findById(Long id);
 
-
+    void seedUsers();
 
     List<UserAvailableViewModel> findAllAvailable();
 
     List<UserAvailableViewModel> findAllUsers();
 
-    void takeOnWalk(Long userId, Long animalId);
+    void takeOnWalk(Long userId, Long animalId) throws Exception;
 
     void returnFromWalk(Long userId, Long animalId);
 

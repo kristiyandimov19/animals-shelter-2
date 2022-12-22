@@ -66,29 +66,35 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findById(id).orElse(null);
         return modelMapper.map(user, UserIdViewModel.class);
     }
-//
-//    @Override
-//    public void seedUsers() {
-//        User user1 = new User()
-//                .setUsername("Admin")
-//                .setEmail("admin@admin.bg")
-//                .setPassword("asdasd")
-//                .setAdmin("admin");
-//
-//        User user2 = new User()
-//                .setUsername("User")
-//                .setEmail("user@user.bg")
-//                .setPassword("asdasd")
-//                .setAdmin("user");
-//
-//        User user3 = new User()
-//                .setUsername("User2")
-//                .setEmail("user@user.bg")
-//                .setPassword("asdasd")
-//                .setAdmin("user");
-//
-//        userRepository.saveAll(List.of(user1, user2, user3));
-//    }
+
+    @Override
+    public void seedUsers() {
+
+        UserRole adminRole = new UserRole().setRole(UserRoleEnum.ADMIN);
+        UserRole userRole = new UserRole().setRole(UserRoleEnum.USER);
+
+        userRoleRepository.saveAll(List.of(adminRole, userRole));
+
+        User user1 = new User()
+                .setUsername("Admin")
+                .setEmail("admin@admin.bg")
+                .setPassword(passwordEncoder.encode("asdasd"))
+                .setRole(adminRole);
+
+        User user2 = new User()
+                .setUsername("User")
+                .setEmail("user@user.bg")
+                .setPassword(passwordEncoder.encode("asdasd"))
+                .setRole(userRole);
+
+        User user3 = new User()
+                .setUsername("User2")
+                .setEmail("user2@user.bg")
+                .setPassword(passwordEncoder.encode("asdasd"))
+                .setRole(userRole);
+
+        userRepository.saveAll(List.of(user1, user2, user3));
+    }
 
 
     @Override
@@ -113,10 +119,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void takeOnWalk(Long userId, Long animalId) {
+    public void takeOnWalk(Long userId, Long animalId) throws Exception {
         User user = userRepository.findById(userId).orElse(null);
         Animal animal = animalRepository.findById(animalId).orElse(null);
-
+        if(user.getAnimal() != null || animal.getUser() != null){
+            throw new Exception("Someone is occupied");
+        }
 //        if (user.isAdmin() || !animal.isAvailability()) {
 //            return;
 //        }
@@ -136,14 +144,13 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findById(userId).orElse(null);
         Animal animal = animalRepository.findById(animalId).orElse(null);
         WalkHistory walkHistory=new WalkHistory();
-        walkHistory.setUser(user);
-        walkHistory.setAnimal(animal);
+        walkHistory.setUserId(user.getId());
+        walkHistory.setAnimalName(animal.getName());
+        walkHistory.setAnimalType(animal.getType());
         walkHistory.setLocalDate(LocalDate.now());
 
-        assert animal != null;
         animal.setAvailability(!animal.isAvailability());
         animal.setUser(null);
-        assert user != null;
         user.setAnimal(null);
 
         animalRepository.save(animal);

@@ -46,11 +46,21 @@ public class AnimalServiceImpl implements AnimalService {
                 .setAvailability(true);
 
         Animal animal3 = new Animal()
-                .setName("Sparky")
-                .setType("Dog")
+                .setName("Dolly")
+                .setType("Dragon")
                 .setAvailability(true);
 
-        animalRepository.saveAll(List.of(animal1, animal2, animal3));
+        Animal animal4 = new Animal()
+                .setName("Kodi")
+                .setType("Cat")
+                .setAvailability(true);
+
+        Animal animal5 = new Animal()
+                .setName("Enrique")
+                .setType("Cow")
+                .setAvailability(true);
+
+        animalRepository.saveAll(List.of(animal1, animal2, animal3, animal4, animal5));
 
     }
 

@@ -1,7 +1,7 @@
 async function PUT_addComment(user_id){
     let url = 'http://localhost:8080/users/comment/add';
     let data = {
-        'authorId': localStorage.getItem("user_id"),
+        'authorId': getUser_id(),
         'userId': user_id.toString(),
         'description' : document.getElementById("comment").value,
     };
@@ -17,7 +17,11 @@ async function PUT_addComment(user_id){
 
     if (res.ok) {
         return "OK";
-    } else {
+    }
+    else if(res.status == 401){
+        window.location.replace("../html/login.html")
+    }
+    else {
         Swal.fire({
             icon: 'error',
             title: 'Oops...',

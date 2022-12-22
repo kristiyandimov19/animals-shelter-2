@@ -14,7 +14,20 @@ async function GET_Walks(user_id){
         const obj = JSON.parse(text);
         return obj;
     }
+    else if(res.status == 401){
+        window.location.replace("../html/login.html")
+    }
+    else{
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Something went wrong!',
+        }).then( data =>{
+            window.location.replace("../html/index.html")
+        });
+    }
 }
+
 function showWalks(user_id){
     //Get walks
     GET_Walks(user_id).then( obj =>{
@@ -30,8 +43,9 @@ function showWalks(user_id){
         });
     })
 }
+
 function setPage(){
     const urlParams = new URLSearchParams(window.location.search);
-    let user_id=localStorage.getItem("user_id");
+    let user_id= getUser_id();
     showWalks(user_id);
 }
