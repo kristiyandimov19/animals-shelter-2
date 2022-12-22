@@ -1,7 +1,5 @@
 package com.example.animalsshelter2.controllers;
 
-import com.example.animalsshelter2.exceptions.DuplicateEntityException;
-import com.example.animalsshelter2.exceptions.UnauthorizedOperationException;
 import com.example.animalsshelter2.models.services.AnimalAvailableServiceModel;
 import com.example.animalsshelter2.models.services.AnimalServiceModel;
 import com.example.animalsshelter2.models.views.AnimalViewModel;
@@ -10,17 +8,13 @@ import com.example.animalsshelter2.models.views.UserIdViewModel;
 import com.example.animalsshelter2.services.AnimalService;
 import com.example.animalsshelter2.services.UserService;
 import jakarta.persistence.EntityNotFoundException;
-import org.modelmapper.ModelMapper;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/animal")
@@ -28,12 +22,10 @@ public class AnimalController {
 
     private final AnimalService animalService;
     private final UserService userService;
-    private final ModelMapper modelMapper;
 
-    public AnimalController(AnimalService animalService, UserService userService, ModelMapper modelMapper) {
+    public AnimalController(AnimalService animalService, UserService userService) {
         this.animalService = animalService;
         this.userService = userService;
-        this.modelMapper = modelMapper;
     }
 
     @GetMapping("/all")

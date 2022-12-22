@@ -14,12 +14,10 @@ import com.example.animalsshelter2.services.CommentService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.api.function.Executable;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
 import java.util.Optional;
@@ -147,12 +145,7 @@ class UserServiceImplTest {
 
     @Test
     void testTakeOnWalkOccupied() {
-        assertThrows(Exception.class, new Executable() {
-            @Override
-            public void execute() throws Throwable {
-                userService.takeOnWalk(user2.getId(), animal2.getId());
-            }
-        });
+        assertThrows(Exception.class, () -> userService.takeOnWalk(user2.getId(), animal2.getId()));
     }
 
     @Test

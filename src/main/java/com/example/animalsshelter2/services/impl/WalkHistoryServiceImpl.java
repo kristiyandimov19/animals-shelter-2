@@ -5,8 +5,6 @@ import com.example.animalsshelter2.repositories.WalkHistoryRepository;
 import com.example.animalsshelter2.services.WalkHistoryService;
 import org.springframework.stereotype.Service;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.List;
 

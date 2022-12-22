@@ -2,7 +2,6 @@ package com.example.animalsshelter2.services.impl;
 
 import com.example.animalsshelter2.models.WalkHistory;
 import com.example.animalsshelter2.repositories.WalkHistoryRepository;
-import com.example.animalsshelter2.services.WalkHistoryService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

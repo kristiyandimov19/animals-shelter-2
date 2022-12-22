@@ -1,12 +1,9 @@
 package com.example.animalsshelter2.controllers;
 
-import com.example.animalsshelter2.config.JwtUtils;
-import com.example.animalsshelter2.exceptions.UnauthorizedOperationException;
 import com.example.animalsshelter2.models.Comment;
 import com.example.animalsshelter2.models.User;
 import com.example.animalsshelter2.models.WalkHistory;
 import com.example.animalsshelter2.models.services.CommentServiceModel;
-import com.example.animalsshelter2.models.services.UserAuthServiceModel;
 import com.example.animalsshelter2.models.views.CommentViewModel;
 import com.example.animalsshelter2.models.views.UserAvailableViewModel;
 import com.example.animalsshelter2.models.views.WalkHistoryViewModel;
@@ -14,14 +11,7 @@ import com.example.animalsshelter2.services.UserService;
 import com.example.animalsshelter2.services.WalkHistoryService;
 import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
-//import org.springframework.security.core.Authentication;
-//import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 

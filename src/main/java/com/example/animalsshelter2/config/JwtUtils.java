@@ -9,21 +9,15 @@ import com.auth0.jwt.JWT;
 import com.example.animalsshelter2.models.UserRole;
 import com.example.animalsshelter2.models.enums.UserRoleEnum;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
-import java.util.function.Function;
 
 @Component
 public class JwtUtils {
     @Value("secret")
     private String secret;
 
-    //Tazi funkciq sum pipal
     public String generateToken(UserRole role, String email, Long id) throws IllegalArgumentException, JWTCreationException {
 
         if(role.getRole() == UserRoleEnum.ADMIN){

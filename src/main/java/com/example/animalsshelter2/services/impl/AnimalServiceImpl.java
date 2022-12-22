@@ -9,7 +9,6 @@ import com.example.animalsshelter2.models.views.AnimalWalkViewModel;
 import com.example.animalsshelter2.repositories.AnimalRepository;
 import com.example.animalsshelter2.repositories.UserRepository;
 import com.example.animalsshelter2.services.AnimalService;
-import com.example.animalsshelter2.services.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

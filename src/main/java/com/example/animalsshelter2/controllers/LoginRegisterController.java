@@ -6,35 +6,28 @@ import com.example.animalsshelter2.models.services.LoginServiceModel;
 import com.example.animalsshelter2.models.services.RegisterServiceModel;
 import com.example.animalsshelter2.services.UserService;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.security.InvalidParameterException;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
 
 @RestController
 @RequestMapping()
-public class LoginController {
+public class LoginRegisterController {
     private final UserService userService;
     private final JwtUtils jwtUtils;
     private final AuthenticationManager authenticationManager;
-    private final PasswordEncoder passwordEncoder;
 
 
-    public LoginController(UserService userService, JwtUtils jwtUtils, AuthenticationManager authenticationManager, PasswordEncoder passwordEncoder) {
+    public LoginRegisterController(UserService userService, JwtUtils jwtUtils, AuthenticationManager authenticationManager) {
         this.userService = userService;
         this.jwtUtils = jwtUtils;
         this.authenticationManager = authenticationManager;
-        this.passwordEncoder = passwordEncoder;
     }
 
     @PostMapping("/register")
@@ -59,7 +52,6 @@ public class LoginController {
 
             authenticationManager.authenticate(authInputToken);
 
-            //Tezi 2 reda sum pipal
             User user = userService.findByEmail(loginServiceModel.getEmail());
             String token = jwtUtils.generateToken(user.getRole(),user.getEmail(),user.getId());
 
