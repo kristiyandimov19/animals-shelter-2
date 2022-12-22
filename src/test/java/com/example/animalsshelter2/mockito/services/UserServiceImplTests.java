@@ -1,4 +1,4 @@
-package com.example.animalsshelter2.mockito;
+package com.example.animalsshelter2.mockito.services;
 
 import com.example.animalsshelter2.models.BaseEntity;
 import com.example.animalsshelter2.models.User;
@@ -20,7 +20,7 @@ import org.modelmapper.ModelMapper;
 import java.util.ArrayList;
 import java.util.Optional;
 
-import static com.example.animalsshelter2.mockito.UtilsMock.createMockUser;
+import static com.example.animalsshelter2.mockito.UtilsMock.createMockUserAdmin;
 
 @ExtendWith(MockitoExtension.class)
 public class UserServiceImplTests {
@@ -43,7 +43,7 @@ public class UserServiceImplTests {
     @Test
     public void getById_should_returnUser() {
         // Arrange
-        var mockUser = createMockUser();
+        var mockUser = createMockUserAdmin();
 
         Mockito.when(mockUserRepository.findById(mockUser.getId()))
                 .thenReturn(Optional.of(mockUser));
@@ -56,6 +56,9 @@ public class UserServiceImplTests {
                 ));
 
     }
+
+
+
 
 
 

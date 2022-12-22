@@ -41,7 +41,12 @@ public class UserController {
 
     @GetMapping("/all")
     public List<UserAvailableViewModel> findAllUsers() {
-        return userService.findAllUsers();
+        try {
+            return userService.findAllUsers();
+        }catch (EntityNotFoundException e){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,e.getMessage(),e);
+
+        }
     }
 
     @GetMapping("/comments/{id}")
@@ -63,12 +68,12 @@ public class UserController {
                     )
                     .toList();
         }catch (EntityNotFoundException e){
-            throw  new ResponseStatusException(HttpStatus.NOT_FOUND);
+            throw  new ResponseStatusException(HttpStatus.NOT_FOUND,e.getMessage(),e);
         }
     }
     @GetMapping("/walks/{id}")
     public List<WalkHistoryViewModel> getWalkHistory(@PathVariable Long id) throws ParseException {
-
+    try {
         List<WalkHistory> walkHistories = walkHistoryService.findByUserId(id);
 
         Collections.reverse(walkHistories);
@@ -76,6 +81,10 @@ public class UserController {
         return walkHistories.stream()
                 .map(walkHistory -> modelMapper.map(walkHistory, WalkHistoryViewModel.class))
                 .toList();
+    }catch (EntityNotFoundException e){
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND,e.getMessage(),e);
+
+    }
     }
 
     @PutMapping("/takeOnWalk/{userId}/{animalId}")
@@ -90,6 +99,7 @@ public class UserController {
 
     @PutMapping("/returnFromWalk/{userId}/{animalId}")
     public void returnFromWalk(@PathVariable Long userId, @PathVariable Long animalId) {
+
         userService.returnFromWalk(userId, animalId);
     }
 

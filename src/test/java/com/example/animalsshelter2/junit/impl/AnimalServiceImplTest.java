@@ -1,4 +1,4 @@
-package com.example.animalsshelter2.services.impl;
+package com.example.animalsshelter2.junit.impl;
 
 import com.example.animalsshelter2.models.Animal;
 import com.example.animalsshelter2.models.User;
@@ -10,6 +10,7 @@ import com.example.animalsshelter2.models.views.AnimalViewModel;
 import com.example.animalsshelter2.models.views.AnimalWalkViewModel;
 import com.example.animalsshelter2.repositories.AnimalRepository;
 import com.example.animalsshelter2.repositories.UserRepository;
+import com.example.animalsshelter2.services.impl.AnimalServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

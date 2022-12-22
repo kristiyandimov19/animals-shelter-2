@@ -8,10 +8,10 @@ import java.util.List;
 
 public class UtilsMock {
 
-    public static User createMockUser(){
+    public static User createMockUserAdmin(){
         var mockUser=new User();
         mockUser.setId(17L);
-        mockUser.setRole(createMockRole("ADMIN"));
+        mockUser.setRole(createMockRoleAdmin("ADMIN"));
         mockUser.setAnimal(createMockAnimal());
         mockUser.setComments(List.of(createComment()));
         mockUser.setPassword("password");
@@ -20,7 +20,18 @@ public class UtilsMock {
 
         return mockUser;
     }
+    public static User createMockUserUser(){
+        var mockUser=new User();
+        mockUser.setId(17L);
+        mockUser.setRole(createMockRoleAdmin("ADMIN"));
+        mockUser.setAnimal(createMockAnimal());
+        mockUser.setComments(List.of(createComment()));
+        mockUser.setPassword("password");
+        mockUser.setEmail("zx");
+        mockUser.setUsername("zx");
 
+        return mockUser;
+    }
     public static Animal createMockAnimal(){
         var mockAnimal=new Animal();
         mockAnimal.setId(1L);
@@ -31,7 +42,7 @@ public class UtilsMock {
 
     }
 
-    public static UserRole createMockRole(String role){
+    public static UserRole createMockRoleAdmin(String role){
         var mockUserRole=new UserRole();
         mockUserRole.setId(1L);
         mockUserRole.setRole(UserRoleEnum.ADMIN);
@@ -39,7 +50,13 @@ public class UtilsMock {
         return mockUserRole;
     }
 
+    public static UserRole createMockRoleUser(String role){
+        var mockUserRole=new UserRole();
+        mockUserRole.setId(1L);
+        mockUserRole.setRole(UserRoleEnum.USER);
 
+        return mockUserRole;
+    }
     public static WalkHistory createMockWalkHistory(){
         var mockWalkHistory=new WalkHistory();
         mockWalkHistory.setId(1L);

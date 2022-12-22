@@ -1,8 +1,11 @@
 package com.example.animalsshelter2.models.services;
 
-public class UserAuthServiceModel {
+import jakarta.validation.constraints.Email;
 
+public class UserAuthServiceModel {
+    @Email
     private String email;
+
     private String password;
 
     public String getEmail() {
