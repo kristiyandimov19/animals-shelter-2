@@ -2,74 +2,84 @@
 
 <html lang="en">
 
-<head>
-  <title>The animal shelter</title>
-  <link href="../images/icons8-dog-paw-50.png" rel="icon" type="image/x-icon" />
+  <head>
+    <title>The animal shelter</title>
 
-  <link href="../bootstrap/css/bootstrap.css" rel="stylesheet">
-  <link href="../css/style.css" rel="stylesheet">
+    <!--FAVICON-->
+    <link href="../images/icons8-dog-paw-50.png" rel="icon" type="image/x-icon" />
 
-  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <script src="../bootstrap/js/bootstrap.bundle.js"></script>
-  <script src="../js/add_animal.js"></script>
-  <script src="../js/common.js"></script>
-</head>
-<header>
+    <!--CSS-->
+    <link href="../bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="../css/style.css" rel="stylesheet">
 
-  <nav class="navbar navbar-expand-lg navbar-light bg-white ">
-    <a class="navbar-brand logo_style" href="">Animal Shelter</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle ="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav">
-        <li class="nav-item active">
-          <a class="nav-link" href="index.html">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="walk.html">Animals on walk</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="history.html">History</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="add_animal.html">Add Animal</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="login.html">Login</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#" onclick="logout()">Logout</a>
-        </li>
-      </ul>
-    </div>
-  </nav>
-</header>
+    <!--JAVASCRIPT-->
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="../bootstrap/js/bootstrap.bundle.js"></script>
+    <script src="../js/add_animal.js"></script>
+    <script src="../js/common.js"></script>
+  </head>
+  <header>
 
-<body onload="setMenu()">
-<form class="form">
-  <div class="form-group">
-    <label for="name">Name</label>
-    <input type="text" class="form-control" id="name" placeholder="Name">
-    <span id="name_error" class="warning">Name is required.</span>
-    <span id="name_length_error" class="warning">Name should be at least 2 symbols.</span>
-  </div>
-  <div class="form-group">
-    <label for="type" >Type</label>
-    <select class="form-control" id="type">
-      <option value = "Sheep">Sheep</option>
-      <option value = "Dragon">Dragon</option>
-      <option value = "Cow">Cow</option>
-      <option value = "Dog">Dog</option>
-      <option value = "Cat">Cat</option>
-    </select>
-  </div>
-  <div class="form-group form-btn container">
-      <div class="col-md-12 text-center">
-      <a class="btn btn-secondary " onclick="addAnimal()">Add Animal</a>
-    </div>
-  </div>
-</form>
-</body>
+    <!--NAVIGATION BAR MENU-->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white ">
+      <a class="navbar-brand logo_style" href="">Animal Shelter</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle ="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item active">
+            <a class="nav-link" href="index.html">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="walk.html">Animals on walk</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="history.html">History</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="add_animal.html">Add Animal</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="login.html">Login</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#" onclick="logout()">Logout</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+  <body onload="setMenu()">
+
+  <!--ADD ANIMAL FORM-->
+    <form class="form">
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" class="form-control" id="name" placeholder="Name">
+        <span id="name_error" class="warning">Name is required.</span>
+        <span id="name_length_error" class="warning">Name should be at least 2 symbols.</span>
+      </div>
+
+      <div class="form-group">
+        <label for="type" >Type</label>
+        <select class="form-control" id="type">
+          <option value = "Sheep">Sheep</option>
+          <option value = "Dragon">Dragon</option>
+          <option value = "Cow">Cow</option>
+          <option value = "Dog">Dog</option>
+          <option value = "Cat">Cat</option>
+        </select>
+      </div>
+
+      <div class="form-group form-btn container">
+          <div class="col-md-12 text-center">
+          <a class="btn btn-secondary " onclick="addAnimal()">Add Animal</a>
+        </div>
+      </div>
+
+    </form>
+  </body>
 </html>
 

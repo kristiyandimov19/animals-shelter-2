@@ -6,6 +6,7 @@ async function POST_register(){
         'email': document.getElementById("email").value,
     };
 
+    //Get result
     let res = await fetch(url, {
         method: 'POST',
         headers: {
@@ -15,11 +16,10 @@ async function POST_register(){
         body: JSON.stringify(data)
     });
 
+    //Check if OK
     if (res.ok) {
-        res.text().then(data => {
-            localStorage.setItem("token", data.toString().split('"')[3]);
-            window.location.replace("../html/index.html");
-        });
+        let text = await res.text();
+        return text;
     } else {
         Swal.fire({
             icon: 'error',
@@ -41,6 +41,7 @@ function register(){
 
     const mail_format = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
+    //Check if username is correct form
     if(username.length == 0){
         document.getElementById("username_error").style.display = "block";
         username_correct = false;
@@ -49,6 +50,7 @@ function register(){
         document.getElementById("username_error").style.display = "none";
     }
 
+    //Check if email is correct form
     if(email.length == 0){
         document.getElementById("email_req_error").style.display="block";
         document.getElementById("email_error").style.display="none";
@@ -64,10 +66,14 @@ function register(){
         document.getElementById("email_req_error").style.display="none";
     }
 
+    //Check if password is correct form
     if(checkPassword(pass,_pass)){
 
         if(email_correct && username_correct) {
-            POST_register();
+            POST_register().then(text=>{
+                localStorage.setItem("token", text.toString().split('"')[3]);
+                window.location.replace("../html/index.html");
+            });
         }
     }
 }
@@ -86,6 +92,8 @@ function checkPassword(pass,_pass){
     else{
         document.getElementById("pass_error").style.display = "none";
     }
+
+    //Check if password and confirm_password are the same
     if(pass !=_pass ){
         document.getElementById("confirm_error").style.display = "block";
         console.log("Password not equal");

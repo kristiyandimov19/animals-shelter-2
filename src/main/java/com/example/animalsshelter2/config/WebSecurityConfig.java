@@ -56,6 +56,7 @@ public class WebSecurityConfig {
                             "/users/walks/**",
                             "/users/returnFromWalk/**",
                             "/users/takeOnWalk/**",
+                            "/users/volunteer/**",
                             "/animal/**",
                             "/animal/delete/**")
                     .hasAuthority("ADMIN")

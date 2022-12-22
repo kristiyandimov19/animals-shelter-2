@@ -3,26 +3,25 @@
 <html lang="en">
 
 <head>
-
-
   <title>The animal shelter</title>
+
+  <!--FAVICON-->
   <link href="../images/icons8-dog-paw-50.png" rel="icon" type="image/x-icon" />
 
+  <!--CSS-->
   <link href="../bootstrap/css/bootstrap.css" rel="stylesheet">
   <link href="../css/style.css" rel="stylesheet">
 
+  <!--JAVASCRIPT-->
   <script src="../bootstrap/js/bootstrap.bundle.js"></script>
   <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-  <link href="../css/style.css" rel="stylesheet">
   <script src="../js/index.js" ></script>
   <script src="../js/common.js"></script>
 
 </head>
+<header>
 
-
-<body onload="setPage();setMenu()">
-<header >
+  <!--NAVIGATION BAR MENU-->
   <nav class="navbar navbar-expand-lg navbar-light menu_style bg-white" >
     <a class="navbar-brand logo_style" href="">Animal Shelter</a>
     <button class="navbar-toggler" type="button" data-bs-toggle ="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -53,13 +52,15 @@
   </nav>
 </header>
 
+<body onload="setPage();setMenu()">
+
+<!--ALL ANIMALS-->
 <ul id="animals_list" class="list-group list_style">
-  <!-- All animals are added here-->
   <!-- EXAMPLE
   <li class="list-group-item list-group-item-light(list-group-item-dark)">
     <div>
-      <img src="../img/icons8-lamb-48.png">
-      <p style="display: inline-block; margin-top: 20px" >INNER TEXT</p>
+      <img src="#">
+      <p class="inline_text" >INNER TEXT</p>
     </div>
     <a href="#" class="btn btn-secondary right_margin" onclick="takeOnAWalk(animal_id)">Take on a walk</a>
     <a href="#" class="btn btn-secondary right_margin" onclick="returnFromAWalk(animal_id)">Return</a>
