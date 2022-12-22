@@ -1,4 +1,4 @@
-package com.example.animalsshelter2.services.impl;
+package com.example.animalsshelter2.junit.impl;
 
 import com.example.animalsshelter2.models.WalkHistory;
 import com.example.animalsshelter2.repositories.WalkHistoryRepository;
