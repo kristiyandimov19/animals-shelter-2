@@ -12,6 +12,7 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
@@ -30,6 +31,7 @@ public class AnimalController {
 
     @GetMapping("/all")
     public List<AnimalViewModel> getAllAnimals() {
+        //throw new ResponseStatusException(HttpStatus.NOT_FOUND,"body");
         return animalService.findAll();
     }
 

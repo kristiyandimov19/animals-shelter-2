@@ -1,8 +1,9 @@
 async function PUT_returnFromWalk(user_id,animal_id) {
 
-    let url1 = "http://localhost:8080/users/returnFromWalk/" + user_id + "/" + animal_id;
+    let url = "http://localhost:8080/users/returnFromWalk/" + user_id + "/" + animal_id;
 
-    let res = await fetch(url1, {
+    //Get result
+    let res = await fetch(url, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
@@ -10,12 +11,9 @@ async function PUT_returnFromWalk(user_id,animal_id) {
         },
     });
 
+    //Check if OK
     if(res.ok){
         return "OK";
-    }
-    else if(res.status == 401){
-
-        window.location.replace("../html/login.html")
     }
     else {
         Swal.fire({
@@ -29,9 +27,10 @@ async function PUT_returnFromWalk(user_id,animal_id) {
 }
 
 async function GET_walker(animal_id){
-    let url1 = "http://localhost:8080/animal/volunteer/"+animal_id;
+    let url = "http://localhost:8080/animal/volunteer/"+animal_id;
 
-    let res = await fetch(url1, {
+    //Get result
+    let res = await fetch(url, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -39,13 +38,11 @@ async function GET_walker(animal_id){
         },
     });
 
+    //Check if OK
     if(res.ok){
         let text = await res.text().then();
         const obj = JSON.parse(text);
         return obj.id;
-    }
-    else if(res.status == 401){
-        window.location.replace("../html/login.html")
     }
     else{
         Swal.fire({
@@ -60,10 +57,10 @@ async function GET_walker(animal_id){
 
 async function DELETE_adopt(animal_id) {
 
-    console.log("Hello 2");
-    let url1 = "http://localhost:8080/animal/delete/" + animal_id;
+    let url = "http://localhost:8080/animal/delete/" + animal_id;
 
-    let res = await fetch(url1, {
+    //Get result
+    let res = await fetch(url, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
@@ -71,12 +68,9 @@ async function DELETE_adopt(animal_id) {
         },
     });
 
+    //Check if OK
     if(res.ok){
         return "OK";
-    }
-    else if(res.status == 401){
-        console.log(res);
-        window.location.replace("../html/login.html")
     }
     else {
         Swal.fire({
@@ -90,21 +84,21 @@ async function DELETE_adopt(animal_id) {
 }
 
 async function GET_allAnimals(){
-    let url1 = 'http://localhost:8080/animal/all';
-    let res = await fetch(url1, {
+    let url = 'http://localhost:8080/animal/all';
+
+    //Get result
+    let res = await fetch(url, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
         },
     });
-    if(res.status === 200){
+
+    //Check if OK
+    if(res.ok){
         let text = await res.text().then();
         const obj = JSON.parse(text);
         return obj;
-    }
-    else if(res.status === 401){
-        //console.log(res.status)
-        window.location.replace("../html/login.html")
     }
     else{
         Swal.fire({
@@ -121,7 +115,7 @@ function setPage() {
     GET_allAnimals().then(obj =>{
         Object.entries(obj).forEach(([key,value]) => {
 
-            //Create list object
+            //Create HTML object
             const li = document.createElement("li");
             li.classList.add("list-group-item");
             if(key%2 === 0){
@@ -139,6 +133,7 @@ function setPage() {
             else p.innerText = value.name + " - " + value.type + " - On a walk";
             p.classList.add("inline_text");
 
+            //Create image
             const img = document.createElement("img");
             if(value.type === "Dog")
                 img.setAttribute("src","../images/icons8-dog-48.png");
@@ -202,11 +197,11 @@ function setPage() {
             document.getElementById("animals_list").appendChild(li);
         });
     })
-    //Get All Animals
 }
 
 function takeOnAWalk(animal_id) {
 
+    //Check if animal still available
     GET_Check(animal_id).then( data =>{
         if(data == "OK"){
             window.location.replace("./take_on_a_walk.html?animal_id="+animal_id);
@@ -218,7 +213,11 @@ function takeOnAWalk(animal_id) {
 }
 
 function returnFromAWalk(animal_id){
+
+    //Get walker that took the animal
     GET_walker(animal_id).then( id =>{
+
+        //Return animal
         PUT_returnFromWalk(id,animal_id).then(data=>{
             if(data === "OK") window.location.replace("./return_from_a_walk.html?user_id="+id);
             else console.log(data);
@@ -228,30 +227,33 @@ function returnFromAWalk(animal_id){
 
 function adopt(animal_id){
 
+    //Check if animal still available
     GET_Check(animal_id).then( data =>{
         if (data ==="OK"){
-                    Swal.fire({
-                        title: 'Are you sure?',
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Yes!',
-                        cancelButtonText: 'No'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            DELETE_adopt(animal_id).then( data =>{
-                                if(data === "OK"){
-                                    Swal.fire({
-                                        imageUrl: '../images/yesss-bye-beach.gif',
-                                        confirmButtonText: 'OK!'
-                                    }).then( () =>{
-                                        window.location.replace("./index.html");
-                                    })
-                                }
+            //Ask for confirmation
+            Swal.fire({
+                title: 'Are you sure?',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes!',
+                cancelButtonText: 'No'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    //Delete animal from DB
+                    DELETE_adopt(animal_id).then( data =>{
+                        if(data === "OK"){
+                            //Show that animal is adopted
+                            Swal.fire({
+                                imageUrl: '../images/yesss-bye-beach.gif',
+                                confirmButtonText: 'OK!'
+                            }).then( () =>{
+                                window.location.replace("./index.html");
                             })
-
                         }
                     })
+                }
+            })
         }
         else{
             window.location.replace("./index.html");

@@ -4,11 +4,15 @@
 
 <head>
   <title>The animal shelter</title>
+
+  <!--FAVICON-->
   <link href="../images/icons8-dog-paw-50.png" rel="icon" type="image/x-icon" />
 
+  <!--CSS-->
   <link href="../bootstrap/css/bootstrap.css" rel="stylesheet">
   <link href="../css/style.css" rel="stylesheet">
 
+  <!--JAVASCRIPT-->
   <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="../bootstrap/js/bootstrap.bundle.js"></script>
   <script src="../js/history.js"></script>
@@ -49,10 +53,13 @@
 </header>
 
 <body onload="setPage();setMenu()">
-  <div class="container list_style first_line" >
-    <div class="row " >
-      <div class="col-3" >
-          <ul id="users_list" class="list-group" style="height: 80vh">
+
+
+  <div class="container user_history_container bg-white" >
+    <div class="row">
+      <!--LIST OF USERS-->
+      <div class="col-3 user_history_subcontainer">
+          <ul id="users_list" class="list-group user_history_subcontainer user_history_scroll">
             <!-- All users are added here-->
             <!-- EXAMPLE
             <li class="list-group-item">
@@ -61,25 +68,30 @@
             -->
           </ul>
       </div>
-      <div class="col-9">
+
+      <!--USER HISTORY-->
+      <div class="col-9 user_history_subcontainer user_history_scroll">
         <div id="user_history">
-          <h2>Walks</h2>
+          <h2 id="walks_title" class="title">Walks</h2>
           <ul id="walk-history" class="list-group">
-            <!-- Walks are added here. -->
+
             <!-- EXAMPLE
             <li class="list-group-item">
-              <p>INNER TEXT</p>
+              <div>
+                <img src="#">
+                <p class="inline_text" >INNER TEXT</p>
+              </div>
             </li>
             -->
           </ul>
           <br>
-          <h2>Comments</h2>
+          <h2 id="comment_title" class="title">Comments</h2>
           <ul id="comment-history" class="list-group" >
-            <!-- Comments are added here. -->
+
             <!-- EXAMPLE
             <li class="list-group-item">
               <div class="card-body">
-                <h5 class="card-title">AUTHOR</h5>
+                <h5 class="card-title">BY Author:</h5>
                 <p class="card-text">COMMENT</p>
               </div>
             </li>

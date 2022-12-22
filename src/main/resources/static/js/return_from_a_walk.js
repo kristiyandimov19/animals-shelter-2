@@ -6,6 +6,7 @@ async function PUT_addComment(user_id){
         'description' : document.getElementById("comment").value,
     };
 
+    //Get result
     let res = await fetch(url, {
         method: 'PUT',
         headers: {
@@ -14,12 +15,9 @@ async function PUT_addComment(user_id){
         },
         body: JSON.stringify(data)
     });
-
+    //Check if OK
     if (res.ok) {
         return "OK";
-    }
-    else if(res.status == 401){
-        window.location.replace("../html/login.html")
     }
     else {
         Swal.fire({
@@ -32,7 +30,10 @@ async function PUT_addComment(user_id){
     }
 }
 function addComment(){
+    //Get the comment
     let comment = document.getElementById("comment").value;
+
+    //Check if the comment is correct
     if(comment.length == 0){
         document.getElementById("comment_error").style.display = "block";
         return;
@@ -40,7 +41,11 @@ function addComment(){
     else{
         document.getElementById("comment_error").style.display = "none";
     }
+
+    //Get user for the comment
     let user_id =new URLSearchParams(window.location.search).get("user_id");
+
+    //Put comment
     PUT_addComment(user_id).then(data=>{
         if(data === "OK"){
             window.location.replace("./index.html");

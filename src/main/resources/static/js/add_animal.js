@@ -6,6 +6,7 @@ async function POST_addAnimal(){
         'type': document.getElementById("type").value,
     };
 
+    //Get result
     let res = await fetch(url, {
         method: 'POST',
         headers: {
@@ -16,12 +17,10 @@ async function POST_addAnimal(){
         body: JSON.stringify(data)
     });
 
+    //Check if OK
     if (res.ok) {
 
         return "OK"
-    }
-    else if(res.status == 401){
-        window.location.replace("../html/login.html")
     }
     else{
         Swal.fire({
@@ -35,8 +34,10 @@ async function POST_addAnimal(){
 }
 
 function addAnimal(){
+    //Get name
     let name = document.getElementById("name").value;
 
+    //Check if name is right
     if(name.length == 0 ){
         document.getElementById("name_error").style.display="block";
         document.getElementById("name_length_error").style.display="none";

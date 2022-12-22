@@ -1,8 +1,9 @@
 async function PUT_takeAnimalOnWalk(animal_id) {
 
-    let url1 = "http://localhost:8080/users/takeOnWalk/" + document.getElementById("FormSelector").value + "/" + animal_id;
+    let url = "http://localhost:8080/users/takeOnWalk/" + document.getElementById("FormSelector").value + "/" + animal_id;
 
-    let res = await fetch(url1, {
+    //Get result
+    let res = await fetch(url, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
@@ -10,6 +11,7 @@ async function PUT_takeAnimalOnWalk(animal_id) {
         },
     });
 
+    //Check if OK
     if (res.ok){
         return "OK";
     }
@@ -28,14 +30,18 @@ async function PUT_takeAnimalOnWalk(animal_id) {
     }
 }
 async function GET_allAvailableUsers(){
-    let url1 = 'http://localhost:8080/users/available';
-    let res = await fetch(url1, {
+    let url = 'http://localhost:8080/users/available';
+
+    //Get result
+    let res = await fetch(url, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer ' + localStorage.getItem("token"),
         },
     });
+
+    //Check if OK
     if(res.ok){
         let text = await res.text().then();
         const obj = JSON.parse(text);
@@ -56,10 +62,12 @@ async function GET_allAvailableUsers(){
     }
 }
 function setPage(){
+
     //Get Free Users
     GET_allAvailableUsers().then( obj =>{
         Object.entries(obj).forEach(([key,value]) => {
 
+            //Create HTML object
             const option = document.createElement("option");
             option.innerText= value.username;
             option.value = value.id;
@@ -69,6 +77,7 @@ function setPage(){
     })
 }
 function takeAnimalOnWalk() {
+    //Get user id
     let user_id = document.getElementById("FormSelector").value;
 
     if(user_id === ""){
@@ -77,7 +86,8 @@ function takeAnimalOnWalk() {
     }
 
     let animal_id =new URLSearchParams(window.location.search).get("animal_id");
-    //Check if animal is available
+
+    //Check if animal is still available
     GET_Check(animal_id).then( data =>{
         if(data ==="OK"){
             PUT_takeAnimalOnWalk(animal_id).then( data=>{

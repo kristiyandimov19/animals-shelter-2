@@ -4,11 +4,15 @@
 
 <head>
     <title>The animal shelter</title>
+
+    <!--FAVICON-->
     <link href="../images/icons8-dog-paw-50.png" rel="icon" type="image/x-icon" />
 
+    <!--CSS-->
     <link href="../bootstrap/css/bootstrap.css" rel="stylesheet">
     <link href="../css/style.css" rel="stylesheet">
 
+    <!--JAVASCRIPT-->
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="../bootstrap/js/bootstrap.bundle.js"></script>
     <script src="../js/login.js"></script>
@@ -16,6 +20,7 @@
 </head>
 <header>
 
+    <!--NAVIGATION BAR MENU-->
     <nav class="navbar navbar-expand-lg navbar-light bg-white">
         <a class="navbar-brand logo_style" href="">Animal Shelter</a>
         <button class="navbar-toggler" type="button" data-bs-toggle ="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -46,7 +51,9 @@
     </nav>
 </header>
 
-<body onload="setMenu()">
+<body onload="setMenu(); onLoad()">
+
+<!--LOGIN FORM-->
 <form class="form">
     <div class="form-group">
         <label for="email">Email</label>

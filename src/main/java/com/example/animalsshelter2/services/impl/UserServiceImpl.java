@@ -74,26 +74,22 @@ public class UserServiceImpl implements UserService {
         UserRole userRole = new UserRole().setRole(UserRoleEnum.USER);
 
         userRoleRepository.saveAll(List.of(adminRole, userRole));
+        
+        for(int i=1;i<=5;i++){
+            userRepository.save(new User()
+                    .setUsername("Admin"+i)
+                    .setEmail("admin"+i+"@admin.bg")
+                    .setPassword(passwordEncoder.encode("asdasd"))
+                    .setRole(adminRole));
+        }
 
-        User user1 = new User()
-                .setUsername("Admin")
-                .setEmail("admin@admin.bg")
-                .setPassword(passwordEncoder.encode("asdasd"))
-                .setRole(adminRole);
-
-        User user2 = new User()
-                .setUsername("User")
-                .setEmail("user@user.bg")
-                .setPassword(passwordEncoder.encode("asdasd"))
-                .setRole(userRole);
-
-        User user3 = new User()
-                .setUsername("User2")
-                .setEmail("user2@user.bg")
-                .setPassword(passwordEncoder.encode("asdasd"))
-                .setRole(userRole);
-
-        userRepository.saveAll(List.of(user1, user2, user3));
+        for(int i=1;i<=30;i++){
+            userRepository.save(new User()
+                    .setUsername("User"+i)
+                    .setEmail("user"+i+"@user.bg")
+                    .setPassword(passwordEncoder.encode("asdasd"))
+                    .setRole(userRole));
+        }
     }
 
 

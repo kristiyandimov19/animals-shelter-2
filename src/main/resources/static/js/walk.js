@@ -1,19 +1,20 @@
 async function GET_onWalk(){
-    let url1 = 'http://localhost:8080/animal/onWalk';
-    let res = await fetch(url1, {
+    let url = 'http://localhost:8080/animal/onWalk';
+
+    //Get result
+    let res = await fetch(url, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer ' + localStorage.getItem("token"),
         },
     });
+
+    //Check if OK
     if(res.ok){
         let text = await res.text().then();
         const obj = JSON.parse(text);
         return obj;
-    }
-    else if(res.status == 401){
-        window.location.replace("../html/login.html")
     }
     else{
         Swal.fire({
@@ -27,15 +28,18 @@ async function GET_onWalk(){
 }
 
 function setPage(){
+
     //Get animals on walk
    GET_onWalk().then( obj =>{
        Object.entries(obj).forEach(([key,value]) => {
 
+           //Create HTML object
            const p = document.createElement("p");
            p.innerText = value.name + " - " + value.type + " - " + value.username;
            p.classList.add("inline_text");
-           const img = document.createElement("img");
 
+
+           const img = document.createElement("img");
            if(value.type === "Dog")
                img.setAttribute("src","../images/icons8-dog-48.png");
            else if(value.type === "Cat")
@@ -46,6 +50,7 @@ function setPage(){
                img.setAttribute("src","../images/icons8-lamb-48.png");
            else
                img.setAttribute("src","../images/icons8-european-dragon-48.png");
+
 
            const div = document.createElement("div");
            div.appendChild(img);
@@ -60,8 +65,8 @@ function setPage(){
            else{
                li.classList.add("list-group-item-dark");
            }
-
            li.appendChild(div);
+
 
            document.getElementById("animals_list").appendChild(li);
        });

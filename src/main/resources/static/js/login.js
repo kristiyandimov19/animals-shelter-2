@@ -8,6 +8,7 @@ async function POST_login(email,pass){
         'password': pass,
     }
 
+    //Get result
     let res = await fetch("http://localhost:8080/login", {
         method: "POST",
         headers: {
@@ -17,11 +18,10 @@ async function POST_login(email,pass){
         body: JSON.stringify(data)
     });
 
+    //Check if OK
     if (res.ok) {
-        res.text().then(data => {
-                localStorage.setItem("token", data.toString().split('"')[3]);
-                window.location.replace("../html/index.html");
-            });
+        let text = await res.text();
+        return text;
     } else {
         document.getElementById("login_error").style.display = "block";
     }
@@ -35,6 +35,7 @@ function login(){
     let pass_correct = true;
     const mail_format = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
+    //Check if mail is correct form
     if(email.length === 0){
         document.getElementById("email_req_error").style.display="block";
         document.getElementById("email_error").style.display="none";
@@ -50,6 +51,7 @@ function login(){
         document.getElementById("email_req_error").style.display="none";
     }
 
+    //Check if password is correct form
     if(pass.length == 0){
         document.getElementById("password_error").style.display= "block";
         pass_correct = false;
@@ -58,7 +60,16 @@ function login(){
         document.getElementById("password_error").style.display= "none";
     }
 
+    //Login
     if(email_correct && pass_correct){
-        POST_login(email, pass);
+        POST_login(email, pass).then( text=>{
+            localStorage.setItem("token", text.toString().split('"')[3]);
+            window.location.replace("../html/index.html");
+        });
     }
+}
+
+function onLoad(){
+    //Remove token from previous user
+    localStorage.removeItem("token");
 }
