@@ -1,6 +1,6 @@
 async function PUT_takeAnimalOnWalk(animal_id) {
 
-    var url = "http://localhost:8080/users/takeOnWalk/" + document.getElementById("FormSelector").value + "/" + animal_id;
+    var url = "http://localhost:8080/" + document.getElementById("FormSelector").value + "/animal/" + animal_id + "/walk";
 
     //Get result
     var res = await fetch(url, {

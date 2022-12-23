@@ -94,7 +94,7 @@ public class UserController {
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
-    @PutMapping("/{id}/takeAnimal/{animalId}")
+    @PutMapping("/{id}/animal/{animalId}/walk")
     public void takeOnWalk(@PathVariable Long id, @PathVariable Long animalId) {
         try {
             userService.takeOnWalk(id, animalId);
@@ -104,7 +104,7 @@ public class UserController {
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
-    @PutMapping("/{id}/returnAnimal/{animalId}")
+    @PutMapping("/{id}/animal/{animalId}/return")
     public void returnFromWalk(@PathVariable Long id, @PathVariable Long animalId) {
 
         userService.returnFromWalk(id, animalId);

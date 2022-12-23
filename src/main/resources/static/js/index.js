@@ -1,6 +1,6 @@
 async function PUT_returnFromWalk(user_id,animal_id) {
 
-    var url = "http://localhost:8080/users/returnFromWalk/" + user_id + "/" + animal_id;
+    var url = "http://localhost:8080/" + user_id + "/animal/" + animal_id + "/return";
 
     //Get result
     var res = await fetch(url, {
