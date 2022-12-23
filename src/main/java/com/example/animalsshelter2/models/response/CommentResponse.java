@@ -1,6 +1,6 @@
-package com.example.animalsshelter2.models.views;
+package com.example.animalsshelter2.models.response;
 
-public class CommentViewModel {
+public class CommentResponse {
 
     private String author;
 
@@ -10,7 +10,7 @@ public class CommentViewModel {
         return author;
     }
 
-    public CommentViewModel setAuthor(String author) {
+    public CommentResponse setAuthor(String author) {
         this.author = author;
         return this;
     }
@@ -19,7 +19,7 @@ public class CommentViewModel {
         return description;
     }
 
-    public CommentViewModel setDescription(String description) {
+    public CommentResponse setDescription(String description) {
         this.description = description;
         return this;
     }

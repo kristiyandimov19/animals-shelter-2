@@ -1,8 +1,8 @@
-package com.example.animalsshelter2.models.services;
+package com.example.animalsshelter2.models.request;
 
 import jakarta.validation.constraints.Email;
 
-public class UserAuthServiceModel {
+public class UserAuthRequest {
     @Email
     private String email;
 
@@ -12,7 +12,7 @@ public class UserAuthServiceModel {
         return email;
     }
 
-    public UserAuthServiceModel setEmail(String email) {
+    public UserAuthRequest setEmail(String email) {
         this.email = email;
         return this;
     }
@@ -21,7 +21,7 @@ public class UserAuthServiceModel {
         return password;
     }
 
-    public UserAuthServiceModel setPassword(String password) {
+    public UserAuthRequest setPassword(String password) {
         this.password = password;
         return this;
     }

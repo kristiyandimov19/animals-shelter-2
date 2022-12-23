@@ -1,12 +1,11 @@
-package com.example.animalsshelter2.models.views;
+package com.example.animalsshelter2.models.response;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 
 
-public class LoginViewModel {
+public class LoginResponse {
 
     @NotBlank
     @Size(min = 2, max = 20, message = "Email be between 2 and 20 characters.")
@@ -15,7 +14,7 @@ public class LoginViewModel {
     @NotBlank
     private String password;
 
-    public LoginViewModel() {
+    public LoginResponse() {
     }
 
     public String getEmail() {

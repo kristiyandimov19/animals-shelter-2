@@ -1,8 +1,8 @@
 async function GET_Check(animal_id){
-    let url = "http://localhost:8080/animal/isAvailable/"+animal_id;
+    var url = "http://localhost:8080/animal/isAvailable/"+animal_id;
 
     //Get result
-    let res = await fetch(url, {
+    var res = await fetch(url, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -12,7 +12,7 @@ async function GET_Check(animal_id){
 
     //Check if OK
     if(res.ok){
-        let text = await res.text();
+        var text = await res.text();
         const obj = JSON.parse(text);
         if(obj.availability){
             return "OK";
@@ -30,8 +30,8 @@ async function GET_Check(animal_id){
 }
 
 function setMenu(){
-    let menu_items = document.getElementsByClassName("nav-link");
-    let auth = getAuth();
+    var menu_items = document.getElementsByClassName("nav-link");
+    var auth = getAuth();
 
 
      if (auth === "guest") {
@@ -85,9 +85,9 @@ function setMenu(){
 
  function parseJwt (token) {
 
-    let base64Url = token.split('.')[1];
-    let base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-    let jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
+    var base64Url = token.split('.')[1];
+    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
          return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
      }).join(''));
 

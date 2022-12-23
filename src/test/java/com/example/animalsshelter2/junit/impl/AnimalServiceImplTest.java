@@ -4,10 +4,10 @@ import com.example.animalsshelter2.models.Animal;
 import com.example.animalsshelter2.models.User;
 import com.example.animalsshelter2.models.UserRole;
 import com.example.animalsshelter2.models.enums.UserRoleEnum;
-import com.example.animalsshelter2.models.services.AnimalAvailableServiceModel;
-import com.example.animalsshelter2.models.services.AnimalServiceModel;
-import com.example.animalsshelter2.models.views.AnimalViewModel;
-import com.example.animalsshelter2.models.views.AnimalWalkViewModel;
+import com.example.animalsshelter2.models.request.AnimalAvailableRequest;
+import com.example.animalsshelter2.models.request.AnimalRequest;
+import com.example.animalsshelter2.models.response.AnimalResponse;
+import com.example.animalsshelter2.models.response.AnimalWalkResponse;
 import com.example.animalsshelter2.repositories.AnimalRepository;
 import com.example.animalsshelter2.repositories.UserRepository;
 import com.example.animalsshelter2.services.impl.AnimalServiceImpl;
@@ -36,11 +36,11 @@ class AnimalServiceImplTest {
     private AnimalServiceImpl animalService;
 
     private Animal animal1, animal2;
-    private AnimalViewModel animalViewModel1, animalViewModel2;
+    private AnimalResponse animalResponse1, animalResponse2;
     private User user1 = new User();
     private UserRole admin = new UserRole().setRole(UserRoleEnum.ADMIN);
     private UserRole userRole = new UserRole().setRole(UserRoleEnum.USER);
-    private AnimalServiceModel animalServiceModel;
+    private AnimalRequest animalRequest;
 
     @BeforeEach
     void setUp() {
@@ -64,23 +64,23 @@ class AnimalServiceImplTest {
         animal2.setAvailability(false);
         animal2.setUser(user1);
 
-        animalViewModel1 = new AnimalViewModel();
-        animalViewModel1.setId(1L);
-        animalViewModel1.setName("Jordan");
-        animalViewModel1.setType("Kuchka");
-        animalViewModel1.setAvailability(true);
+        animalResponse1 = new AnimalResponse();
+        animalResponse1.setId(1L);
+        animalResponse1.setName("Jordan");
+        animalResponse1.setType("Kuchka");
+        animalResponse1.setAvailability(true);
 
-        animalViewModel2 = new AnimalViewModel();
-        animalViewModel2.setId(2L);
-        animalViewModel2.setName("Martincho");
-        animalViewModel2.setType("tiger");
-        animalViewModel2.setAvailability(false);
+        animalResponse2 = new AnimalResponse();
+        animalResponse2.setId(2L);
+        animalResponse2.setName("Martincho");
+        animalResponse2.setType("tiger");
+        animalResponse2.setAvailability(false);
 
-        animalServiceModel = new AnimalServiceModel();
-        animalServiceModel.setId(3L);
-        animalServiceModel.setName("Dadada");
-        animalServiceModel.setType("riba");
-        animalServiceModel.setAvailability(true);
+        animalRequest = new AnimalRequest();
+        animalRequest.setId(3L);
+        animalRequest.setName("Dadada");
+        animalRequest.setType("riba");
+        animalRequest.setAvailability(true);
 
         animalService = new AnimalServiceImpl(animalRepository, new ModelMapper(), userRepository);
     }
@@ -90,9 +90,9 @@ class AnimalServiceImplTest {
         when(animalRepository.findAll())
                 .thenReturn(List.of(animal1, animal2));
 
-        List<AnimalViewModel> actualResult = animalService.findAll();
+        List<AnimalResponse> actualResult = animalService.findAll();
 
-        List<AnimalViewModel> expectedResult = List.of(animalViewModel1, animalViewModel2);
+        List<AnimalResponse> expectedResult = List.of(animalResponse1, animalResponse2);
 
         assertEquals(expectedResult.size(), actualResult.size());
         assertEquals(expectedResult.get(1).getId(), actualResult.get(1).getId());
@@ -101,7 +101,7 @@ class AnimalServiceImplTest {
 
     @Test
     void createAnimal() {
-        animalService.createAnimal(animalServiceModel);
+        animalService.createAnimal(animalRequest);
 
         verify(animalRepository).save(any());
     }
@@ -117,7 +117,7 @@ class AnimalServiceImplTest {
         when(animalRepository.findById(anyLong()))
                 .thenReturn(Optional.ofNullable(animal1));
 
-        AnimalAvailableServiceModel actualResult = animalService.findAnimalById(1L);
+        AnimalAvailableRequest actualResult = animalService.findAnimalById(1L);
 
 
         assertEquals(animal1.getId(), actualResult.getId());
@@ -129,7 +129,7 @@ class AnimalServiceImplTest {
         when(animalRepository.findAllAvailable())
                 .thenReturn(List.of(animal2));
 
-        List<AnimalWalkViewModel> actualResult = animalService.findAllAvailable();
+        List<AnimalWalkResponse> actualResult = animalService.findAllAvailable();
 
         List<Animal> expectedResult = List.of(animal2);
 

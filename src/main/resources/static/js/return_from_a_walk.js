@@ -1,13 +1,13 @@
 async function PUT_addComment(user_id){
-    let url = 'http://localhost:8080/users/comment/add';
-    let data = {
+    var url = 'http://localhost:8080/users/comment/add';
+    var data = {
         'authorId': getUser_id(),
         'userId': user_id.toString(),
         'description' : document.getElementById("comment").value,
     };
 
     //Get result
-    let res = await fetch(url, {
+    var res = await fetch(url, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
@@ -31,7 +31,7 @@ async function PUT_addComment(user_id){
 }
 function addComment(){
     //Get the comment
-    let comment = document.getElementById("comment").value;
+    var comment = document.getElementById("comment").value;
 
     //Check if the comment is correct
     if(comment.length == 0){
@@ -43,7 +43,7 @@ function addComment(){
     }
 
     //Get user for the comment
-    let user_id =new URLSearchParams(window.location.search).get("user_id");
+    var user_id =new URLSearchParams(window.location.search).get("user_id");
 
     //Put comment
     PUT_addComment(user_id).then(data=>{

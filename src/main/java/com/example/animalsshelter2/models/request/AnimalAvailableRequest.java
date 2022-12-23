@@ -1,6 +1,6 @@
-package com.example.animalsshelter2.models.services;
+package com.example.animalsshelter2.models.request;
 
-public class AnimalAvailableServiceModel {
+public class AnimalAvailableRequest {
 
     private Long id;
 
@@ -12,7 +12,7 @@ public class AnimalAvailableServiceModel {
         return userId;
     }
 
-    public AnimalAvailableServiceModel setUserId(Long userId) {
+    public AnimalAvailableRequest setUserId(Long userId) {
         this.userId = userId;
         return this;
     }
@@ -21,7 +21,7 @@ public class AnimalAvailableServiceModel {
         return availability;
     }
 
-    public AnimalAvailableServiceModel setAvailability(boolean availability) {
+    public AnimalAvailableRequest setAvailability(boolean availability) {
         this.availability = availability;
         return this;
     }
@@ -30,7 +30,7 @@ public class AnimalAvailableServiceModel {
         return id;
     }
 
-    public AnimalAvailableServiceModel setId(Long id) {
+    public AnimalAvailableRequest setId(Long id) {
         this.id = id;
         return this;
     }

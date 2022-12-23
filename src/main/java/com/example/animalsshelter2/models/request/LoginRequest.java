@@ -1,10 +1,10 @@
-package com.example.animalsshelter2.models.services;
+package com.example.animalsshelter2.models.request;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 
-public class LoginServiceModel {
+public class LoginRequest {
 
     @Email
     private String email;
@@ -15,10 +15,10 @@ public class LoginServiceModel {
 
 
 
-    public LoginServiceModel() {
+    public LoginRequest() {
     }
 
-    public LoginServiceModel(String email, String password) {
+    public LoginRequest(String email, String password) {
         this.email = email;
         this.password = password;
 

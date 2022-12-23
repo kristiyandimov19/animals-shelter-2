@@ -1,5 +1,6 @@
-package com.example.animalsshelter2.models;
+package com.example.animalsshelter2.services.impl;
 
+import com.example.animalsshelter2.models.User;
 import com.example.animalsshelter2.repositories.UserRepository;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

@@ -2,10 +2,10 @@ package com.example.animalsshelter2.services.impl;
 
 import com.example.animalsshelter2.models.Animal;
 import com.example.animalsshelter2.models.User;
-import com.example.animalsshelter2.models.services.AnimalAvailableServiceModel;
-import com.example.animalsshelter2.models.services.AnimalServiceModel;
-import com.example.animalsshelter2.models.views.AnimalViewModel;
-import com.example.animalsshelter2.models.views.AnimalWalkViewModel;
+import com.example.animalsshelter2.models.request.AnimalAvailableRequest;
+import com.example.animalsshelter2.models.request.AnimalRequest;
+import com.example.animalsshelter2.models.response.AnimalResponse;
+import com.example.animalsshelter2.models.response.AnimalWalkResponse;
 import com.example.animalsshelter2.repositories.AnimalRepository;
 import com.example.animalsshelter2.repositories.UserRepository;
 import com.example.animalsshelter2.services.AnimalService;
@@ -62,15 +62,15 @@ public class AnimalServiceImpl implements AnimalService {
     }
 
     @Override
-    public List<AnimalViewModel> findAll() {
+    public List<AnimalResponse> findAll() {
         return animalRepository.findAll()
                 .stream()
-                .map(a -> modelMapper.map(a, AnimalViewModel.class))
+                .map(a -> modelMapper.map(a, AnimalResponse.class))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public void createAnimal(AnimalServiceModel animal) {
+    public void createAnimal(AnimalRequest animal) {
         Animal animalEntity = modelMapper.map(animal, Animal.class);
 
         animalRepository.save(animalEntity);
@@ -82,28 +82,28 @@ public class AnimalServiceImpl implements AnimalService {
     }
 
     @Override
-    public AnimalAvailableServiceModel findAnimalById(Long id) {
+    public AnimalAvailableRequest findAnimalById(Long id) {
         Animal animal = animalRepository.findById(id).orElse(null);
-        return modelMapper.map(animal, AnimalAvailableServiceModel.class);
+        return modelMapper.map(animal, AnimalAvailableRequest.class);
     }
 
 
     @Override
-    public List<AnimalWalkViewModel> findAllAvailable() {
+    public List<AnimalWalkResponse> findAllAvailable() {
         List<Animal> animals = animalRepository.findAllAvailable();
 
         return animals
                 .stream()
                 .map(animal -> {
-                    AnimalWalkViewModel animalWalkViewModel = modelMapper
-                            .map(animal, AnimalWalkViewModel.class);
+                    AnimalWalkResponse animalWalkResponse = modelMapper
+                            .map(animal, AnimalWalkResponse.class);
 
                     User user = userRepository.findById(animal.getUser().getId()).orElse(null);
                     if (user == null) {
-                        return animalWalkViewModel;
+                        return animalWalkResponse;
                     }
-                    animalWalkViewModel.setUsername(user.getUsername());
-                    return animalWalkViewModel;
+                    animalWalkResponse.setUsername(user.getUsername());
+                    return animalWalkResponse;
                 })
                 .collect(Collectors.toList());
     }

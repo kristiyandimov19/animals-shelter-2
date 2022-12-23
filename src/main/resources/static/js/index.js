@@ -1,9 +1,9 @@
 async function PUT_returnFromWalk(user_id,animal_id) {
 
-    let url = "http://localhost:8080/users/returnFromWalk/" + user_id + "/" + animal_id;
+    var url = "http://localhost:8080/users/returnFromWalk/" + user_id + "/" + animal_id;
 
     //Get result
-    let res = await fetch(url, {
+    var res = await fetch(url, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
@@ -27,10 +27,10 @@ async function PUT_returnFromWalk(user_id,animal_id) {
 }
 
 async function GET_walker(animal_id){
-    let url = "http://localhost:8080/animal/volunteer/"+animal_id;
+    var url = "http://localhost:8080/animal/volunteer/"+animal_id;
 
     //Get result
-    let res = await fetch(url, {
+    var res = await fetch(url, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -40,7 +40,7 @@ async function GET_walker(animal_id){
 
     //Check if OK
     if(res.ok){
-        let text = await res.text().then();
+        var text = await res.text().then();
         const obj = JSON.parse(text);
         return obj.id;
     }
@@ -57,10 +57,10 @@ async function GET_walker(animal_id){
 
 async function DELETE_adopt(animal_id) {
 
-    let url = "http://localhost:8080/animal/delete/" + animal_id;
+    var url = "http://localhost:8080/animal/delete/" + animal_id;
 
     //Get result
-    let res = await fetch(url, {
+    var res = await fetch(url, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
@@ -84,10 +84,10 @@ async function DELETE_adopt(animal_id) {
 }
 
 async function GET_allAnimals(){
-    let url = 'http://localhost:8080/animal/all';
+    var url = 'http://localhost:8080/animal/all';
 
     //Get result
-    let res = await fetch(url, {
+    var res = await fetch(url, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -96,7 +96,7 @@ async function GET_allAnimals(){
 
     //Check if OK
     if(res.ok){
-        let text = await res.text().then();
+        var text = await res.text().then();
         const obj = JSON.parse(text);
         return obj;
     }
@@ -151,7 +151,7 @@ function setPage() {
             div.appendChild(p);
             li.appendChild(div);
 
-            let auth = getAuth();
+            var auth = getAuth();
 
             //Create buttons
             if(auth === "admin"){

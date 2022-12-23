@@ -1,17 +1,20 @@
-package com.example.animalsshelter2.models.views;
+package com.example.animalsshelter2.models.response;
 
-public class AnimalViewModel {
+public class AnimalWalkResponse {
 
     private Long id;
+
     private String name;
+
     private String type;
-    private boolean availability;
+
+    private String username;
 
     public Long getId() {
         return id;
     }
 
-    public AnimalViewModel setId(Long id) {
+    public AnimalWalkResponse setId(Long id) {
         this.id = id;
         return this;
     }
@@ -20,7 +23,7 @@ public class AnimalViewModel {
         return name;
     }
 
-    public AnimalViewModel setName(String name) {
+    public AnimalWalkResponse setName(String name) {
         this.name = name;
         return this;
     }
@@ -29,17 +32,17 @@ public class AnimalViewModel {
         return type;
     }
 
-    public AnimalViewModel setType(String type) {
+    public AnimalWalkResponse setType(String type) {
         this.type = type;
         return this;
     }
 
-    public boolean isAvailability() {
-        return availability;
+    public String getUsername() {
+        return username;
     }
 
-    public AnimalViewModel setAvailability(boolean availability) {
-        this.availability = availability;
+    public AnimalWalkResponse setUsername(String username) {
+        this.username = username;
         return this;
     }
 }

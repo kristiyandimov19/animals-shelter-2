@@ -1,8 +1,8 @@
 async function GET_Comments(user_id){
-    let url = "http://localhost:8080/users/comments/"+user_id;
+    var url = "http://localhost:8080/users/comments/"+user_id;
 
     //Get result
-    let res = await fetch(url, {
+    var res = await fetch(url, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -12,7 +12,7 @@ async function GET_Comments(user_id){
 
     //Check if OK
     if(res.ok){
-        let text = await res.text().then();
+        var text = await res.text().then();
         const obj = JSON.parse(text);
         return obj;
     }
@@ -28,10 +28,10 @@ async function GET_Comments(user_id){
 }
 
 async  function GET_Users(){
-    let url = 'http://localhost:8080/users/all';
+    var url = 'http://localhost:8080/users/all';
 
     //Get result
-    let res = await fetch(url, {
+    var res = await fetch(url, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -41,7 +41,7 @@ async  function GET_Users(){
 
     //Check if OK
     if(res.ok){
-        let text = await res.text().then();
+        var text = await res.text().then();
         const obj = JSON.parse(text);
         return obj;
     }
@@ -100,22 +100,22 @@ function showComments(user_id){
         Object.entries(obj).forEach(([key,value]) => {
 
             //Create HTML object
-            let h5 = document.createElement("h5");
+            var h5 = document.createElement("h5");
             h5.classList.add("card-title");
             h5.innerText = "By " + value.author + ":";
 
 
-            let p = document.createElement("p");
+            var p = document.createElement("p");
             p.classList.add("card-text")
             p.innerText = value.description;
 
 
-            let div = document.createElement("div");
+            var div = document.createElement("div");
             div.classList.add("card-body");
             div.appendChild(h5);
             div.appendChild(p);
 
-            let li = document.createElement("li");
+            var li = document.createElement("li");
             li.classList.add("list-group-item");
             li.appendChild(div);
 

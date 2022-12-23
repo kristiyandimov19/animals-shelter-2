@@ -1,6 +1,6 @@
 package com.example.animalsshelter2.config;
 
-import com.example.animalsshelter2.models.CustomUserDetails;
+import com.example.animalsshelter2.services.impl.CustomUserDetails;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.security.authentication.AuthenticationManager;

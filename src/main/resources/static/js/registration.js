@@ -1,13 +1,13 @@
 async function POST_register(){
-    let url = 'http://localhost:8080/register';
-    let data = {
+    var url = 'http://localhost:8080/register';
+    var data = {
         'username': document.getElementById("username").value,
         'password': document.getElementById("password").value,
         'email': document.getElementById("email").value,
     };
 
     //Get result
-    let res = await fetch(url, {
+    var res = await fetch(url, {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
@@ -18,7 +18,7 @@ async function POST_register(){
 
     //Check if OK
     if (res.ok) {
-        let text = await res.text();
+        var text = await res.text();
         return text;
     } else {
         Swal.fire({
@@ -32,12 +32,12 @@ async function POST_register(){
 }
 
 function register(){
-    let username= document.getElementById("username").value;
-    let email = document.getElementById("email").value;
-    let pass = document.getElementById("password").value;
-    let _pass = document.getElementById("confirm_password").value;
-    let email_correct = true;
-    let username_correct = true;
+    var username= document.getElementById("username").value;
+    var email = document.getElementById("email").value;
+    var pass = document.getElementById("password").value;
+    var _pass = document.getElementById("confirm_password").value;
+    var email_correct = true;
+    var username_correct = true;
 
     const mail_format = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
@@ -81,7 +81,7 @@ function checkPassword(pass,_pass){
     //Password to be 8 symbols, to have small letter, big letter, and number
     const pass_format = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
 
-    let pass_correct=true;
+    var pass_correct=true;
 
     if(!pass_format.test(pass)){
         //Err password

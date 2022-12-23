@@ -1,8 +1,8 @@
 async function GET_onWalk(){
-    let url = 'http://localhost:8080/animal/onWalk';
+    var url = 'http://localhost:8080/animal/onWalk';
 
     //Get result
-    let res = await fetch(url, {
+    var res = await fetch(url, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -12,7 +12,7 @@ async function GET_onWalk(){
 
     //Check if OK
     if(res.ok){
-        let text = await res.text().then();
+        var text = await res.text().then();
         const obj = JSON.parse(text);
         return obj;
     }

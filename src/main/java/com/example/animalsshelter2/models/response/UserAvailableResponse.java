@@ -1,6 +1,6 @@
-package com.example.animalsshelter2.models.views;
+package com.example.animalsshelter2.models.response;
 
-public class UserAvailableViewModel {
+public class UserAvailableResponse {
 
     private Long id;
 
@@ -10,7 +10,7 @@ public class UserAvailableViewModel {
         return id;
     }
 
-    public UserAvailableViewModel setId(Long id) {
+    public UserAvailableResponse setId(Long id) {
         this.id = id;
         return this;
     }
@@ -19,7 +19,7 @@ public class UserAvailableViewModel {
         return username;
     }
 
-    public UserAvailableViewModel setUsername(String username) {
+    public UserAvailableResponse setUsername(String username) {
         this.username = username;
         return this;
     }

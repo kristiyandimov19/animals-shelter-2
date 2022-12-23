@@ -1,11 +1,9 @@
 package com.example.animalsshelter2.services;
 
-import com.example.animalsshelter2.models.Animal;
-import com.example.animalsshelter2.models.Comment;
 import com.example.animalsshelter2.models.User;
-import com.example.animalsshelter2.models.services.RegisterServiceModel;
-import com.example.animalsshelter2.models.views.UserAvailableViewModel;
-import com.example.animalsshelter2.models.views.UserIdViewModel;
+import com.example.animalsshelter2.models.request.RegisterRequest;
+import com.example.animalsshelter2.models.response.UserAvailableResponse;
+import com.example.animalsshelter2.models.response.UserIdResponse;
 
 import java.util.List;
 
@@ -17,13 +15,13 @@ public interface UserService {
 
     User findUserById(Long id);
 
-    UserIdViewModel findById(Long id);
+    UserIdResponse findById(Long id);
 
     void seedUsers();
 
-    List<UserAvailableViewModel> findAllAvailable();
+    List<UserAvailableResponse> findAllAvailable();
 
-    List<UserAvailableViewModel> findAllUsers();
+    List<UserAvailableResponse> findAllUsers();
 
     void takeOnWalk(Long userId, Long animalId) throws Exception;
 
@@ -31,5 +29,5 @@ public interface UserService {
 
     void addComment(Long adminId, Long userId, String description);
 
-    void save(RegisterServiceModel newUser);
+    void save(RegisterRequest newUser);
 }

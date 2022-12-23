@@ -1,10 +1,10 @@
 package com.example.animalsshelter2.controllers;
 
-import com.example.animalsshelter2.models.services.AnimalAvailableServiceModel;
-import com.example.animalsshelter2.models.services.AnimalServiceModel;
-import com.example.animalsshelter2.models.views.AnimalViewModel;
-import com.example.animalsshelter2.models.views.AnimalWalkViewModel;
-import com.example.animalsshelter2.models.views.UserIdViewModel;
+import com.example.animalsshelter2.models.request.AnimalAvailableRequest;
+import com.example.animalsshelter2.models.request.AnimalRequest;
+import com.example.animalsshelter2.models.response.AnimalResponse;
+import com.example.animalsshelter2.models.response.AnimalWalkResponse;
+import com.example.animalsshelter2.models.response.UserIdResponse;
 import com.example.animalsshelter2.services.AnimalService;
 import com.example.animalsshelter2.services.UserService;
 import jakarta.persistence.EntityNotFoundException;
@@ -12,7 +12,6 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.RestClientException;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
@@ -29,13 +28,13 @@ public class AnimalController {
         this.userService = userService;
     }
 
-    @GetMapping("/all")
-    public List<AnimalViewModel> getAllAnimals() {
+    @GetMapping("/")
+    public List<AnimalResponse> getAllAnimals() {
         return animalService.findAll();
     }
 
     @GetMapping("/volunteer/{id}")
-    public UserIdViewModel getVolunteer(@PathVariable Long id) {
+    public UserIdResponse getVolunteer(@PathVariable Long id) {
         try{
             Long userId = animalService.findAnimalById(id).getUserId();
             return userService.findById(userId);
@@ -51,10 +50,10 @@ public class AnimalController {
     }
 
 
-    @PostMapping("/create")
-    public void createAnimal(@RequestBody AnimalServiceModel animalServiceModel) {
+    @PostMapping("/")
+    public void createAnimal(@RequestBody AnimalRequest animalRequest) {
         try {
-            animalService.createAnimal(animalServiceModel);
+            animalService.createAnimal(animalRequest);
         }catch (IllegalArgumentException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Write it right !!!", e);
 
@@ -65,7 +64,7 @@ public class AnimalController {
     }
 
     @GetMapping("/isAvailable/{id}")
-    public AnimalAvailableServiceModel isAvailable(@PathVariable Long id) {
+    public AnimalAvailableRequest isAvailable(@PathVariable Long id) {
     try {
         return animalService.findAnimalById(id);
     }catch (EntityNotFoundException e){
@@ -75,7 +74,7 @@ public class AnimalController {
 
     @GetMapping("/onWalk")
 
-    public List<AnimalWalkViewModel> onWalk() {
+    public List<AnimalWalkResponse> onWalk() {
     try{
         return animalService.findAllAvailable();
     }catch (IllegalArgumentException e){
@@ -83,7 +82,7 @@ public class AnimalController {
     }
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/adopt/{id}")
     public void adoptAnimal(@PathVariable Long id) {
         try {
             animalService.adoptAnimal(id);

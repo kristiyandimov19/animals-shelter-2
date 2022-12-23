@@ -1,6 +1,6 @@
-package com.example.animalsshelter2.models.views;
+package com.example.animalsshelter2.models.response;
 
-public class WalkHistoryViewModel {
+public class WalkHistoryResponse {
 
     private String animalName;
 

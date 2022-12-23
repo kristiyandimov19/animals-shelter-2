@@ -1,8 +1,6 @@
-package com.example.animalsshelter2.models.services;
+package com.example.animalsshelter2.models.request;
 
-import com.example.animalsshelter2.models.views.AnimalViewModel;
-
-public class AnimalServiceModel {
+public class AnimalRequest {
 
     private Long id;
     private String name;
@@ -22,7 +20,7 @@ public class AnimalServiceModel {
         return id;
     }
 
-    public AnimalServiceModel setId(Long id) {
+    public AnimalRequest setId(Long id) {
         this.id = id;
         return this;
     }
@@ -31,7 +29,7 @@ public class AnimalServiceModel {
         return name;
     }
 
-    public AnimalServiceModel setName(String name) {
+    public AnimalRequest setName(String name) {
         this.name = name;
         return this;
     }
@@ -40,7 +38,7 @@ public class AnimalServiceModel {
         return type;
     }
 
-    public AnimalServiceModel setType(String type) {
+    public AnimalRequest setType(String type) {
         this.type = type;
         return this;
     }
@@ -49,7 +47,7 @@ public class AnimalServiceModel {
         return availability;
     }
 
-    public AnimalServiceModel setAvailability(boolean availability) {
+    public AnimalRequest setAvailability(boolean availability) {
         this.availability = availability;
         return this;
     }

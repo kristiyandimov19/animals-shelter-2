@@ -1,9 +1,9 @@
 async function PUT_takeAnimalOnWalk(animal_id) {
 
-    let url = "http://localhost:8080/users/takeOnWalk/" + document.getElementById("FormSelector").value + "/" + animal_id;
+    var url = "http://localhost:8080/users/takeOnWalk/" + document.getElementById("FormSelector").value + "/" + animal_id;
 
     //Get result
-    let res = await fetch(url, {
+    var res = await fetch(url, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
@@ -30,10 +30,10 @@ async function PUT_takeAnimalOnWalk(animal_id) {
     }
 }
 async function GET_allAvailableUsers(){
-    let url = 'http://localhost:8080/users/available';
+    var url = 'http://localhost:8080/users/available';
 
     //Get result
-    let res = await fetch(url, {
+    var res = await fetch(url, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -43,7 +43,7 @@ async function GET_allAvailableUsers(){
 
     //Check if OK
     if(res.ok){
-        let text = await res.text().then();
+        var text = await res.text().then();
         const obj = JSON.parse(text);
         return obj;
     }
@@ -78,14 +78,14 @@ function setPage(){
 }
 function takeAnimalOnWalk() {
     //Get user id
-    let user_id = document.getElementById("FormSelector").value;
+    var user_id = document.getElementById("FormSelector").value;
 
     if(user_id === ""){
         document.getElementById("user_error").style.display = "block";
         return;
     }
 
-    let animal_id =new URLSearchParams(window.location.search).get("animal_id");
+    var animal_id =new URLSearchParams(window.location.search).get("animal_id");
 
     //Check if animal is still available
     GET_Check(animal_id).then( data =>{

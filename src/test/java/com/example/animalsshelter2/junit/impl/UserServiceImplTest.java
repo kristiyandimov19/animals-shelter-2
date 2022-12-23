@@ -4,8 +4,8 @@ import com.example.animalsshelter2.models.Animal;
 import com.example.animalsshelter2.models.User;
 import com.example.animalsshelter2.models.UserRole;
 import com.example.animalsshelter2.models.enums.UserRoleEnum;
-import com.example.animalsshelter2.models.views.UserAvailableViewModel;
-import com.example.animalsshelter2.models.views.UserIdViewModel;
+import com.example.animalsshelter2.models.response.UserAvailableResponse;
+import com.example.animalsshelter2.models.response.UserIdResponse;
 import com.example.animalsshelter2.repositories.AnimalRepository;
 import com.example.animalsshelter2.repositories.UserRepository;
 import com.example.animalsshelter2.repositories.UserRoleRepository;
@@ -109,7 +109,7 @@ class UserServiceImplTest {
         when(userRepository.findById(anyLong()))
                 .thenReturn(Optional.ofNullable(user1));
 
-        UserIdViewModel actualResult = userService.findById(1L);
+        UserIdResponse actualResult = userService.findById(1L);
 
         assertEquals(user1.getId(), actualResult.getId());
         verify(userRepository).findById(anyLong());
@@ -120,7 +120,7 @@ class UserServiceImplTest {
         when(userRepository.findAllByAnimalIsNullAndRole(any()))
                 .thenReturn(List.of(user2));
 
-        List<UserAvailableViewModel> actualResult = userService.findAllAvailable();
+        List<UserAvailableResponse> actualResult = userService.findAllAvailable();
 
         assertEquals(user2.getId(), actualResult.get(0).getId());
         assertEquals(user2.getUsername(), actualResult.get(0).getUsername());
@@ -132,10 +132,10 @@ class UserServiceImplTest {
         when(userRepository.findAllByRole(any()))
                 .thenReturn(List.of(user1, user2));
 
-        List<UserAvailableViewModel> actualResult = userService.findAllUsers();
+        List<UserAvailableResponse> actualResult = userService.findAllUsers();
 
-        List<UserAvailableViewModel> expectedResult = List.of(user1, user2).stream()
-                        .map(user -> modelMapper.map(user, UserAvailableViewModel.class))
+        List<UserAvailableResponse> expectedResult = List.of(user1, user2).stream()
+                        .map(user -> modelMapper.map(user, UserAvailableResponse.class))
                                 .toList();
 
         assertEquals(expectedResult.size(), actualResult.size());

@@ -1,7 +1,6 @@
 package com.example.animalsshelter2.services;
 
 import com.example.animalsshelter2.models.WalkHistory;
-import com.example.animalsshelter2.models.views.WalkHistoryViewModel;
 
 import java.text.ParseException;
 import java.util.List;

@@ -2,8 +2,8 @@ package com.example.animalsshelter2.controllers;
 
 import com.example.animalsshelter2.config.JwtUtils;
 import com.example.animalsshelter2.models.User;
-import com.example.animalsshelter2.models.services.LoginServiceModel;
-import com.example.animalsshelter2.models.services.RegisterServiceModel;
+import com.example.animalsshelter2.models.request.LoginRequest;
+import com.example.animalsshelter2.models.request.RegisterRequest;
 import com.example.animalsshelter2.services.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,7 +17,6 @@ import java.util.Collections;
 import java.util.Map;
 
 @RestController
-@RequestMapping()
 public class AdmissionController {
     private final UserService userService;
     private final JwtUtils jwtUtils;
@@ -31,10 +30,10 @@ public class AdmissionController {
     }
 
     @PostMapping("/register")
-    public Map<String, Object> register(@RequestBody RegisterServiceModel registerServiceModel) {
+    public Map<String, Object> register(@RequestBody RegisterRequest registerRequest) {
         try {
-            userService.save(registerServiceModel);
-            User user = userService.findByEmail(registerServiceModel.getEmail());
+            userService.save(registerRequest);
+            User user = userService.findByEmail(registerRequest.getEmail());
             String token = jwtUtils.generateToken(user.getRole(),user.getEmail(),user.getId());
 
             return Collections.singletonMap("jwt-token", token);
@@ -44,15 +43,15 @@ public class AdmissionController {
     }
 
     @PostMapping("/login")
-    public Map<String, Object> login(@RequestBody LoginServiceModel loginServiceModel) {
+    public Map<String, Object> login(@RequestBody LoginRequest loginRequest) {
         try {
             UsernamePasswordAuthenticationToken authInputToken =
-                    new UsernamePasswordAuthenticationToken(loginServiceModel.getEmail(),
-                            loginServiceModel.getPassword());
+                    new UsernamePasswordAuthenticationToken(loginRequest.getEmail(),
+                            loginRequest.getPassword());
 
             authenticationManager.authenticate(authInputToken);
 
-            User user = userService.findByEmail(loginServiceModel.getEmail());
+            User user = userService.findByEmail(loginRequest.getEmail());
             String token = jwtUtils.generateToken(user.getRole(),user.getEmail(),user.getId());
 
             return Collections.singletonMap("jwt-token", token);

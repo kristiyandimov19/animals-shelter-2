@@ -2,9 +2,9 @@ package com.example.animalsshelter2.services.impl;
 
 import com.example.animalsshelter2.models.*;
 import com.example.animalsshelter2.models.enums.UserRoleEnum;
-import com.example.animalsshelter2.models.services.RegisterServiceModel;
-import com.example.animalsshelter2.models.views.UserAvailableViewModel;
-import com.example.animalsshelter2.models.views.UserIdViewModel;
+import com.example.animalsshelter2.models.request.RegisterRequest;
+import com.example.animalsshelter2.models.response.UserAvailableResponse;
+import com.example.animalsshelter2.models.response.UserIdResponse;
 import com.example.animalsshelter2.repositories.AnimalRepository;
 import com.example.animalsshelter2.repositories.UserRepository;
 import com.example.animalsshelter2.repositories.UserRoleRepository;
@@ -62,9 +62,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserIdViewModel findById(Long id) {
+    public UserIdResponse findById(Long id) {
         User user = userRepository.findById(id).orElse(null);
-        return modelMapper.map(user, UserIdViewModel.class);
+        return modelMapper.map(user, UserIdResponse.class);
     }
 
     @Override
@@ -94,23 +94,23 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public List<UserAvailableViewModel> findAllAvailable() {
+    public List<UserAvailableResponse> findAllAvailable() {
         UserRole userRole = userRoleRepository.findByRole(UserRoleEnum.USER);
 
         List<User> users = userRepository.findAllByAnimalIsNullAndRole(userRole);
 
         return users.stream()
-                .map(user -> modelMapper.map(user, UserAvailableViewModel.class))
+                .map(user -> modelMapper.map(user, UserAvailableResponse.class))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<UserAvailableViewModel> findAllUsers() {
+    public List<UserAvailableResponse> findAllUsers() {
         UserRole userRole = userRoleRepository.findByRole(UserRoleEnum.USER);
 
         return userRepository.findAllByRole(userRole)
                 .stream()
-                .map(user -> modelMapper.map(user, UserAvailableViewModel.class))
+                .map(user -> modelMapper.map(user, UserAvailableResponse.class))
                 .collect(Collectors.toList());
     }
 
@@ -162,7 +162,7 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public void save(RegisterServiceModel newUser) {
+    public void save(RegisterRequest newUser) {
         User user = modelMapper.map(newUser, User.class);
         user.setPassword(passwordEncoder.encode(newUser.getPassword()));
         UserRole userRole = userRoleRepository.findById(2L).orElseThrow();

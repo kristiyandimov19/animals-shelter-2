@@ -7,7 +7,7 @@ async function POST_addAnimal(){
     };
 
     //Get result
-    let res = await fetch(url, {
+    var res = await fetch(url, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -35,7 +35,7 @@ async function POST_addAnimal(){
 
 function addAnimal(){
     //Get name
-    let name = document.getElementById("name").value;
+    var name = document.getElementById("name").value;
 
     //Check if name is right
     if(name.length == 0 ){

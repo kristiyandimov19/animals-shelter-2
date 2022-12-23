@@ -1,8 +1,8 @@
 async function GET_Walks(user_id){
-    let url = "http://localhost:8080/users/walks/" + user_id;
+    var url = "http://localhost:8080/users/walks/" + user_id;
 
     //Get result
-    let res = await fetch(url, {
+    var res = await fetch(url, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -12,7 +12,7 @@ async function GET_Walks(user_id){
 
     //Check if OK
     if(res.ok){
-        let text = await res.text().then();
+        var text = await res.text().then();
         const obj = JSON.parse(text);
         return obj;
     }
@@ -36,7 +36,7 @@ function showWalks(user_id){
         Object.entries(obj).forEach(([key,value]) => {
 
             //Create HTML structure
-            let p = document.createElement("p");
+            var p = document.createElement("p");
             p.innerText = value.animalName + " - " + value.animalType + " - " + value.localDate;
             p.classList.add("inline_text");
 
@@ -56,7 +56,7 @@ function showWalks(user_id){
             div.appendChild(img);
             div.appendChild(p);
 
-            let li = document.createElement("li");
+            var li = document.createElement("li");
             li.classList.add("list-group-item");
 
             li.appendChild(div);
@@ -66,6 +66,6 @@ function showWalks(user_id){
 }
 
 function setPage(){
-    let user_id= getUser_id();
+    var user_id= getUser_id();
     showWalks(user_id);
 }

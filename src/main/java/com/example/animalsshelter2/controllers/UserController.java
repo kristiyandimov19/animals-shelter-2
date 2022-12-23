@@ -3,10 +3,10 @@ package com.example.animalsshelter2.controllers;
 import com.example.animalsshelter2.models.Comment;
 import com.example.animalsshelter2.models.User;
 import com.example.animalsshelter2.models.WalkHistory;
-import com.example.animalsshelter2.models.services.CommentServiceModel;
-import com.example.animalsshelter2.models.views.CommentViewModel;
-import com.example.animalsshelter2.models.views.UserAvailableViewModel;
-import com.example.animalsshelter2.models.views.WalkHistoryViewModel;
+import com.example.animalsshelter2.models.request.CommentRequest;
+import com.example.animalsshelter2.models.response.CommentResponse;
+import com.example.animalsshelter2.models.response.UserAvailableResponse;
+import com.example.animalsshelter2.models.response.WalkHistoryResponse;
 import com.example.animalsshelter2.services.UserService;
 import com.example.animalsshelter2.services.WalkHistoryService;
 import jakarta.persistence.EntityNotFoundException;
@@ -35,12 +35,12 @@ public class UserController {
     }
 
     @GetMapping("/available")
-    public List<UserAvailableViewModel> allAvailable() {
+    public List<UserAvailableResponse> allAvailable() {
         return userService.findAllAvailable();
     }
 
     @GetMapping("/all")
-    public List<UserAvailableViewModel> findAllUsers() {
+    public List<UserAvailableResponse> findAllUsers() {
         try {
             return userService.findAllUsers();
         }catch (EntityNotFoundException e){
@@ -49,8 +49,8 @@ public class UserController {
         }
     }
 
-    @GetMapping("/comments/{id}")
-    public List<CommentViewModel> getUserComments(@PathVariable Long id) {
+    @GetMapping("/{id}/comments")
+    public List<CommentResponse> getUserComments(@PathVariable Long id) {
         try {
             User user = userService.findUserById(id);
 
@@ -64,22 +64,22 @@ public class UserController {
             Collections.reverse(last5comments);
 
             return last5comments
-                    .stream().map(comment -> modelMapper.map(comment, CommentViewModel.class)
+                    .stream().map(comment -> modelMapper.map(comment, CommentResponse.class)
                     )
                     .toList();
         }catch (EntityNotFoundException e){
             throw  new ResponseStatusException(HttpStatus.NOT_FOUND,e.getMessage(),e);
         }
     }
-    @GetMapping("/walks/{id}")
-    public List<WalkHistoryViewModel> getWalkHistory(@PathVariable Long id) throws ParseException {
+    @GetMapping("/{id}/walks")
+    public List<WalkHistoryResponse> getWalkHistory(@PathVariable Long id) throws ParseException {
     try {
         List<WalkHistory> walkHistories = walkHistoryService.findByUserId(id);
 
         Collections.reverse(walkHistories);
 
         return walkHistories.stream()
-                .map(walkHistory -> modelMapper.map(walkHistory, WalkHistoryViewModel.class))
+                .map(walkHistory -> modelMapper.map(walkHistory, WalkHistoryResponse.class))
                 .toList();
     }catch (EntityNotFoundException e){
         throw new ResponseStatusException(HttpStatus.NOT_FOUND,e.getMessage(),e);
@@ -103,9 +103,9 @@ public class UserController {
     }
 
     @PutMapping("/comment/add")
-    public void addComment(@RequestBody CommentServiceModel commentServiceModel) {
-        userService.addComment(commentServiceModel.getAuthorId(),
-                commentServiceModel.getUserId(),
-                commentServiceModel.getDescription());
+    public void addComment(@RequestBody CommentRequest commentRequest) {
+        userService.addComment(commentRequest.getAuthorId(),
+                commentRequest.getUserId(),
+                commentRequest.getDescription());
     }
 }

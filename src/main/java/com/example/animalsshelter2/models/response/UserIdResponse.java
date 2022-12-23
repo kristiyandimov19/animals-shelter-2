@@ -1,6 +1,6 @@
-package com.example.animalsshelter2.models.views;
+package com.example.animalsshelter2.models.response;
 
-public class UserIdViewModel {
+public class UserIdResponse {
 
     private Long id;
 
@@ -8,7 +8,7 @@ public class UserIdViewModel {
         return id;
     }
 
-    public UserIdViewModel setId(Long id) {
+    public UserIdResponse setId(Long id) {
         this.id = id;
         return this;
     }

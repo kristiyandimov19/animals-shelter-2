@@ -1,11 +1,9 @@
-package com.example.animalsshelter2.models.views;
+package com.example.animalsshelter2.models.response;
 
-import jakarta.persistence.Column;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 
-public class RegistrationViewModel {
+public class RegistrationResponse {
     @NotBlank(message = "Password can`t be empty")
     private String password;
 
@@ -15,14 +13,14 @@ public class RegistrationViewModel {
 
     private String username;
 
-    public RegistrationViewModel() {
+    public RegistrationResponse() {
     }
 
     public String getUsername() {
         return username;
     }
 
-    public RegistrationViewModel setUsername(String username) {
+    public RegistrationResponse setUsername(String username) {
         this.username = username;
         return this;
     }

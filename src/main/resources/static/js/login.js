@@ -3,13 +3,13 @@ async function POST_login(email,pass){
 
     localStorage.removeItem("token");
 
-    let data = {
+    var data = {
         'email': email,
         'password': pass,
     }
 
     //Get result
-    let res = await fetch("http://localhost:8080/login", {
+    var res = await fetch("http://localhost:8080/login", {
         method: "POST",
         headers: {
             'Accept': 'application/json',
@@ -20,7 +20,7 @@ async function POST_login(email,pass){
 
     //Check if OK
     if (res.ok) {
-        let text = await res.text();
+        var text = await res.text();
         return text;
     } else {
         document.getElementById("login_error").style.display = "block";
@@ -29,10 +29,10 @@ async function POST_login(email,pass){
 
 function login(){
 
-    let email= document.getElementById("email").value;
-    let pass = document.getElementById("password").value;
-    let email_correct = true;
-    let pass_correct = true;
+    var email= document.getElementById("email").value;
+    var pass = document.getElementById("password").value;
+    var email_correct = true;
+    var pass_correct = true;
     const mail_format = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
     //Check if mail is correct form

@@ -1,6 +1,6 @@
-package com.example.animalsshelter2.models.services;
+package com.example.animalsshelter2.models.request;
 
-public class RegisterServiceModel {
+public class RegisterRequest {
 
     private String email;
 
@@ -9,14 +9,14 @@ public class RegisterServiceModel {
 
     private String username;
 
-    public RegisterServiceModel(String email, String password, String username) {
+    public RegisterRequest(String email, String password, String username) {
         this.email = email;
         this.password = password;
 
         this.username = username;
     }
 
-    public RegisterServiceModel() {
+    public RegisterRequest() {
     }
 
     public String getEmail() {
