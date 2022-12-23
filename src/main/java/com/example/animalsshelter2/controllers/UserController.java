@@ -87,20 +87,19 @@ public class UserController {
     }
     }
 
-    @PutMapping("/takeOnWalk/{userId}/{animalId}")
-    public void takeOnWalk(@PathVariable Long userId, @PathVariable Long animalId) {
+    @PutMapping("/{id}/takeAnimal/{animalId}")
+    public void takeOnWalk(@PathVariable Long id, @PathVariable Long animalId) {
         try {
-            userService.takeOnWalk(userId, animalId);
+            userService.takeOnWalk(id, animalId);
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,e.getMessage());
         }
-
     }
 
-    @PutMapping("/returnFromWalk/{userId}/{animalId}")
-    public void returnFromWalk(@PathVariable Long userId, @PathVariable Long animalId) {
+    @PutMapping("/{id}/returnAnimal/{animalId}")
+    public void returnFromWalk(@PathVariable Long id, @PathVariable Long animalId) {
 
-        userService.returnFromWalk(userId, animalId);
+        userService.returnFromWalk(id, animalId);
     }
 
     @PutMapping("/comment/add")

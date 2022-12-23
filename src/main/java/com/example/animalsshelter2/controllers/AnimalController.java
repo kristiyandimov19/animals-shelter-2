@@ -31,7 +31,6 @@ public class AnimalController {
 
     @GetMapping("/all")
     public List<AnimalViewModel> getAllAnimals() {
-        //throw new ResponseStatusException(HttpStatus.NOT_FOUND,"body");
         return animalService.findAll();
     }
 

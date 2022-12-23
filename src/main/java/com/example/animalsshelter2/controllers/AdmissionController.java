@@ -18,13 +18,13 @@ import java.util.Map;
 
 @RestController
 @RequestMapping()
-public class LoginRegisterController {
+public class AdmissionController {
     private final UserService userService;
     private final JwtUtils jwtUtils;
     private final AuthenticationManager authenticationManager;
 
 
-    public LoginRegisterController(UserService userService, JwtUtils jwtUtils, AuthenticationManager authenticationManager) {
+    public AdmissionController(UserService userService, JwtUtils jwtUtils, AuthenticationManager authenticationManager) {
         this.userService = userService;
         this.jwtUtils = jwtUtils;
         this.authenticationManager = authenticationManager;

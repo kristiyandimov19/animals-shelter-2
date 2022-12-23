@@ -11,7 +11,7 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
-@Repository
+
 public interface WalkHistoryRepository extends JpaRepository<WalkHistory,Long> {
 
     @Query("select w from WalkHistory w where w.localDate >= :#{#localDate} AND w.userId = :#{#userId}")
