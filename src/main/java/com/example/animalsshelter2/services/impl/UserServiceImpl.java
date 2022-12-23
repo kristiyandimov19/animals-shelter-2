@@ -192,7 +192,7 @@ public class UserServiceImpl implements UserService {
         try {
             User user = modelMapper.map(newUser, User.class);
             user.setPassword(passwordEncoder.encode(newUser.getPassword()));
-            UserRole userRole = new UserRole().setRole(UserRoleEnum.USER);
+            UserRole userRole = userRoleRepository.findByRole(UserRoleEnum.USER);
             user.setRole(userRole);
             userRepository.save(user);
             String token = jwtUtils.generateToken(user.getRole(), user.getEmail(), user.getId());
