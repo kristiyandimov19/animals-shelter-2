@@ -20,7 +20,6 @@ import java.util.Collections;
 import java.util.List;
 
 @RestController
-@RequestMapping("/users")
 public class UserController {
 
     private final UserService userService;
@@ -102,7 +101,7 @@ public class UserController {
         userService.returnFromWalk(id, animalId);
     }
 
-    @PutMapping("/comment/add")
+    @PutMapping("/comment")
     public void addComment(@RequestBody CommentRequest commentRequest) {
         userService.addComment(commentRequest.getAuthorId(),
                 commentRequest.getUserId(),

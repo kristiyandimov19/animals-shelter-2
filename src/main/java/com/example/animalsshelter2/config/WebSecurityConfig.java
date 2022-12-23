@@ -44,7 +44,7 @@ public class WebSecurityConfig {
                             "/html/**",
                             "/login",
                             "/register",
-                            "/animal/all",
+                            "/animal",
                             "/info")
                     .permitAll()
                     .requestMatchers( "/users/walks/**")

@@ -16,13 +16,13 @@ public class Animal extends BaseEntity {
         this.user = user;
     }
 
-    @Column(name = "name")
+
     private String name;
 
-    @Column(name = "type")
+
     private String type;
 
-    @Column(name = "availability")
+
     private boolean availability;
 
     @OneToOne

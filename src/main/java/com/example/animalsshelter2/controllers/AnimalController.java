@@ -28,13 +28,13 @@ public class AnimalController {
         this.userService = userService;
     }
 
-    @GetMapping("/")
+    @GetMapping()
     public List<AnimalResponse> getAllAnimals() {
         return animalService.findAll();
     }
 
-    @GetMapping("/volunteer/{id}")
-    public UserIdResponse getVolunteer(@PathVariable Long id) {
+    @GetMapping("/{id}/volunteer")
+    public UserIdResponse getVolunteerFor(@PathVariable Long id) {
         try{
             Long userId = animalService.findAnimalById(id).getUserId();
             return userService.findById(userId);
@@ -50,7 +50,7 @@ public class AnimalController {
     }
 
 
-    @PostMapping("/")
+    @PostMapping()
     public void createAnimal(@RequestBody AnimalRequest animalRequest) {
         try {
             animalService.createAnimal(animalRequest);

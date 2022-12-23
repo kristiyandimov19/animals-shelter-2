@@ -7,10 +7,10 @@ import jakarta.persistence.*;
 @Table(name = "comments")
 public class Comment extends BaseEntity {
 
-    @Column(name = "author", nullable = false)
+    @Column(nullable = false)
     private String author;
 
-    @Column(name = "description", nullable = false)
+    @Column(nullable = false)
     private String description;
 
 

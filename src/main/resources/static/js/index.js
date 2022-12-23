@@ -84,7 +84,7 @@ async function DELETE_adopt(animal_id) {
 }
 
 async function GET_allAnimals(){
-    var url = 'http://localhost:8080/animal/all';
+    var url = 'http://localhost:8080/animal';
 
     //Get result
     var res = await fetch(url, {
