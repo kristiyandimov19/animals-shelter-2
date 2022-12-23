@@ -1,5 +1,6 @@
 package com.example.animalsshelter2.junit.impl;
 
+import com.example.animalsshelter2.config.JwtUtils;
 import com.example.animalsshelter2.models.Animal;
 import com.example.animalsshelter2.models.User;
 import com.example.animalsshelter2.models.UserRole;
@@ -18,6 +19,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.List;
@@ -43,6 +45,10 @@ class UserServiceImplTest {
     private UserRoleRepository userRoleRepository;
 
     private UserServiceImpl userService;
+
+    private JwtUtils jwtUtils;
+
+    private AuthenticationManager authenticationManager;
 
     private ModelMapper modelMapper;
     private User user1, user2, user3;
@@ -79,7 +85,7 @@ class UserServiceImplTest {
         modelMapper = new ModelMapper();
 
         userService = new UserServiceImpl(userRepository, new ModelMapper(),
-                animalRepository, commentService, walkHistoryRepository, new BCryptPasswordEncoder(), userRoleRepository);
+                animalRepository, commentService, walkHistoryRepository, new BCryptPasswordEncoder(), userRoleRepository, jwtUtils, authenticationManager);
     }
 
     @Test
@@ -159,9 +165,9 @@ class UserServiceImplTest {
 
         userService.takeOnWalk(1L, 1L);
 
-        verify(userRepository).findById(anyLong());
+        verify(userRepository, atLeast(2)).findById(anyLong());
         verify(userRepository).save(any());
-        verify(animalRepository).findById(anyLong());
+        verify(animalRepository, atLeast(2)).findById(anyLong());
         verify(animalRepository).save(any());
     }
 

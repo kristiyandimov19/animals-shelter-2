@@ -8,7 +8,8 @@ import java.time.LocalDate;
 @Table(name = "walk_history")
 public class WalkHistory extends BaseEntity {
 
-    private Long userId;
+    @ManyToOne
+    private User user;
 
     private String animalName;
 
@@ -16,12 +17,12 @@ public class WalkHistory extends BaseEntity {
 
     private LocalDate localDate;
 
-    public Long getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public WalkHistory setUserId(Long userId) {
-        this.userId = userId;
+    public WalkHistory setUser(User user) {
+        this.user = user;
         return this;
     }
 

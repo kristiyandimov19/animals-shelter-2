@@ -13,6 +13,17 @@ public class Comment extends BaseEntity {
     @Column(nullable = false)
     private String description;
 
+    @ManyToOne
+    private User user;
+
+    public User getUser() {
+        return user;
+    }
+
+    public Comment setUser(User user) {
+        this.user = user;
+        return this;
+    }
 
     public String getAuthor() {
         return author;

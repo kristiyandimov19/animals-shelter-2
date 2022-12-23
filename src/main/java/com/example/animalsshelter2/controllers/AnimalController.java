@@ -10,6 +10,7 @@ import com.example.animalsshelter2.services.UserService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.server.ResponseStatusException;
@@ -28,65 +29,60 @@ public class AnimalController {
         this.userService = userService;
     }
 
-    @GetMapping()
+    @GetMapping
     public List<AnimalResponse> getAllAnimals() {
         return animalService.findAll();
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/{id}/volunteer")
     public UserIdResponse getVolunteerFor(@PathVariable Long id) {
-        try{
-            Long userId = animalService.findAnimalById(id).getUserId();
-            return userService.findById(userId);
 
-        }catch (EntityNotFoundException e){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Not Found",e);
-
-        }catch (HttpClientErrorException.Unauthorized e){
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,"No accreditation !!!",e);
-        }
-
+        Long userId = animalService.findAnimalById(id).getUserId();
+        return userService.findById(userId);
 
     }
 
-
-    @PostMapping()
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @PostMapping
     public void createAnimal(@RequestBody AnimalRequest animalRequest) {
         try {
             animalService.createAnimal(animalRequest);
-        }catch (IllegalArgumentException e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Write it right !!!", e);
+        } catch (IllegalArgumentException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Write it right !!!", e);
 
 
-        }catch (DuplicateKeyException e){
-            throw new ResponseStatusException(HttpStatus.CONFLICT,"All ready exist !!!",e);
+        } catch (DuplicateKeyException e) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "All ready exist !!!", e);
         }
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/isAvailable/{id}")
     public AnimalAvailableRequest isAvailable(@PathVariable Long id) {
-    try {
-        return animalService.findAnimalById(id);
-    }catch (EntityNotFoundException e){
-        throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Not found !!!",e);
-    }
+        try {
+            return animalService.findAnimalById(id);
+        } catch (EntityNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found !!!", e);
+        }
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/onWalk")
-
     public List<AnimalWalkResponse> onWalk() {
-    try{
-        return animalService.findAllAvailable();
-    }catch (IllegalArgumentException e){
-        throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-    }
+        try {
+            return animalService.findAllAvailable();
+        } catch (IllegalArgumentException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("/adopt/{id}")
     public void adoptAnimal(@PathVariable Long id) {
         try {
             animalService.adoptAnimal(id);
-        }catch (EntityNotFoundException e){
+        } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 
         }

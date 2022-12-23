@@ -5,6 +5,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.authentication.configuration.EnableGlobalAuthentication;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.context.annotation.Bean;
@@ -16,7 +19,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
-
+@EnableMethodSecurity
 public class WebSecurityConfig {
 
     private final CustomUserDetails customUserDetails;
@@ -31,35 +34,22 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-            http
-                    .csrf()
-                    .disable()
-                    .httpBasic()
-                    .disable()
-                    .cors()
-                    .and()
-                    .authorizeHttpRequests()
-                    .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                    .requestMatchers("/",
-                            "/html/**",
-                            "/login",
-                            "/register",
-                            "/animal",
-                            "/info")
+        http
+                .csrf()
+                .disable()
+                .httpBasic()
+                .disable()
+                .cors()
+                .and()
+                .authorizeHttpRequests()
+                .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
+                .requestMatchers("/**",
+                        "/html/**",
+                        "/login",
+                        "/register",
+                        "/animal",
+                        "/info")
                     .permitAll()
-                    .requestMatchers( "/users/walks/**")
-                    .hasAnyAuthority("USER","ADMIN")
-                    .requestMatchers( "/users/available",
-                            "/users/all",
-                            "/users/comments/**",
-                            "/users/comment/add",
-                            "/users/walks/**",
-                            "/users/returnFromWalk/**",
-                            "/users/takeOnWalk/**",
-                            "/users/volunteer/**",
-                            "/animal/**",
-                            "/animal/delete/**")
-                    .hasAuthority("ADMIN")
                     .requestMatchers("/bootstrap/**").permitAll()
                     .and()
                     .userDetailsService(customUserDetails)

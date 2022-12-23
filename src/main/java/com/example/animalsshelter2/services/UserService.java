@@ -1,7 +1,10 @@
 package com.example.animalsshelter2.services;
 
 import com.example.animalsshelter2.models.User;
+import com.example.animalsshelter2.models.request.LoginRequest;
 import com.example.animalsshelter2.models.request.RegisterRequest;
+import com.example.animalsshelter2.models.response.LoginResponse;
+import com.example.animalsshelter2.models.response.RegistrationResponse;
 import com.example.animalsshelter2.models.response.UserAvailableResponse;
 import com.example.animalsshelter2.models.response.UserIdResponse;
 
@@ -29,5 +32,7 @@ public interface UserService {
 
     void addComment(Long adminId, Long userId, String description);
 
-    void save(RegisterRequest newUser);
+    RegistrationResponse save(RegisterRequest newUser);
+
+    LoginResponse login(LoginRequest loginRequest);
 }

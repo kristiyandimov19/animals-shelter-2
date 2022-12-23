@@ -9,9 +9,13 @@ import com.example.animalsshelter2.models.response.AnimalWalkResponse;
 import com.example.animalsshelter2.repositories.AnimalRepository;
 import com.example.animalsshelter2.repositories.UserRepository;
 import com.example.animalsshelter2.services.AnimalService;
+import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -83,8 +87,15 @@ public class AnimalServiceImpl implements AnimalService {
 
     @Override
     public AnimalAvailableRequest findAnimalById(Long id) {
-        Animal animal = animalRepository.findById(id).orElse(null);
-        return modelMapper.map(animal, AnimalAvailableRequest.class);
+        try {
+            Animal animal = animalRepository.findById(id).orElseThrow();
+            return modelMapper.map(animal, AnimalAvailableRequest.class);
+        } catch (EntityNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Not Found", e);
+        } catch (HttpClientErrorException.Unauthorized e) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "No accreditation !!!", e);
+        }
+
     }
 
 

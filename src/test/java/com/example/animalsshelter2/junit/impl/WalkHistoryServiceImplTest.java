@@ -1,6 +1,9 @@
 package com.example.animalsshelter2.junit.impl;
 
+import com.example.animalsshelter2.models.User;
+import com.example.animalsshelter2.models.UserRole;
 import com.example.animalsshelter2.models.WalkHistory;
+import com.example.animalsshelter2.models.enums.UserRoleEnum;
 import com.example.animalsshelter2.repositories.WalkHistoryRepository;
 import com.example.animalsshelter2.services.impl.WalkHistoryServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,6 +18,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
+
 @ExtendWith(MockitoExtension.class)
 class WalkHistoryServiceImplTest {
 
@@ -23,14 +27,18 @@ class WalkHistoryServiceImplTest {
 
     private WalkHistory walkHistory = new WalkHistory();
 
+    private User user;
+
     private WalkHistoryServiceImpl walkHistoryService;
 
     @BeforeEach
     void setUp() {
+        user = new User("Pesho", "test1@gmail.com", "password", new UserRole().setRole(UserRoleEnum.ADMIN), null);
+        user.setId(1L);
         walkHistory.setId(1L);
         walkHistory.setAnimalName("Gosho")
                 .setAnimalType("Dog")
-                .setUserId(1L);
+                .setUser(user);
         walkHistory.setLocalDate(LocalDate.now());
         walkHistoryService = new WalkHistoryServiceImpl(walkHistoryRepository);
 

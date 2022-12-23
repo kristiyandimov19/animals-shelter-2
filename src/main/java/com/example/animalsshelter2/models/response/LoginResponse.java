@@ -7,29 +7,14 @@ import jakarta.validation.constraints.Size;
 
 public class LoginResponse {
 
-    @NotBlank
-    @Size(min = 2, max = 20, message = "Email be between 2 and 20 characters.")
-    private String email;
+    private String token;
 
-    @NotBlank
-    private String password;
-
-    public LoginResponse() {
+    public String getToken() {
+        return token;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
+    public LoginResponse setToken(String token) {
+        this.token = token;
+        return this;
     }
 }

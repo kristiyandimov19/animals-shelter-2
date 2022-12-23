@@ -4,6 +4,8 @@ import com.example.animalsshelter2.config.JwtUtils;
 import com.example.animalsshelter2.models.User;
 import com.example.animalsshelter2.models.request.LoginRequest;
 import com.example.animalsshelter2.models.request.RegisterRequest;
+import com.example.animalsshelter2.models.response.LoginResponse;
+import com.example.animalsshelter2.models.response.RegistrationResponse;
 import com.example.animalsshelter2.services.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -30,33 +32,13 @@ public class AdmissionController {
     }
 
     @PostMapping("/register")
-    public Map<String, Object> register(@RequestBody RegisterRequest registerRequest) {
-        try {
-            userService.save(registerRequest);
-            User user = userService.findByEmail(registerRequest.getEmail());
-            String token = jwtUtils.generateToken(user.getRole(),user.getEmail(),user.getId());
-
-            return Collections.singletonMap("jwt-token", token);
-        }catch (InvalidParameterException e){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Write it right !!!",e);
-        }
+    public RegistrationResponse register(@RequestBody RegisterRequest registerRequest) {
+        return userService.save(registerRequest);
     }
 
     @PostMapping("/login")
-    public Map<String, Object> login(@RequestBody LoginRequest loginRequest) {
-        try {
-            UsernamePasswordAuthenticationToken authInputToken =
-                    new UsernamePasswordAuthenticationToken(loginRequest.getEmail(),
-                            loginRequest.getPassword());
-
-            authenticationManager.authenticate(authInputToken);
-
-            User user = userService.findByEmail(loginRequest.getEmail());
-            String token = jwtUtils.generateToken(user.getRole(),user.getEmail(),user.getId());
-
-            return Collections.singletonMap("jwt-token", token);
-        } catch (AuthenticationException e) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,"Invalid Login Credentials",e);
-        }
+    public LoginResponse login(@RequestBody LoginRequest loginRequest) {
+        return userService.login(loginRequest);
     }
+
 }

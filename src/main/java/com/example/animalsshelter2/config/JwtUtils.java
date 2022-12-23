@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
+import java.util.Locale;
 
 @Component
 public class JwtUtils {
@@ -20,29 +21,15 @@ public class JwtUtils {
 
     public String generateToken(UserRole role, String email, Long id) throws IllegalArgumentException, JWTCreationException {
 
-        if(role.getRole() == UserRoleEnum.ADMIN){
-            return JWT.create()
-                    .withSubject("User Details")
-                    .withClaim("auth", "admin")
-                    .withClaim("email", email)
-                    .withClaim("user_id",id)
-                    .withIssuedAt(new Date())
-                    .withExpiresAt(new Date(System.currentTimeMillis() + 1000 * 60 * 60))
-                    .withIssuer("animals-shelter-2/project")
-                    .sign(Algorithm.HMAC256(secret));
-        }
-        else{
-            return JWT.create()
-                    .withSubject("User Details")
-                    .withClaim("auth", "user")
-                    .withClaim("email", email)
-                    .withClaim("user_id",id)
-                    .withIssuedAt(new Date())
-                    .withExpiresAt(new Date(System.currentTimeMillis() + 1000 * 60 * 60))
-                    .withIssuer("animals-shelter-2/project")
-                    .sign(Algorithm.HMAC256(secret));
-        }
-
+        return JWT.create()
+                .withSubject("User Details")
+                .withClaim("auth", role.getRole().toString().toLowerCase(Locale.ROOT))
+                .withClaim("email", email)
+                .withClaim("user_id", id)
+                .withIssuedAt(new Date())
+                .withExpiresAt(new Date(System.currentTimeMillis() + 1000 * 60 * 60))
+                .withIssuer("animals-shelter-2/project")
+                .sign(Algorithm.HMAC256(secret));
     }
 
     public String validateTokenAndRetrieveSubject(String token)throws JWTVerificationException {
@@ -53,4 +40,10 @@ public class JwtUtils {
         DecodedJWT jwt = verifier.verify(token);
         return jwt.getClaim("email").asString();
     }
+
 }
+
+
+
+
+

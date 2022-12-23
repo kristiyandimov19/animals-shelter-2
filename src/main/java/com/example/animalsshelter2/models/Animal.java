@@ -9,24 +9,16 @@ public class Animal extends BaseEntity {
     public Animal() {
     }
 
-    public Animal(String name, String type, boolean availability, User user) {
-        this.name = name;
-        this.type = type;
-        this.availability = availability;
-        this.user = user;
-    }
-
-
+    @Column(name = "name")
     private String name;
 
-
+    @Column(name = "type")
     private String type;
 
-
+    @Column(name = "availability")
     private boolean availability;
 
     @OneToOne
-    @JoinColumn(name = "user_id")
     private User user;
 
     public User getUser() {
