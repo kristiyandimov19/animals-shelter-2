@@ -5,16 +5,19 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "walk_history")
+@Table(name = "walk_histories")
 public class WalkHistory extends BaseEntity {
 
     @ManyToOne
     private User user;
 
+    @Column
     private String animalName;
 
+    @Column
     private String animalType;
 
+    @Column
     private LocalDate localDate;
 
     public User getUser() {

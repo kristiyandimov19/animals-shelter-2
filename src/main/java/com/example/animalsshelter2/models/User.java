@@ -20,13 +20,13 @@ public class User extends BaseEntity {
         this.animal = animal;
     }
 
-    @Column(name = "username")
+    @Column
     private String username;
 
-    @Column(name = "email")
+    @Column
     private String email;
 
-    @Column(name = "password")
+    @Column
     private String password;
 
     @ManyToOne

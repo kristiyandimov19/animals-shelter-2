@@ -9,13 +9,13 @@ public class Animal extends BaseEntity {
     public Animal() {
     }
 
-    @Column(name = "name")
+    @Column
     private String name;
 
-    @Column(name = "type")
+    @Column
     private String type;
 
-    @Column(name = "availability")
+    @Column
     private boolean availability;
 
     @OneToOne
