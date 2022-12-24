@@ -60,21 +60,7 @@ public class UserController {
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/{id}/comments")
     public List<CommentResponse> getUserComments(@PathVariable Long id) {
-        try {
-            List<CommentResponse> comments = commentService.findAllByUserId(id);
-            List<CommentResponse> last5comments;
-
-            if (comments.size() > 5) {
-                last5comments = comments
-                        .subList(comments.size() - 5, comments.size());
-                Collections.reverse(last5comments);
-                return last5comments;
-            }
-
-            return comments;
-        } catch (EntityNotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
-        }
+        return commentService.findAllByUserId(id);
     }
 
     @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
@@ -111,8 +97,8 @@ public class UserController {
     @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/comment")
     public void addComment(@RequestBody CommentRequest commentRequest) {
-        userService.addComment(commentRequest.getAuthorId(),
-                commentRequest.getUserId(),
-                commentRequest.getDescription());
+        commentService.createComment(commentRequest.getAuthorId(),
+                commentRequest.getDescription(),
+                commentRequest.getUserId());
     }
 }

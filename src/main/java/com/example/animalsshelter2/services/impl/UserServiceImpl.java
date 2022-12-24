@@ -175,19 +175,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void addComment(Long adminId, Long userId, String description) {
-        if (userRepository.findById(userId).isPresent()) {
-            User user = userRepository.findById(userId).get();
-            Comment comment = commentService.createComment(adminId, description, userId);
-            userRepository.save(user);
-        } else {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User was not found.");
-        }
-
-    }
-
-
-    @Override
     public RegistrationResponse save(RegisterRequest newUser) {
         try {
             User user = modelMapper.map(newUser, User.class);

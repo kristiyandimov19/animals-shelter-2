@@ -6,11 +6,13 @@ import com.example.animalsshelter2.models.response.CommentResponse;
 import com.example.animalsshelter2.repositories.CommentRepository;
 import com.example.animalsshelter2.repositories.UserRepository;
 import com.example.animalsshelter2.services.CommentService;
+import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -48,9 +50,20 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public List<CommentResponse> findAllByUserId(Long id) {
-        return commentRepository.findAllByUserId(id)
-                .stream()
-                .map(c -> modelMapper.map(c, CommentResponse.class))
-                .collect(Collectors.toList());
+
+        try {
+            List<Comment> comments = commentRepository.findAllByUserId(id);
+
+            if (comments.size() > 5) {
+                comments = comments
+                        .subList(comments.size() - 5, comments.size());
+            }
+            Collections.reverse(comments);
+            return comments.stream()
+                    .map(c -> modelMapper.map(c, CommentResponse.class))
+                    .collect(Collectors.toList());
+        } catch (EntityNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User has no comments", e);
+        }
     }
 }

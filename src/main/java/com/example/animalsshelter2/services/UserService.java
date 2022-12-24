@@ -30,8 +30,6 @@ public interface UserService {
 
     void returnFromWalk(Long userId, Long animalId);
 
-    void addComment(Long adminId, Long userId, String description);
-
     RegistrationResponse save(RegisterRequest newUser);
 
     LoginResponse login(LoginRequest loginRequest);
