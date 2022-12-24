@@ -12,6 +12,7 @@ import com.example.animalsshelter2.services.UserService;
 import com.example.animalsshelter2.services.WalkHistoryService;
 import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -77,16 +78,13 @@ public class UserController {
     }
 
     @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
-    @GetMapping("/{id}/walks")
-    public List<WalkHistoryResponse> getWalkHistory(@PathVariable Long id) throws ParseException {
+    @GetMapping("/{id}/walks/page/{page}")
+    public Page<WalkHistoryResponse> getWalkHistory(@PathVariable Long id, @PathVariable int page) throws ParseException {
         try {
-            List<WalkHistory> walkHistories = walkHistoryService.findByUserId(id);
+            Page<WalkHistory> walkHistories = walkHistoryService.findByUserId(id, page);
 
-            Collections.reverse(walkHistories);
-
-            return walkHistories.stream()
-                    .map(walkHistory -> modelMapper.map(walkHistory, WalkHistoryResponse.class))
-                    .toList();
+            return walkHistories
+                    .map(walkHistory -> modelMapper.map(walkHistory, WalkHistoryResponse.class));
         } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
 

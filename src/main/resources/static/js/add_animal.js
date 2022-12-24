@@ -1,5 +1,5 @@
 async function POST_addAnimal(){
-    let url = 'http://localhost:8080/animal/create';
+    let url = 'http://localhost:8080/animal';
 
     let data = {
         'name': document.getElementById("name").value,

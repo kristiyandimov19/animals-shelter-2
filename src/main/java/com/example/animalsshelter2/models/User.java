@@ -12,6 +12,13 @@ public class User extends BaseEntity {
     public User() {
     }
 
+    public User(String username, String email, String password, UserRole role) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+    }
+
     public User(String username, String email, String password, UserRole role, Animal animal) {
         this.username = username;
         this.email = email;
@@ -31,7 +38,6 @@ public class User extends BaseEntity {
 
     @ManyToOne
     private UserRole role;
-
 
     @OneToOne
     private Animal animal;

@@ -27,7 +27,7 @@ async function PUT_returnFromWalk(user_id,animal_id) {
 }
 
 async function GET_walker(animal_id){
-    var url = "http://localhost:8080/animal/volunteer/"+animal_id;
+    var url = "http://localhost:8080/animal/"+animal_id +"/volunteer";
 
     //Get result
     var res = await fetch(url, {
@@ -57,7 +57,7 @@ async function GET_walker(animal_id){
 
 async function DELETE_adopt(animal_id) {
 
-    var url = "http://localhost:8080/animal/delete/" + animal_id;
+    var url = "http://localhost:8080/animal/adopt/" + animal_id;
 
     //Get result
     var res = await fetch(url, {
@@ -96,7 +96,7 @@ async function GET_allAnimals(){
 
     //Check if OK
     if(res.ok){
-        var text = await res.text().then();
+        var text = await res.text();
         const obj = JSON.parse(text);
         return obj;
     }

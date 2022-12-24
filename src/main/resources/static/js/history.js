@@ -1,8 +1,10 @@
-async function GET_Walks(user_id){
-    var url = "http://localhost:8080/users/walks/" + user_id;
+var numberOfPages =0;
+var currentPage = 1;
+async function GET_Walks(user_id,page){
+    let url = "http://localhost:8080/"+ user_id +"/walks/page/" + page;
 
     //Get result
-    var res = await fetch(url, {
+    let res = await fetch(url, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -12,7 +14,7 @@ async function GET_Walks(user_id){
 
     //Check if OK
     if(res.ok){
-        var text = await res.text().then();
+        let text = await res.text().then();
         const obj = JSON.parse(text);
         return obj;
     }
@@ -27,16 +29,23 @@ async function GET_Walks(user_id){
     }
 }
 
-function showWalks(user_id){
-    //Show title
-    document.getElementById("walks_title").style.display="block";
-
+function showWalks(user_id,page){
     //Get all walks of user
-    GET_Walks(user_id).then( obj =>{
-        Object.entries(obj).forEach(([key,value]) => {
+    document.getElementById("walk-history").innerHTML=""
+
+    currentPage+=page;
+    console.log("Current page:"+currentPage);
+
+    GET_Walks(user_id,currentPage-1).then( obj =>{
+        //Set pagination
+        numberOfPages = obj.totalPages;
+        console.log("Total number:"+numberOfPages);
+        setPaginationButtons(currentPage);
+
+        Object.entries(obj.content).forEach(([key,value]) => {
 
             //Create HTML structure
-            var p = document.createElement("p");
+            let p = document.createElement("p");
             p.innerText = value.animalName + " - " + value.animalType + " - " + value.localDate;
             p.classList.add("inline_text");
 
@@ -56,7 +65,7 @@ function showWalks(user_id){
             div.appendChild(img);
             div.appendChild(p);
 
-            var li = document.createElement("li");
+            let li = document.createElement("li");
             li.classList.add("list-group-item");
 
             li.appendChild(div);
@@ -65,7 +74,32 @@ function showWalks(user_id){
     })
 }
 
+function setPaginationButtons(page){
+    var pagination_arrows = document.getElementsByClassName("page-link");
+
+    if(numberOfPages === 0 || numberOfPages === 1){
+        pagination_arrows[0].classList.add("disabled");
+        pagination_arrows[1].classList.add("disabled");
+        return;
+    }
+
+    if(page == 1){
+        pagination_arrows[0].classList.add("disabled");
+        pagination_arrows[1].classList.remove("disabled");
+    }
+    else if(page == numberOfPages){
+        pagination_arrows[1].classList.add("disabled");
+        pagination_arrows[0].classList.remove("disabled");
+    }
+    else {
+        pagination_arrows[0].classList.remove("disabled");
+        pagination_arrows[1].classList.remove("disabled");
+    }
+
+}
+
 function setPage(){
-    var user_id= getUser_id();
-    showWalks(user_id);
+    let user_id= getUser_id();
+    showWalks(user_id,0);
+
 }

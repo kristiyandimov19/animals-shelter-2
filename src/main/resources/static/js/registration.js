@@ -19,7 +19,8 @@ async function POST_register(){
     //Check if OK
     if (res.ok) {
         var text = await res.text();
-        return text;
+        const obj = JSON.parse(text);
+        return obj;
     } else {
         Swal.fire({
             icon: 'error',
@@ -68,10 +69,10 @@ function register(){
 
     //Check if password is correct form
     if(checkPassword(pass,_pass)){
-
         if(email_correct && username_correct) {
-            POST_register().then(text=>{
-                localStorage.setItem("token", text.toString().split('"')[3]);
+            POST_register().then(obj=>{
+
+                localStorage.setItem("token", obj.token);
                 window.location.replace("../html/index.html");
             });
         }

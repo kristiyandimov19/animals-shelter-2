@@ -1,5 +1,5 @@
 async function PUT_addComment(user_id){
-    var url = 'http://localhost:8080/users/comment/add';
+    var url = 'http://localhost:8080/comment';
     var data = {
         'authorId': getUser_id(),
         'userId': user_id.toString(),

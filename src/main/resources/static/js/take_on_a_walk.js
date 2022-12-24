@@ -30,7 +30,7 @@ async function PUT_takeAnimalOnWalk(animal_id) {
     }
 }
 async function GET_allAvailableUsers(){
-    var url = 'http://localhost:8080/users/available';
+    var url = 'http://localhost:8080/available';
 
     //Get result
     var res = await fetch(url, {

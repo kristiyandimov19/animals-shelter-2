@@ -21,7 +21,8 @@ async function POST_login(email,pass){
     //Check if OK
     if (res.ok) {
         var text = await res.text();
-        return text;
+        const obj = JSON.parse(text);
+        return obj;
     } else {
         document.getElementById("login_error").style.display = "block";
     }
@@ -62,8 +63,9 @@ function login(){
 
     //Login
     if(email_correct && pass_correct){
-        POST_login(email, pass).then( text=>{
-            localStorage.setItem("token", text.toString().split('"')[3]);
+        POST_login(email, pass).then( obj=>{
+            console.log(obj);
+            localStorage.setItem("token", obj.token);
             window.location.replace("../html/index.html");
         });
     }
