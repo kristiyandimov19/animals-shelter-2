@@ -11,6 +11,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -27,6 +31,8 @@ class WalkHistoryServiceImplTest {
 
     private WalkHistory walkHistory = new WalkHistory();
 
+    private Page<WalkHistory> walkHistoryPage;
+
     private User user;
 
     private WalkHistoryServiceImpl walkHistoryService;
@@ -41,19 +47,19 @@ class WalkHistoryServiceImplTest {
                 .setUser(user);
         walkHistory.setLocalDate(LocalDate.now());
         walkHistoryService = new WalkHistoryServiceImpl(walkHistoryRepository);
+        PageRequest requestPage = PageRequest.of(1, 5, Sort.by(Sort.Direction.DESC, "id"));
+        walkHistoryPage = new PageImpl<>(List.of(walkHistory), requestPage, 5);
 
     }
 
-    /*@Test
+    @Test
     void findByUserId() {
-        when(walkHistoryRepository.findAllByUserId(any(), anyLong()))
-                .thenReturn(List.of(walkHistory));
+        Page<WalkHistory> expectedResult = walkHistoryPage;
+        when(walkHistoryRepository.findAllByUserId(any(LocalDate.class), any(Long.class), any(PageRequest.class)))
+                .thenReturn(expectedResult);
 
-        List<WalkHistory> actualResult = walkHistoryService.findByUserId(1L);
+        Page<WalkHistory> result = walkHistoryService.findByUserId(1L, 0);
 
-        List<WalkHistory> expectedResult = List.of(walkHistory);
-
-        assertEquals(expectedResult.get(0).getId(), actualResult.get(0).getId());
-        verify(walkHistoryRepository).findAllByUserId(any(), anyLong());
-    }*/
+        assertEquals(expectedResult, result);
+    }
 }

@@ -185,14 +185,4 @@ class UserServiceImplTest {
         verify(userRepository).save(any());
         verify(walkHistoryRepository).save(any());
     }
-
-    @Test
-    void addComment() {
-        when(userRepository.findById(anyLong()))
-                .thenReturn(Optional.ofNullable(user2));
-
-        userService.addComment(user3.getId(), user2.getId(), "description: very good");
-
-        verify(userRepository).save(any());
-    }
 }
