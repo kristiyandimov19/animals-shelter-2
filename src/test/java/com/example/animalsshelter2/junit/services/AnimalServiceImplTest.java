@@ -1,4 +1,4 @@
-package com.example.animalsshelter2.junit.impl;
+package com.example.animalsshelter2.junit.services;
 
 import com.example.animalsshelter2.models.Animal;
 import com.example.animalsshelter2.models.User;
