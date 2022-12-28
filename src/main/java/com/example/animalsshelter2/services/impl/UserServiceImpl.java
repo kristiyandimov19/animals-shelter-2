@@ -80,7 +80,7 @@ public class UserServiceImpl implements UserService {
         return modelMapper.map(user, UserIdResponse.class);
     }
 
-    @Override
+    /*@Override
     public void seedUsers() {
 
         UserRole adminRole = new UserRole().setRole(UserRoleEnum.ADMIN);
@@ -103,7 +103,7 @@ public class UserServiceImpl implements UserService {
                     .setPassword(passwordEncoder.encode("asdasd"))
                     .setRole(userRole));
         }
-    }
+    }*/
 
 
     @Override

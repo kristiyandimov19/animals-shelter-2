@@ -12,6 +12,9 @@ import com.example.animalsshelter2.services.AnimalService;
 import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
@@ -34,7 +37,7 @@ public class AnimalServiceImpl implements AnimalService {
         this.userRepository = userRepository;
     }
 
-    @Override
+    /*@Override
     public void seedAnimals() {
         Animal animal1 = new Animal()
                 .setName("Max")
@@ -63,14 +66,15 @@ public class AnimalServiceImpl implements AnimalService {
 
         animalRepository.saveAll(List.of(animal1, animal2, animal3, animal4, animal5));
 
-    }
+    }*/
 
     @Override
-    public List<AnimalResponse> findAll() {
-        return animalRepository.findAll()
-                .stream()
-                .map(a -> modelMapper.map(a, AnimalResponse.class))
-                .collect(Collectors.toList());
+    public Page<AnimalResponse> findAll(int page) {
+
+        PageRequest requestPage = PageRequest.of(page, 10);
+
+        return animalRepository.findAll(requestPage)
+                .map(a -> modelMapper.map(a, AnimalResponse.class));
     }
 
     @Override
@@ -100,11 +104,13 @@ public class AnimalServiceImpl implements AnimalService {
 
 
     @Override
-    public List<AnimalWalkResponse> findAllAvailable() {
-        List<Animal> animals = animalRepository.findAllAvailable();
+    public Page<AnimalWalkResponse> findAllAvailable(int page) {
+
+        PageRequest requestPage = PageRequest.of(page, 10);
+
+        Page<Animal> animals = animalRepository.findAllAvailable(requestPage);
 
         return animals
-                .stream()
                 .map(animal -> {
                     AnimalWalkResponse animalWalkResponse = modelMapper
                             .map(animal, AnimalWalkResponse.class);
@@ -115,7 +121,6 @@ public class AnimalServiceImpl implements AnimalService {
                     }
                     animalWalkResponse.setUsername(user.getUsername());
                     return animalWalkResponse;
-                })
-                .collect(Collectors.toList());
+                });
     }
 }

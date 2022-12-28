@@ -4,13 +4,14 @@ import com.example.animalsshelter2.models.request.AnimalAvailableRequest;
 import com.example.animalsshelter2.models.request.AnimalRequest;
 import com.example.animalsshelter2.models.response.AnimalResponse;
 import com.example.animalsshelter2.models.response.AnimalWalkResponse;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
 public interface AnimalService {
-    void seedAnimals();
+    //void seedAnimals();
 
-    List<AnimalResponse> findAll();
+    Page<AnimalResponse> findAll(int page);
 
     void createAnimal(AnimalRequest animal);
 
@@ -19,6 +20,6 @@ public interface AnimalService {
     AnimalAvailableRequest findAnimalById(Long id);
 
 
-    List<AnimalWalkResponse> findAllAvailable();
+    Page<AnimalWalkResponse> findAllAvailable(int page);
 
 }

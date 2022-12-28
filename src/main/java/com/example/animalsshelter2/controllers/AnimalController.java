@@ -9,6 +9,7 @@ import com.example.animalsshelter2.services.AnimalService;
 import com.example.animalsshelter2.services.UserService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -29,9 +30,9 @@ public class AnimalController {
         this.userService = userService;
     }
 
-    @GetMapping
-    public List<AnimalResponse> getAllAnimals() {
-        return animalService.findAll();
+    @GetMapping("page/{page}")
+    public Page<AnimalResponse> getAllAnimals(@PathVariable int page) {
+        return animalService.findAll(page);
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
@@ -68,10 +69,10 @@ public class AnimalController {
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
-    @GetMapping("/onWalk")
-    public List<AnimalWalkResponse> onWalk() {
+    @GetMapping("/onWalk/page/{page}")
+    public Page<AnimalWalkResponse> onWalk(@PathVariable int page) {
         try {
-            return animalService.findAllAvailable();
+            return animalService.findAllAvailable(page);
         } catch (IllegalArgumentException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }

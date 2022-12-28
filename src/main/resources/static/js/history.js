@@ -34,12 +34,12 @@ function showWalks(user_id,page){
     document.getElementById("walk-history").innerHTML=""
 
     currentPage+=page;
-    console.log("Current page:"+currentPage);
+
 
     GET_Walks(user_id,currentPage-1).then( obj =>{
         //Set pagination
         numberOfPages = obj.totalPages;
-        console.log("Total number:"+numberOfPages);
+
         setPaginationButtons(currentPage);
 
         Object.entries(obj.content).forEach(([key,value]) => {
@@ -74,29 +74,6 @@ function showWalks(user_id,page){
     })
 }
 
-function setPaginationButtons(page){
-    var pagination_arrows = document.getElementsByClassName("page-link");
-
-    if(numberOfPages === 0 || numberOfPages === 1){
-        pagination_arrows[0].classList.add("disabled");
-        pagination_arrows[1].classList.add("disabled");
-        return;
-    }
-
-    if(page == 1){
-        pagination_arrows[0].classList.add("disabled");
-        pagination_arrows[1].classList.remove("disabled");
-    }
-    else if(page == numberOfPages){
-        pagination_arrows[1].classList.add("disabled");
-        pagination_arrows[0].classList.remove("disabled");
-    }
-    else {
-        pagination_arrows[0].classList.remove("disabled");
-        pagination_arrows[1].classList.remove("disabled");
-    }
-
-}
 
 function setPage(){
     let user_id= getUser_id();

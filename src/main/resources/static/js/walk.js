@@ -1,5 +1,8 @@
-async function GET_onWalk(){
-    var url = 'http://localhost:8080/animal/onWalk';
+var numberOfPages = 0;
+var currentPage = 1;
+
+async function GET_onWalk(page) {
+    var url = "http://localhost:8080/animal/onWalk/page/" + page;
 
     //Get result
     var res = await fetch(url, {
@@ -27,21 +30,28 @@ async function GET_onWalk(){
     }
 }
 
-function setPage(){
+function setPage(page) {
+
+    document.getElementById("animals_list").innerHTML = "";
+    currentPage += page;
 
     //Get animals on walk
-   GET_onWalk().then( obj =>{
-       Object.entries(obj).forEach(([key,value]) => {
+    GET_onWalk(currentPage - 1).then(obj => {
+        console.log(obj);
+        numberOfPages = obj.totalPages;
+        setPaginationButtons(currentPage);
 
-           //Create HTML object
-           const p = document.createElement("p");
-           p.innerText = value.name + " - " + value.type + " - " + value.username;
-           p.classList.add("inline_text");
+        Object.entries(obj.content).forEach(([key, value]) => {
+
+            //Create HTML object
+            const p = document.createElement("p");
+            p.innerText = value.name + " - " + value.type + " - " + value.username;
+            p.classList.add("inline_text");
 
 
-           const img = document.createElement("img");
-           if(value.type === "Dog")
-               img.setAttribute("src","../images/icons8-dog-48.png");
+            const img = document.createElement("img");
+            if (value.type === "Dog")
+                img.setAttribute("src", "../images/icons8-dog-48.png");
            else if(value.type === "Cat")
                img.setAttribute("src","../images/icons8-cat-face-48.png");
            else if(value.type === "Cow")

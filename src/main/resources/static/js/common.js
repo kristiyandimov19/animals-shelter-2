@@ -99,11 +99,33 @@ function setMenu(){
          return parseJwt(localStorage.getItem("token")).auth;
      else
          return "guest"
-}
+ }
 
-function getUser_id(){
-    if(localStorage.getItem("token") != null)
+function getUser_id() {
+    if (localStorage.getItem("token") != null)
         return parseJwt(localStorage.getItem("token")).user_id;
     else
         return "-1";
+}
+
+function setPaginationButtons(page) {
+    var pagination_arrows = document.getElementsByClassName("page-link");
+
+    if (numberOfPages === 0 || numberOfPages === 1) {
+        pagination_arrows[0].classList.add("disabled");
+        pagination_arrows[1].classList.add("disabled");
+        return;
+    }
+
+    if (page == 1) {
+        pagination_arrows[0].classList.add("disabled");
+        pagination_arrows[1].classList.remove("disabled");
+    } else if (page == numberOfPages) {
+        pagination_arrows[1].classList.add("disabled");
+        pagination_arrows[0].classList.remove("disabled");
+    } else {
+        pagination_arrows[0].classList.remove("disabled");
+        pagination_arrows[1].classList.remove("disabled");
+    }
+
 }

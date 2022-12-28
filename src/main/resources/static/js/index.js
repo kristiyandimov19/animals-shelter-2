@@ -1,4 +1,7 @@
-async function PUT_returnFromWalk(user_id,animal_id) {
+var numberOfPages = 0;
+var currentPage = 1;
+
+async function PUT_returnFromWalk(user_id, animal_id) {
 
     var url = "http://localhost:8080/" + user_id + "/animal/" + animal_id + "/return";
 
@@ -14,8 +17,7 @@ async function PUT_returnFromWalk(user_id,animal_id) {
     //Check if OK
     if(res.ok){
         return "OK";
-    }
-    else {
+    } else {
         Swal.fire({
             icon: 'error',
             title: 'Oops...',
@@ -43,8 +45,7 @@ async function GET_walker(animal_id){
         var text = await res.text().then();
         const obj = JSON.parse(text);
         return obj.id;
-    }
-    else{
+    } else{
         Swal.fire({
             icon: 'error',
             title: 'Oops...',
@@ -71,8 +72,7 @@ async function DELETE_adopt(animal_id) {
     //Check if OK
     if(res.ok){
         return "OK";
-    }
-    else {
+    } else {
         Swal.fire({
             icon: 'error',
             title: 'Oops...',
@@ -83,8 +83,8 @@ async function DELETE_adopt(animal_id) {
     }
 }
 
-async function GET_allAnimals(){
-    var url = 'http://localhost:8080/animal';
+async function GET_allAnimals(page) {
+    var url = "http://localhost:8080/animal/page/" + page;
 
     //Get result
     var res = await fetch(url, {
@@ -99,8 +99,7 @@ async function GET_allAnimals(){
         var text = await res.text();
         const obj = JSON.parse(text);
         return obj;
-    }
-    else{
+    } else{
         Swal.fire({
             icon: 'error',
             title: 'Oops...',
@@ -111,17 +110,26 @@ async function GET_allAnimals(){
     }
 }
 
-function setPage() {
-    GET_allAnimals().then(obj =>{
-        Object.entries(obj).forEach(([key,value]) => {
+function setPage(page) {
+
+    document.getElementById("animals_list").innerHTML = "";
+    currentPage += page;
+
+    GET_allAnimals(currentPage - 1).then(obj => {
+
+        console.log(obj);
+        numberOfPages = obj.totalPages;
+        setPaginationButtons(currentPage);
+
+        Object.entries(obj.content).forEach(([key, value]) => {
+
 
             //Create HTML object
             const li = document.createElement("li");
             li.classList.add("list-group-item");
-            if(key%2 === 0){
+            if (key % 2 === 0) {
                 li.classList.add("list-group-item-light");
-            }
-            else{
+            } else {
                 li.classList.add("list-group-item-dark");
             }
 
@@ -129,8 +137,7 @@ function setPage() {
             const p = document.createElement("p");
             if(value.availability){
                 p.innerText = value.name + " - " + value.type + " - Available";
-            }
-            else p.innerText = value.name + " - " + value.type + " - On a walk";
+            } else p.innerText = value.name + " - " + value.type + " - On a walk";
             p.classList.add("inline_text");
 
             //Create image
@@ -205,8 +212,7 @@ function takeOnAWalk(animal_id) {
     GET_Check(animal_id).then( data =>{
         if(data == "OK"){
             window.location.replace("./take_on_a_walk.html?animal_id="+animal_id);
-        }
-        else {
+        } else {
             window.location.replace("./index.html");
         }
     });
@@ -254,8 +260,7 @@ function adopt(animal_id){
                     })
                 }
             })
-        }
-        else{
+        } else{
             window.location.replace("./index.html");
         }
     })

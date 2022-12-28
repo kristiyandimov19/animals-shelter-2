@@ -141,8 +141,8 @@ class UserServiceImplTest {
         List<UserAvailableResponse> actualResult = userService.findAllUsers();
 
         List<UserAvailableResponse> expectedResult = List.of(user1, user2).stream()
-                        .map(user -> modelMapper.map(user, UserAvailableResponse.class))
-                                .toList();
+                .map(user -> modelMapper.map(user, UserAvailableResponse.class))
+                .toList();
 
         assertEquals(expectedResult.size(), actualResult.size());
         assertEquals(expectedResult.get(0).getId(), actualResult.get(0).getId());
