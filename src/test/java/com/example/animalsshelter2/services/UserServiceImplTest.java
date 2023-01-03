@@ -11,7 +11,6 @@ import com.example.animalsshelter2.repositories.AnimalRepository;
 import com.example.animalsshelter2.repositories.UserRepository;
 import com.example.animalsshelter2.repositories.UserRoleRepository;
 import com.example.animalsshelter2.repositories.WalkHistoryRepository;
-import com.example.animalsshelter2.services.CommentService;
 import com.example.animalsshelter2.services.impl.UserServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,9 +23,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -37,8 +36,6 @@ class UserServiceImplTest {
     private UserRepository userRepository;
     @Mock
     private AnimalRepository animalRepository;
-    @Mock
-    private CommentService commentService;
     @Mock
     private WalkHistoryRepository walkHistoryRepository;
     @Mock
@@ -85,7 +82,7 @@ class UserServiceImplTest {
         modelMapper = new ModelMapper();
 
         userService = new UserServiceImpl(userRepository, new ModelMapper(),
-                animalRepository, commentService, walkHistoryRepository, new BCryptPasswordEncoder(), userRoleRepository, jwtUtils, authenticationManager);
+                animalRepository, walkHistoryRepository, new BCryptPasswordEncoder(), userRoleRepository, jwtUtils, authenticationManager);
     }
 
     @Test
@@ -140,7 +137,7 @@ class UserServiceImplTest {
 
         List<UserAvailableResponse> actualResult = userService.findAllUsers();
 
-        List<UserAvailableResponse> expectedResult = List.of(user1, user2).stream()
+        List<UserAvailableResponse> expectedResult = Stream.of(user1, user2)
                 .map(user -> modelMapper.map(user, UserAvailableResponse.class))
                 .toList();
 

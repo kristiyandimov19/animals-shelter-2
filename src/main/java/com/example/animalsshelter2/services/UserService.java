@@ -20,8 +20,6 @@ public interface UserService {
 
     UserIdResponse findById(Long id);
 
-    void seedUsers();
-
     List<UserAvailableResponse> findAllAvailable();
 
     List<UserAvailableResponse> findAllUsers();

@@ -23,7 +23,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -59,7 +58,7 @@ class AnimalServiceImplTest {
         animal1 = new Animal();
         animal1.setId(1L);
         animal1.setName("Jordan");
-        animal1.setType("Kuchka");
+        animal1.setType("Dog");
         animal1.setAvailability(true);
         animal1.setUser(null);
 
@@ -73,7 +72,7 @@ class AnimalServiceImplTest {
         animalResponse1 = new AnimalResponse();
         animalResponse1.setId(1L);
         animalResponse1.setName("Jordan");
-        animalResponse1.setType("Kuchka");
+        animalResponse1.setType("Dog");
         animalResponse1.setAvailability(true);
 
         animalResponse2 = new AnimalResponse();

@@ -19,8 +19,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.List;
-
 @Service
 public class AnimalServiceImpl implements AnimalService {
 
@@ -33,42 +31,6 @@ public class AnimalServiceImpl implements AnimalService {
         this.animalRepository = animalRepository;
         this.modelMapper = modelMapper;
         this.userRepository = userRepository;
-    }
-
-    @Override
-    public void seedAnimals() {
-
-        if (animalRepository.count() != 0) {
-            return;
-        }
-
-        Animal animal1 = new Animal()
-                .setName("Max")
-                .setType("Dog")
-                .setAvailability(true);
-
-        Animal animal2 = new Animal()
-                .setName("Sven")
-                .setType("Sheep")
-                .setAvailability(true);
-
-        Animal animal3 = new Animal()
-                .setName("Dolly")
-                .setType("Dragon")
-                .setAvailability(true);
-
-        Animal animal4 = new Animal()
-                .setName("Kodi")
-                .setType("Cat")
-                .setAvailability(true);
-
-        Animal animal5 = new Animal()
-                .setName("Enrique")
-                .setType("Cow")
-                .setAvailability(true);
-
-        animalRepository.saveAll(List.of(animal1, animal2, animal3, animal4, animal5));
-
     }
 
     @Override

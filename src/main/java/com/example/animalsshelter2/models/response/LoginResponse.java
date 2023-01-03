@@ -1,10 +1,5 @@
 package com.example.animalsshelter2.models.response;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
-
-
-
 public class LoginResponse {
 
     private String token;

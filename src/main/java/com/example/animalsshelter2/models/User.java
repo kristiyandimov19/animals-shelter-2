@@ -2,9 +2,6 @@ package com.example.animalsshelter2.models;
 
 import jakarta.persistence.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Entity
 @Table(name = "users")
 public class User extends BaseEntity {

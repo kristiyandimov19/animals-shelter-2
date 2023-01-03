@@ -4,7 +4,6 @@ import com.example.animalsshelter2.models.WalkHistory;
 import org.springframework.data.domain.Page;
 
 import java.text.ParseException;
-import java.util.List;
 
 public interface WalkHistoryService {
 

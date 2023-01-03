@@ -13,7 +13,6 @@ import com.example.animalsshelter2.repositories.AnimalRepository;
 import com.example.animalsshelter2.repositories.UserRepository;
 import com.example.animalsshelter2.repositories.UserRoleRepository;
 import com.example.animalsshelter2.repositories.WalkHistoryRepository;
-import com.example.animalsshelter2.services.CommentService;
 import com.example.animalsshelter2.services.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +35,6 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
     private final AnimalRepository animalRepository;
-    private final CommentService commentService;
     private final WalkHistoryRepository walkHistoryRepository;
     private final PasswordEncoder passwordEncoder;
     private final UserRoleRepository userRoleRepository;
@@ -45,14 +43,11 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository, ModelMapper modelMapper,
-                           AnimalRepository animalRepository, CommentService commentService, WalkHistoryRepository walkHistoryRepository, PasswordEncoder passwordEncoder, UserRoleRepository userRoleRepository, JwtUtils jwtUtils, AuthenticationManager authenticationManager) {
+                           AnimalRepository animalRepository, WalkHistoryRepository walkHistoryRepository, PasswordEncoder passwordEncoder, UserRoleRepository userRoleRepository, JwtUtils jwtUtils, AuthenticationManager authenticationManager) {
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
         this.animalRepository = animalRepository;
-        this.commentService = commentService;
         this.walkHistoryRepository = walkHistoryRepository;
-
-
         this.passwordEncoder = passwordEncoder;
         this.userRoleRepository = userRoleRepository;
         this.jwtUtils = jwtUtils;
@@ -79,36 +74,6 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findById(id).orElse(null);
         return modelMapper.map(user, UserIdResponse.class);
     }
-
-    @Override
-    public void seedUsers() {
-
-        if (userRepository.count() != 0) {
-            return;
-        }
-
-        UserRole adminRole = new UserRole().setRole(UserRoleEnum.ADMIN);
-        UserRole userRole = new UserRole().setRole(UserRoleEnum.USER);
-
-        userRoleRepository.saveAll(List.of(adminRole, userRole));
-
-        for (int i = 1; i <= 5; i++) {
-            userRepository.save(new User()
-                    .setUsername("Admin" + i)
-                    .setEmail("admin" + i + "@admin.bg")
-                    .setPassword(passwordEncoder.encode("asdasd"))
-                    .setRole(adminRole));
-        }
-
-        for (int i = 1; i <= 30; i++) {
-            userRepository.save(new User()
-                    .setUsername("User" + i)
-                    .setEmail("user" + i + "@user.bg")
-                    .setPassword(passwordEncoder.encode("asdasd"))
-                    .setRole(userRole));
-        }
-    }
-
 
     @Override
     public List<UserAvailableResponse> findAllAvailable() {
