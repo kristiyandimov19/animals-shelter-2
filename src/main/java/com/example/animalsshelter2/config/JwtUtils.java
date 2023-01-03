@@ -99,7 +99,7 @@ public class JwtUtils {
     }
 
     public Boolean isTokenExpired(String token) {
-        return Jwts.parserBuilder().setSigningKey(secret).build().parseClaimsJws(token).getBody().getExpiration().before(new Date());
+        return JWT.decode(token).getExpiresAt().before(new Date());
     }
 
 }

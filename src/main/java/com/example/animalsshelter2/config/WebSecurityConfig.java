@@ -48,7 +48,8 @@ public class WebSecurityConfig {
                         "/login",
                         "/register",
                         "/animal/page/**",
-                        "/info")
+                        "/info",
+                        "/check")
                     .permitAll()
                     .requestMatchers("/bootstrap/**").permitAll()
                     .and()

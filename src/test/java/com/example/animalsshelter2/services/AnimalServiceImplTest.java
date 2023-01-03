@@ -89,7 +89,7 @@ class AnimalServiceImplTest {
         animalRequest.setAvailability(true);
 
         animalService = new AnimalServiceImpl(animalRepository, new ModelMapper(), userRepository);
-        pageRequest = PageRequest.of(1, 10);
+        pageRequest = PageRequest.of(1, 6);
         animalPage = new PageImpl<>(List.of(animal1), pageRequest, 10);
         animalPageable = animalPage;
         animalPageableOnWalk = new PageImpl<>(List.of(animal2), pageRequest, 10);
