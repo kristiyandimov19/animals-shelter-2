@@ -56,6 +56,23 @@ async function GET_walker(animal_id){
     }
 }
 
+async function GET_checkToken(){
+    var url = "http://localhost:8080/check";
+
+    //Get result
+    var res = await fetch(url, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem("token"),
+        },
+    });
+
+    if(!res.ok){
+        localStorage.removeItem("token");
+    }
+}
+
 async function DELETE_adopt(animal_id) {
 
     var url = "http://localhost:8080/animal/adopt/" + animal_id;
@@ -110,7 +127,21 @@ async function GET_allAnimals(page) {
     }
 }
 
+function setAuth(){
+    if(localStorage.getItem("token") != null){
+        GET_checkToken().then(r => {
+            setPage(0);
+            setMenu();
+        });
+    }
+    else {
+        setPage(0);
+        setMenu();
+    }
+}
 function setPage(page) {
+
+
 
     document.getElementById("animals_list").innerHTML = "";
     currentPage += page;

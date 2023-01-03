@@ -53,6 +53,10 @@ public class UserController {
         }
     }
 
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
+    @GetMapping("/check")
+    public void checkValidToken(){}
+
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/{id}/comments")
     public List<CommentResponse> getUserComments(@PathVariable Long id) {
