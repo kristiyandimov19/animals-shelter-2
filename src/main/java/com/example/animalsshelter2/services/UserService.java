@@ -33,4 +33,6 @@ public interface UserService {
     RegistrationResponse save(RegisterRequest newUser);
 
     LoginResponse login(LoginRequest loginRequest);
+
+    boolean isTokenExpired(String token);
 }

@@ -8,6 +8,7 @@ import com.example.animalsshelter2.models.response.LoginResponse;
 import com.example.animalsshelter2.models.response.RegistrationResponse;
 import com.example.animalsshelter2.services.UserService;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
@@ -39,6 +40,12 @@ public class AdmissionController {
     @PostMapping("/login")
     public LoginResponse login(@RequestBody LoginRequest loginRequest) {
         return userService.login(loginRequest);
+    }
+
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
+    @GetMapping("/check")
+    public boolean checkValidToken(@RequestHeader("Authorization") String token) {
+        return userService.isTokenExpired(token.replace("Bearer ", ""));
     }
 
 }

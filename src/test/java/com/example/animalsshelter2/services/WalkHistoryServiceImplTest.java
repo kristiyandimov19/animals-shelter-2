@@ -1,6 +1,6 @@
 
 
-package com.example.animalsshelter2.junit.services;
+package com.example.animalsshelter2.services;
 
 import com.example.animalsshelter2.models.User;
 import com.example.animalsshelter2.models.UserRole;

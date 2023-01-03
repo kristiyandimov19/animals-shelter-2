@@ -1,5 +1,7 @@
 package com.example.animalsshelter2.models.request;
 
+import java.util.Objects;
+
 public class AnimalRequest {
 
     private Long id;
@@ -50,5 +52,18 @@ public class AnimalRequest {
     public AnimalRequest setAvailability(boolean availability) {
         this.availability = availability;
         return this;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof AnimalRequest)) return false;
+        AnimalRequest that = (AnimalRequest) o;
+        return availability == that.availability && Objects.equals(name, that.name) && Objects.equals(type, that.type);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, type, availability);
     }
 }

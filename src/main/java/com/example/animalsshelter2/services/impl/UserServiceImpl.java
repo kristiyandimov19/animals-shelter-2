@@ -212,5 +212,10 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    @Override
+    public boolean isTokenExpired(String token) {
+        return jwtUtils.isTokenExpired(token);
+    }
+
 
 }

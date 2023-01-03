@@ -4,7 +4,9 @@ import com.example.animalsshelter2.models.request.AnimalRequest;
 import com.example.animalsshelter2.models.response.AnimalAvailableResponse;
 import com.example.animalsshelter2.models.response.AnimalResponse;
 import com.example.animalsshelter2.models.response.AnimalWalkResponse;
+import com.example.animalsshelter2.models.response.UserIdResponse;
 import com.example.animalsshelter2.services.AnimalService;
+import com.example.animalsshelter2.services.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -24,9 +26,6 @@ import org.springframework.security.test.context.support.WithAnonymousUser;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -46,13 +45,18 @@ class AnimalControllerTest {
     @MockBean
     private AnimalService animalService;
 
-    Page<AnimalResponse> animalResponses;
-    Page<AnimalWalkResponse> animalWalkResponses;
+    @MockBean
+    private UserService userService;
 
-    AnimalResponse animalResponse;
-    AnimalRequest animalRequest;
-    AnimalWalkResponse animalWalkResponse;
-    AnimalAvailableResponse animalAvailableResponse;
+    private Page<AnimalResponse> animalResponses;
+    private Page<AnimalWalkResponse> animalWalkResponses;
+
+    private AnimalResponse animalResponse;
+    private AnimalRequest animalRequest;
+    private AnimalWalkResponse animalWalkResponse;
+    private AnimalAvailableResponse animalAvailableResponse;
+
+    private UserIdResponse userIdResponse;
 
     @BeforeEach
     void setUp() {
@@ -78,6 +82,8 @@ class AnimalControllerTest {
 
         animalWalkResponses = new PageImpl<>(List.of(animalWalkResponse), PageRequest.of(0, 10), 10);
         animalResponses = new PageImpl<>(List.of(animalResponse), PageRequest.of(0, 10), 10);
+
+        userIdResponse = new UserIdResponse().setId(1L);
     }
 
     @Test
@@ -132,14 +138,44 @@ class AnimalControllerTest {
     }
 
     @Test
-    void getVolunteerFor() {
+    @WithMockUser(username = "admin1@admin.bg", authorities = "ADMIN")
+    void getVolunteerFor() throws Exception {
+        when(userService.findById(anyLong()))
+                .thenReturn(userIdResponse);
+
+        when(animalService.findAnimalById(anyLong()))
+                .thenReturn(animalAvailableResponse);
+
+        mockMvc.perform(get("/animal/1/volunteer"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().json("""
+                        {
+                        "id": 1
+                        }
+                        """));
+
+        verify(userService).findById(anyLong());
+        verify(animalService).findAnimalById(anyLong());
     }
 
-//    @Test
-//    void createAnimal() {
-//        mockMvc.perform(post("/animal"))
-//
-//    }
+    @Test
+    @WithMockUser(username = "admin1@admin.bg", authorities = "ADMIN")
+    void createAnimal() throws Exception {
+
+        mockMvc.perform(post("/animal")
+                        .contentType(MediaType.valueOf(MediaType.APPLICATION_JSON_VALUE))
+                        .content("""
+                                {
+                                "name": "Animal",
+                                "type": "Dog"
+                                }
+                                """))
+                .andDo(print())
+                .andExpect(status().isOk());
+
+        verify(animalService).createAnimal(animalRequest);
+    }
 
     @Test
     @WithMockUser(username = "admin1@admin.bg", authorities = "ADMIN")

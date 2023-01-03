@@ -66,6 +66,7 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.Locale;
+import java.util.function.Function;
 
 @Component
 public class JwtUtils {
@@ -90,11 +91,15 @@ public class JwtUtils {
                 .compact();
     }
 
-    public String validateTokenAndRetrieveSubject(String token)throws JWTVerificationException {
+    public String validateTokenAndRetrieveSubject(String token) throws JWTVerificationException {
         String claim = Jwts.parserBuilder().setSigningKey(secret)
                 .build().parseClaimsJws(token).getBody().get("email").toString();
 
         return claim;
+    }
+
+    public Boolean isTokenExpired(String token) {
+        return Jwts.parserBuilder().setSigningKey(secret).build().parseClaimsJws(token).getBody().getExpiration().before(new Date());
     }
 
 }
