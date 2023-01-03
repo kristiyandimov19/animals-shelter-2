@@ -74,7 +74,7 @@ public class AnimalServiceImpl implements AnimalService {
     @Override
     public Page<AnimalResponse> findAll(int page) {
 
-        PageRequest requestPage = PageRequest.of(page, 10);
+        PageRequest requestPage = PageRequest.of(page, 6);
 
         return animalRepository.findAll(requestPage)
                 .map(a -> modelMapper.map(a, AnimalResponse.class));
@@ -109,7 +109,7 @@ public class AnimalServiceImpl implements AnimalService {
     @Override
     public Page<AnimalWalkResponse> findAllAvailable(int page) {
 
-        PageRequest requestPage = PageRequest.of(page, 10);
+        PageRequest requestPage = PageRequest.of(page, 6);
 
         Page<Animal> animals = animalRepository.findAllAvailable(requestPage);
 

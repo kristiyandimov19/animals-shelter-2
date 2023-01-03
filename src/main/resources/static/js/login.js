@@ -1,4 +1,3 @@
-
 async function POST_login(email,pass){
 
     localStorage.removeItem("token");
@@ -64,7 +63,6 @@ function login(){
     //Login
     if(email_correct && pass_correct){
         POST_login(email, pass).then( obj=>{
-            console.log(obj);
             localStorage.setItem("token", obj.token);
             window.location.replace("../html/index.html");
         });

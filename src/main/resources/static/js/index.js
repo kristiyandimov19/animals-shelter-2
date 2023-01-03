@@ -139,21 +139,18 @@ function setAuth(){
         setMenu();
     }
 }
+
 function setPage(page) {
-
-
 
     document.getElementById("animals_list").innerHTML = "";
     currentPage += page;
 
     GET_allAnimals(currentPage - 1).then(obj => {
 
-        console.log(obj);
         numberOfPages = obj.totalPages;
         setPaginationButtons(currentPage);
 
         Object.entries(obj.content).forEach(([key, value]) => {
-
 
             //Create HTML object
             const li = document.createElement("li");
@@ -197,7 +194,6 @@ function setPage(page) {
                 const a_return = document.createElement("a");
                 const a_adopt = document.createElement("a");
 
-
                 a_walk.setAttribute("href","#");
                 a_walk.innerText = "Take on walk";
                 a_walk.setAttribute("onclick","takeOnAWalk('"+ value.id +"')");
@@ -215,7 +211,6 @@ function setPage(page) {
                 if(value.availability){
                     a_return.style.display="none";
                 }
-
 
                 a_adopt.setAttribute("href","#");
                 a_adopt.innerText = "Adopt";

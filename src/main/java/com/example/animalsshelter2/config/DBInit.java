@@ -1,4 +1,4 @@
-package com.example.animalsshelter2.config;
+/*package com.example.animalsshelter2.config;
 
 import com.example.animalsshelter2.services.AnimalService;
 import com.example.animalsshelter2.services.UserService;
@@ -22,4 +22,4 @@ public class DBInit implements CommandLineRunner {
 
         userService.seedUsers();
     }
-}
+}*/

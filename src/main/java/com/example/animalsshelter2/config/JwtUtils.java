@@ -84,7 +84,7 @@ public class JwtUtils {
                 .claim("email", email)
                 .claim("user_id", id)
                 .setIssuedAt(Date.from(Instant.now()))
-                .setExpiration(Date.from(Instant.now().plus(20, ChronoUnit.SECONDS)))
+                .setExpiration(Date.from(Instant.now().plus(60, ChronoUnit.MINUTES)))
                 .setIssuer("animals-shelter-2/project")
                 .signWith(secret)
                 .compact();

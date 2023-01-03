@@ -40,22 +40,24 @@ function setMenu(){
          menu_items[2].classList.add("disabled");
          menu_items[3].classList.add("disabled");
          menu_items[5].parentElement.remove();
+         menu_items[4].classList.remove("nonVisible");
 
      } else if (auth === "admin") {
          //If admin set HISTORY to user_history.html, remove LOGIN button
          menu_items[2].setAttribute("href","./user_history.html");
          menu_items[4].parentElement.remove();
-
+         menu_items[4].classList.remove("nonVisible");
 
      } else {
          //If user set HOME, HISTORY and LOGOUT clickable, remove LOGIN button
          menu_items[1].classList.add("disabled");
          menu_items[3].classList.add("disabled");
          menu_items[4].parentElement.remove();
+         menu_items[4].classList.remove("nonVisible");
      }
  }
 
- function logout(){
+function logout(){
 
     //Use Swal alert to ask for confirmation
      Swal.fire({
@@ -83,7 +85,7 @@ function setMenu(){
      });
  }
 
- function parseJwt (token) {
+function parseJwt (token) {
 
     var base64Url = token.split('.')[1];
     var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
@@ -94,7 +96,7 @@ function setMenu(){
      return JSON.parse(jsonPayload);
  }
 
- function getAuth(){
+function getAuth(){
      if(localStorage.getItem("token") != null)
          return parseJwt(localStorage.getItem("token")).auth;
      else

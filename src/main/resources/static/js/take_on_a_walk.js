@@ -15,10 +15,6 @@ async function PUT_takeAnimalOnWalk(animal_id) {
     if (res.ok){
         return "OK";
     }
-    else if(res.status == 401){
-        console.log(res.status)
-        window.location.replace("../html/login.html")
-    }
     else{
         Swal.fire({
             icon: 'error',
@@ -29,6 +25,7 @@ async function PUT_takeAnimalOnWalk(animal_id) {
         });
     }
 }
+
 async function GET_allAvailableUsers(){
     var url = 'http://localhost:8080/available';
 
@@ -61,6 +58,7 @@ async function GET_allAvailableUsers(){
         });
     }
 }
+
 function setPage(){
 
     //Get Free Users
@@ -76,6 +74,7 @@ function setPage(){
         });
     })
 }
+
 function takeAnimalOnWalk() {
     //Get user id
     var user_id = document.getElementById("FormSelector").value;
@@ -92,7 +91,6 @@ function takeAnimalOnWalk() {
         if(data ==="OK"){
             PUT_takeAnimalOnWalk(animal_id).then( data=>{
                 if(data === "OK")  window.location.replace("./index.html");
-                else console.log(data);
             });
         }else{
             window.location.replace("./index.html");

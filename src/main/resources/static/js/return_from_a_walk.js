@@ -29,6 +29,7 @@ async function PUT_addComment(user_id){
         });
     }
 }
+
 function addComment(){
     //Get the comment
     var comment = document.getElementById("comment").value;

@@ -37,7 +37,6 @@ function setPage(page) {
 
     //Get animals on walk
     GET_onWalk(currentPage - 1).then(obj => {
-        console.log(obj);
         numberOfPages = obj.totalPages;
         setPaginationButtons(currentPage);
 

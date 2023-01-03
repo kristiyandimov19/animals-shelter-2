@@ -74,7 +74,6 @@ function showWalks(user_id,page){
     })
 }
 
-
 function setPage(){
     let user_id= getUser_id();
     showWalks(user_id,0);

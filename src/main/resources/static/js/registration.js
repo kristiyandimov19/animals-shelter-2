@@ -78,6 +78,7 @@ function register(){
         }
     }
 }
+
 function checkPassword(pass,_pass){
     //Password to be 8 symbols, to have small letter, big letter, and number
     const pass_format = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
@@ -87,7 +88,6 @@ function checkPassword(pass,_pass){
     if(!pass_format.test(pass)){
         //Err password
         document.getElementById("pass_error").style.display = "block";
-        console.log("Password not format");
         pass_correct =false;
     }
     else{
@@ -97,7 +97,6 @@ function checkPassword(pass,_pass){
     //Check if password and confirm_password are the same
     if(pass !=_pass ){
         document.getElementById("confirm_error").style.display = "block";
-        console.log("Password not equal");
         pass_correct =false;
 
     }

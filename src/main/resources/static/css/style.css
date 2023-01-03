@@ -21,6 +21,10 @@ body {
 .navbar-toggler{
     margin: 0 10px;
 }
+
+.nonVisible{
+    display: none;
+}
 /*#################*/
 
 
