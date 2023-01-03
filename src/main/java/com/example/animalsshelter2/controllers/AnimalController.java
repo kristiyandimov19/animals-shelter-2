@@ -1,6 +1,6 @@
 package com.example.animalsshelter2.controllers;
 
-import com.example.animalsshelter2.models.request.AnimalAvailableRequest;
+import com.example.animalsshelter2.models.response.AnimalAvailableResponse;
 import com.example.animalsshelter2.models.request.AnimalRequest;
 import com.example.animalsshelter2.models.response.AnimalResponse;
 import com.example.animalsshelter2.models.response.AnimalWalkResponse;
@@ -13,10 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.server.ResponseStatusException;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/animal")
@@ -51,8 +48,6 @@ public class AnimalController {
             animalService.createAnimal(animalRequest);
         } catch (IllegalArgumentException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Write it right !!!", e);
-
-
         } catch (DuplicateKeyException e) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "All ready exist !!!", e);
         }
@@ -60,7 +55,7 @@ public class AnimalController {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/isAvailable/{id}")
-    public AnimalAvailableRequest isAvailable(@PathVariable Long id) {
+    public AnimalAvailableResponse isAvailable(@PathVariable Long id) {
         try {
             return animalService.findAnimalById(id);
         } catch (EntityNotFoundException e) {
@@ -84,8 +79,7 @@ public class AnimalController {
         try {
             animalService.adoptAnimal(id);
         } catch (EntityNotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Animal not found");
         }
     }
 }

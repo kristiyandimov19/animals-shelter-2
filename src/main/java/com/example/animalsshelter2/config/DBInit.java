@@ -1,4 +1,4 @@
-/*package com.example.animalsshelter2.config;
+package com.example.animalsshelter2.config;
 
 import com.example.animalsshelter2.services.AnimalService;
 import com.example.animalsshelter2.services.UserService;
@@ -19,6 +19,7 @@ public class DBInit implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         animalService.seedAnimals();
+
         userService.seedUsers();
     }
-}*/
+}

@@ -1,7 +1,5 @@
 package com.example.animalsshelter2.controllers;
 
-import com.example.animalsshelter2.models.Comment;
-import com.example.animalsshelter2.models.User;
 import com.example.animalsshelter2.models.WalkHistory;
 import com.example.animalsshelter2.models.request.CommentRequest;
 import com.example.animalsshelter2.models.response.CommentResponse;
@@ -19,8 +17,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @RestController

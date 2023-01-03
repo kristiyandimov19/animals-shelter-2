@@ -2,7 +2,7 @@ package com.example.animalsshelter2.services.impl;
 
 import com.example.animalsshelter2.models.Animal;
 import com.example.animalsshelter2.models.User;
-import com.example.animalsshelter2.models.request.AnimalAvailableRequest;
+import com.example.animalsshelter2.models.response.AnimalAvailableResponse;
 import com.example.animalsshelter2.models.request.AnimalRequest;
 import com.example.animalsshelter2.models.response.AnimalResponse;
 import com.example.animalsshelter2.models.response.AnimalWalkResponse;
@@ -14,14 +14,12 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class AnimalServiceImpl implements AnimalService {
@@ -37,8 +35,13 @@ public class AnimalServiceImpl implements AnimalService {
         this.userRepository = userRepository;
     }
 
-    /*@Override
+    @Override
     public void seedAnimals() {
+
+        if (animalRepository.count() != 0) {
+            return;
+        }
+
         Animal animal1 = new Animal()
                 .setName("Max")
                 .setType("Dog")
@@ -66,7 +69,7 @@ public class AnimalServiceImpl implements AnimalService {
 
         animalRepository.saveAll(List.of(animal1, animal2, animal3, animal4, animal5));
 
-    }*/
+    }
 
     @Override
     public Page<AnimalResponse> findAll(int page) {
@@ -90,10 +93,10 @@ public class AnimalServiceImpl implements AnimalService {
     }
 
     @Override
-    public AnimalAvailableRequest findAnimalById(Long id) {
+    public AnimalAvailableResponse findAnimalById(Long id) {
         try {
             Animal animal = animalRepository.findById(id).orElseThrow();
-            return modelMapper.map(animal, AnimalAvailableRequest.class);
+            return modelMapper.map(animal, AnimalAvailableResponse.class);
         } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Not Found", e);
         } catch (HttpClientErrorException.Unauthorized e) {

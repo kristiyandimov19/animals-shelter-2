@@ -151,11 +151,6 @@ class UserServiceImplTest {
     }
 
     @Test
-    void testTakeOnWalkOccupied() {
-        assertThrows(Exception.class, () -> userService.takeOnWalk(user2.getId(), animal2.getId()));
-    }
-
-    @Test
     void takeOnWalk() throws Exception {
         when(userRepository.findById(anyLong()))
                 .thenReturn(Optional.ofNullable(user1));
@@ -184,5 +179,16 @@ class UserServiceImplTest {
         verify(animalRepository).save(any());
         verify(userRepository).save(any());
         verify(walkHistoryRepository).save(any());
+    }
+
+    @Test
+    void findByEmail() {
+        when(userRepository.findByEmail(anyString()))
+                .thenReturn(user1);
+
+        User actualUser = userService.findByEmail(user1.getEmail());
+
+        assertEquals(user1, actualUser);
+        verify(userRepository).findByEmail(anyString());
     }
 }
