@@ -70,7 +70,7 @@
   <div class="form-group">
     <label for="password">Password</label>
     <input type="password" class="form-control" id="password" placeholder="Password">
-    <span id="pass_error" class="warning">This password should contain 8 symbols, of witch 1 small letter, one big letter and one number.</span>
+    <span id="pass_error" class="warning">This password should contain at least 8 symbols, of which 1 small letter, one big letter and one number.</span>
   </div>
   <div class="form-group">
     <label for="confirm_password">Confirm Password</label>
@@ -79,6 +79,7 @@
   </div>
   <div class="form-group form-btn container">
     <div class="col-md-12 text-center">
+      <span id="register_error" class="warning">Can`t create user with this username and email!</span>
       <a class="btn btn-primary" onclick="register()">Register</a>
     </div>
     <div class="col-md-12 under_text">

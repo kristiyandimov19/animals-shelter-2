@@ -68,7 +68,13 @@ async function GET_checkToken(){
         },
     });
 
-    if(!res.ok){
+    if(res.ok){
+        let text=await res.text();
+        if(console.log(text)){
+            localStorage.removeItem("token");
+        }
+    }
+    else{
         localStorage.removeItem("token");
     }
 }

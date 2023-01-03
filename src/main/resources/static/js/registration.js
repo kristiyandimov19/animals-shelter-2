@@ -22,13 +22,8 @@ async function POST_register(){
         const obj = JSON.parse(text);
         return obj;
     } else {
-        Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: 'Something went wrong!',
-        }).then( data =>{
-            window.location.replace("../html/index.html")
-        });
+        document.getElementById("register_error").style.display = "block";
+        return "No";
     }
 }
 
