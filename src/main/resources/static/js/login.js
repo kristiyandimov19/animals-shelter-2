@@ -70,6 +70,12 @@ function login(){
 }
 
 function onLoad(){
+
+    document.addEventListener('keypress', function (e){
+        if(e.key === "Enter"){
+            login();
+        }
+    })
     //Remove token from previous user
     localStorage.removeItem("token");
 }

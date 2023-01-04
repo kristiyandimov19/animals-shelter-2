@@ -50,6 +50,7 @@ public class WebSecurityConfig {
                         "/check")
                     .permitAll()
                     .requestMatchers("/bootstrap/**").permitAll()
+                    .requestMatchers("/sweetalert2/**").permitAll()
                     .and()
                     .userDetailsService(customUserDetails)
                     .exceptionHandling()

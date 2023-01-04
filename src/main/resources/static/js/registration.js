@@ -66,9 +66,10 @@ function register(){
     if(checkPassword(pass,_pass)){
         if(email_correct && username_correct) {
             POST_register().then(obj=>{
-
-                localStorage.setItem("token", obj.token);
-                window.location.replace("../html/index.html");
+                if(obj != "No"){
+                    localStorage.setItem("token", obj.token);
+                    window.location.replace("../html/index.html");
+                }
             });
         }
     }
@@ -100,4 +101,12 @@ function checkPassword(pass,_pass){
     }
 
     return pass_correct;
+}
+
+function setPage(){
+    document.addEventListener('keypress', function (e){
+        if(e.key === "Enter"){
+            register();
+        }
+    })
 }
